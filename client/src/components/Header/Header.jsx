@@ -1,8 +1,22 @@
 import React, { Component } from "react";
+// import styles from "./Header.css";
 
 class Header extends Component {
   render() {
-    return <header style={{ textAlign: "center" }}>Header goes here</header>;
+    return (
+      <nav>
+        <div className="nav-wrapper">
+          <a href="/" className="left brand-logo">
+            Logo
+          </a>
+          <ul className="right">
+            <li>
+              <a href="/auth/google">Login with google</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    );
   }
 }
 
