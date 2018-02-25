@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import styles from "./Landing.css";
 import { connect } from "react-redux";
-import * as actions from "../../actions";
+// import map from "lodash/map";
 
 class Landing extends Component {
-  componentDidMount() {
-    this.props.fetchUser();
-  }
   render() {
-    return (
-      <div className={styles.Landing}>
-        <p>Landing</p>
-      </div>
-    );
+    return <div className={styles.Landing}>Landing</div>;
   }
 }
 
-export default connect(null, actions)(Landing);
+const mapStateToProps = ({ auth }) => {
+  return { auth };
+};
+
+export default connect(mapStateToProps)(Landing);

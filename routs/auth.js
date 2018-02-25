@@ -1,6 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
+//espasially login with the google
 module.exports = app => {
   app.get(
     "/auth/google",
@@ -8,13 +9,21 @@ module.exports = app => {
       scope: ["profile", "email"]
     })
   );
-  app.get("/auth/google/callback", passport.authenticate("google"));
 
+  //when user pressed login button we are redirecting him tpo the surrveys section
+  app.get(
+    "/auth/google/callback",
+    passport.authenticate("google"),
+    (req, res) => res.redirect("/surveys")
+  );
+
+  //log out staff
   app.get("/api/logout", (req, res) => {
     req.logout();
-    res.send(req.user);
+    res.redirect("/");
   });
 
+  //current user information
   app.get("/api/current_user", (req, res) => {
     // res.send(req.session);
     res.send(req.user);
