@@ -32,10 +32,10 @@ class Header extends Component {
       <nav>
         <div className="nav-wrapper">
           <NavLink
-            to={this.props.auth ? "/surveys" : "/"}
+            to={this.props.auth ? "/store" : "/"}
             className="left brand-logo"
           >
-            Logo
+            Eliftech Market
           </NavLink>
           <ul className="right">
             <li>
@@ -44,13 +44,13 @@ class Header extends Component {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/surveys">Surveys</NavLink>
+              <NavLink to="/account/new">User</NavLink>
             </li>
             <li>
               <NavLink to="/store">Store</NavLink>
             </li>
             <li>
-              <NavLink to="/surveys/new">SurveysNew</NavLink>
+              <NavLink to="/account">Account</NavLink>
             </li>
             {this.renderContent()}
           </ul>

@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
-// import storeReducer from "./storeReducer";
+import storeReducer from "./storeReducer";
 
 export default combineReducers({
-  auth: authReducer
-  // phones: storeReducer
+  auth: authReducer,
+  phones: storeReducer
 });

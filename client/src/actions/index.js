@@ -1,6 +1,6 @@
 import axios from "axios";
 import { FETCH_USER } from "./types";
-// import { FETCH_DATA } from "./types";
+import { FETCH_DATA } from "./types";
 
 export const fetchUser = () => {
   return dispatch => {
@@ -10,14 +10,14 @@ export const fetchUser = () => {
   };
 };
 
-// export const fetchData = () => {
-//   return dispatch => {
-//     axios
-//       .get("/store")
-//       .then(res => {
-//         console.log(res, "dispatch Phones Action");
-//         dispatch({ type: FETCH_DATA, payload: res.data });
-//       })
-//       .catch(err => console.log(err, "Action Phones Error"));
-//   };
-// };
+export const fetchData = () => {
+  return dispatch => {
+    axios
+      .get("/store")
+      .then(res => {
+        console.log(res, "dispatch Phones Action");
+        dispatch({ type: FETCH_DATA, payload: res.data });
+      })
+      .catch(err => console.log(err, "Action Phones Error"));
+  };
+};

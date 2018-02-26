@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import styles from "./Surveys.css";
+import styles from "./Account.css";
 
 class Surveys extends Component {
   render() {
     return (
-      <div className={styles.Surveys}>
-        <p>Surveys</p>
+      <div className={styles.Account}>
+        <p>Account</p>
       </div>
     );
   }

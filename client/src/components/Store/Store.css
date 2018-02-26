@@ -1,0 +1,17 @@
+.Prodoct_Item {
+    display: inline-flex;
+    flex-direction: column;
+    width: 250px;
+    box-shadow: 0px 0px 12px 0px rgba(84, 157, 121, 0.59);
+}
+
+.Prodoct_Item span {
+    display: flex;
+    justify-content: center;
+}
+
+.Prodoct_Item img {
+    margin: 0 auto;
+    height: 250px;
+    width: 200px;
+}
