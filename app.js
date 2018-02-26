@@ -31,6 +31,14 @@ require("./routs/store")(app);
 
 app.use("/", def);
 
+// express will serve up production assets
+app.use(express.static('client/build'));
+
+const path = require('path');
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+})
+
 ///store staff goes here
 // app.use("/store", storeRouts);
 

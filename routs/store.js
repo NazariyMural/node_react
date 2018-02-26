@@ -33,10 +33,10 @@ module.exports = router => {
       img: ["https://static.svyaznoy.ru/upload/iblock/ba9/4163630_10.jpg", "https://i1.rozetka.ua/goods/1892331/lg_lgh870ds_acisbk_images_1892331703.jpg"],
       comments: ["A lot og good staff", "One more good comment"]
     });
-    product
-      .save()
-      .then(result => console.log(result))
-      .catch(err => console.log(err));
+    // product
+    //   .save()
+    //   .then(result => console.log(result))
+    //   .catch(err => console.log(err));
   });
 };
 
