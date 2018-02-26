@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 
 module.exports = router => {
-  router.get("/store", (req, res, next) => {
+  router.get("/api/store", (req, res, next) => {
     Product.find()
       .then(data => {
         console.log(data);
@@ -14,7 +14,7 @@ module.exports = router => {
       .catch(err => console.log(err, "router store error"));
   });
 
-  router.post("/store", (req, res, next) => {
+  router.post("/api/store", (req, res, next) => {
     // const product = new Product({
     //   _id: new mongoose.Types.ObjectId(),
     //   name: req.body.name,

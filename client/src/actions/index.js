@@ -13,7 +13,7 @@ export const fetchUser = () => {
 export const fetchData = () => {
   return dispatch => {
     axios
-      .get("/store")
+      .get("/api/store")
       .then(res => {
         console.log(res, "dispatch Phones Action");
         dispatch({ type: FETCH_DATA, payload: res.data });

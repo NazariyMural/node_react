@@ -29,7 +29,7 @@ app.use(passport.session());
 require("./routs/auth")(app);
 require("./routs/store")(app);
 
-app.use("/", def);
+app.use("/api", def);
 
 // express will serve up production assets
 app.use(express.static('client/build'));

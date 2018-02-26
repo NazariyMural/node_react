@@ -26,13 +26,22 @@ passport.use(
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
+      // console.log(refreshToken, "refreshToken")
+      // console.log(accessToken, "accessToken")
+      console.log(profile, "profile")
       const existingUser = await User.findOne({ googleId: profile.id });
       if (existingUser) {
+
         return done(null, existingUser);
       }
+
       const user = await new User({
         googleId: profile.id,
-        name: profile.displayName
+        name: profile.displayName,
+        emails: [profile.emails],
+        photos: [profile.photos],
+        placesLived: [profile._json.placesLived[0].value],
+        raw: [profile._json]
       }).save();
       done(null, user);
     }
@@ -61,3 +70,13 @@ passport.use(
 // }
 
 // fetchAlbums()
+
+//users
+// {
+//   "_id": {
+//       "$oid": "5a8f38c10773ee204c4c7d6b"
+//   },
+//   "googleId": "112889707649724402783",
+//   "name": "Nazariy Mural",
+//   "__v": 0
+// }

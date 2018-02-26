@@ -1,5 +1,16 @@
 .Account {
   display: flex;
+  flex-direction: column;
+}
+
+.Account .UserDataList {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+}
+
+.Account .UserDataList img {
+  width: 100px;
+  height: 100px;
 }
