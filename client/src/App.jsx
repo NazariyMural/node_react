@@ -4,7 +4,7 @@ import Landing from "./components/Landing/Landing";
 import Store from "./components/Store/Store";
 import Header from "./components/Header/Header";
 import Account from "./components/Account/Account";
-import AccountNew from "./components/Account/AccountNew/AccountNew";
+import Cart from "./components/Cart/Cart";
 import { connect } from "react-redux";
 import * as actions from "./actions";
 
@@ -19,7 +19,7 @@ class App extends Component {
           <div>
             <Header />
             <Switch>
-              <Route path="/account/new" component={AccountNew} />
+              <Route path="/cart" component={Cart} />
               <Route path="/store" component={Store} />
               <Route path="/account" component={Account} />
               <Route path="/" component={Landing} />

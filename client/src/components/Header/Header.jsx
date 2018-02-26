@@ -43,14 +43,15 @@ class Header extends Component {
                 Home
               </NavLink>
             </li>
-            <li>
-              <NavLink to="/account/new">User</NavLink>
-            </li>
+
             <li>
               <NavLink to="/store">Store</NavLink>
             </li>
             <li>
               <NavLink to="/account">Account</NavLink>
+            </li>
+            <li>
+              <NavLink to="/cart">Cart</NavLink>
             </li>
             {this.renderContent()}
           </ul>

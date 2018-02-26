@@ -1,6 +1,5 @@
 import axios from "axios";
-import { FETCH_USER } from "./types";
-import { FETCH_DATA } from "./types";
+import { FETCH_USER, FETCH_DATA, TO_CART } from "./types";
 
 export const fetchUser = () => {
   return dispatch => {
@@ -21,3 +20,21 @@ export const fetchData = () => {
       .catch(err => console.log(err, "Action Phones Error"));
   };
 };
+
+export const putDataToCart = (id) => {
+  console.log(id)
+  return {
+    type: TO_CART,
+    payload: id
+  }
+};
+
+
+// export const getPost = (id) => {
+//   const URL = `${ROOT_URL}/posts/${id}${API_KEY}`;
+//   const request = axios.get(URL);
+//   return {
+//     type: GET_POST,
+//     payload: request
+//   }
+// }

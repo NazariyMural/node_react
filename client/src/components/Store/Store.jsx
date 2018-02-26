@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchData } from '../../actions/index'
+import { fetchData, putDataToCart } from '../../actions/index'
 import map from 'lodash/map';
 import styles from "./Store.css"
 
@@ -28,6 +28,7 @@ class Store extends Component {
                 return <ul key={comment}><li key={comment}>{comment}</li></ul>
               })
             }
+            <a className="waves-effect waves-light btn" onClick={() => this.props.putDataToCart(phone._id)}>Buy</a>
           </li>
         )
       })
@@ -52,4 +53,4 @@ const mapStateToProps = ({ phones }) => {
   return { phones };
 };
 
-export default connect(mapStateToProps, { fetchData })(Store);
+export default connect(mapStateToProps, { fetchData, putDataToCart })(Store);
