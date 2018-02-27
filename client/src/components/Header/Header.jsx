@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import styles from "./Header.css";
+import styles from "./Header.css";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 
@@ -29,7 +29,7 @@ class Header extends Component {
 
   render() {
     return (
-      <nav>
+      <nav className={styles.Header}>
         <div className="nav-wrapper">
           <NavLink
             to={this.props.auth ? "/store" : "/"}

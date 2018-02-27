@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FETCH_USER, FETCH_DATA, TO_CART } from "./types";
+import { FETCH_USER, FETCH_DATA, TO_CART, GET_CART, INCREASE } from "./types";
 
 export const fetchUser = () => {
   return dispatch => {
@@ -21,20 +21,31 @@ export const fetchData = () => {
   };
 };
 
-export const putDataToCart = (id) => {
-  console.log(id)
-  return {
-    type: TO_CART,
-    payload: id
-  }
+export const putDataToCart = purchaseData => dispatch => {
+  axios
+    .post("/api/cart", { purchaseData })
+    .then(res => {
+      dispatch({ type: TO_CART, payload: res.data });
+    })
+    .catch(err => console.log(err));
 };
 
+export const getCart = id => {
+  return dispatch => {
+    axios
+      .get(`/api/cart/${id}`)
+      .then(res => {
+        dispatch({ type: GET_CART, payload: res.data });
+      })
+      .catch(err => console.log(err));
+  };
+};
 
-// export const getPost = (id) => {
-//   const URL = `${ROOT_URL}/posts/${id}${API_KEY}`;
-//   const request = axios.get(URL);
-//   return {
-//     type: GET_POST,
-//     payload: request
-//   }
-// }
+export const increaseQuantity = increaseData => dispatch => {
+  axios
+    .post("/api/cart/increase", { increaseData })
+    .then(res => {
+      dispatch({ type: INCREASE, payload: res.data });
+    })
+    .catch(err => console.log(err));
+};

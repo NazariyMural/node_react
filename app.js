@@ -4,6 +4,9 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const def = require("./routs/default");
 const keys = require("./config/keys");
+const bodyParser = require('body-parser');
+
+
 
 mongoose.connect(keys.mongoURI);
 
@@ -26,8 +29,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 require("./routs/auth")(app);
 require("./routs/store")(app);
+require("./routs/cart")(app);
 
 app.use("/api", def);
 

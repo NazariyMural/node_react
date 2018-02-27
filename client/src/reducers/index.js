@@ -5,6 +5,6 @@ import cartReducer from "./cartReducer";
 
 export default combineReducers({
   auth: authReducer,
-  phones: storeReducer,
+  products: storeReducer,
   cart: cartReducer
 });
