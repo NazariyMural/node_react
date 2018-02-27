@@ -1,5 +1,13 @@
 import axios from "axios";
-import { FETCH_USER, FETCH_DATA, TO_CART, GET_CART, INCREASE } from "./types";
+import {
+  FETCH_USER,
+  FETCH_DATA,
+  TO_CART,
+  GET_CART,
+  INCREASE,
+  DELETE,
+  DECREASE
+} from "./types";
 
 export const fetchUser = () => {
   return dispatch => {
@@ -14,7 +22,7 @@ export const fetchData = () => {
     axios
       .get("/api/store")
       .then(res => {
-        console.log(res, "dispatch Phones Action");
+        console.log(res, "dispatch Products Action");
         dispatch({ type: FETCH_DATA, payload: res.data });
       })
       .catch(err => console.log(err, "Action Phones Error"));
@@ -46,6 +54,24 @@ export const increaseQuantity = increaseData => dispatch => {
     .post("/api/cart/increase", { increaseData })
     .then(res => {
       dispatch({ type: INCREASE, payload: res.data });
+    })
+    .catch(err => console.log(err));
+};
+
+export const deleteFromCart = delData => dispatch => {
+  axios
+    .post("/api/cart/delete", { delData })
+    .then(res => {
+      dispatch({ type: DELETE, payload: res.data });
+    })
+    .catch(err => console.log(err));
+};
+
+export const decreaseQuantity = decreaseData => dispatch => {
+  axios
+    .post("/api/cart/decrease", { decreaseData })
+    .then(res => {
+      dispatch({ type: DECREASE, payload: res.data });
     })
     .catch(err => console.log(err));
 };

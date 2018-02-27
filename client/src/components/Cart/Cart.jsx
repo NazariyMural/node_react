@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import styles from "./Cart.css";
 import { connect } from "react-redux";
-import { getCart, fetchData, increaseQuantity } from "../../actions/index";
+import {
+  getCart,
+  fetchData,
+  increaseQuantity,
+  deleteFromCart,
+  decreaseQuantity
+} from "../../actions/index";
 import _ from "lodash";
 
 class Cart extends Component {
@@ -69,7 +75,18 @@ class Cart extends Component {
             </span>
           </td>
           <td>
-            <span>-</span>
+            <span>
+              <button
+                onClick={() =>
+                  this.props.decreaseQuantity({
+                    id: el._id,
+                    userID: this.props.user.googleId
+                  })
+                }
+              >
+                -
+              </button>
+            </span>
           </td>
         </tr>
       );
@@ -110,5 +127,7 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   getCart,
   fetchData,
-  increaseQuantity
+  increaseQuantity,
+  deleteFromCart,
+  decreaseQuantity
 })(Cart);

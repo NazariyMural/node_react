@@ -62,12 +62,27 @@ module.exports = router => {
   });
 
   router.post("/api/cart/delete", (req, res, next) => {
-    const productID = req.body.increaseData.id;
-    const userID = req.body.increaseData.userID;
-    const idArr = [];
-    idArr.push(productID);
+    const productID = req.body.delData.id;
+    const userID = req.body.delData.userID;
     Cart.findOne({ userID: userID }).then(existingCart => {
-      existingCart.productsID.push(productID);
+      let filtered = existingCart.productsID.filter(el => {
+        if (el !== productID) {
+          return el;
+        }
+      });
+      existingCart.productsID = filtered;
+      existingCart
+        .save()
+        .then(result => res.send(result))
+        .catch(err => console.log(err));
+    });
+  });
+
+  router.post("/api/cart/decrease", (req, res, next) => {
+    const productID = req.body.decreaseData.id;
+    const userID = req.body.decreaseData.userID;
+    Cart.findOne({ userID: userID }).then(existingCart => {
+      existingCart.productsID.splice(productID, 1);
       existingCart
         .save()
         .then(result => res.send(result))
