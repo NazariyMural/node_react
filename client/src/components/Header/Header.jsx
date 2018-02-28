@@ -50,8 +50,11 @@ class Header extends Component {
             <li>
               <NavLink to="/account">Account</NavLink>
             </li>
-            <li>
-              <NavLink to="/cart">Cart</NavLink>
+            <li className={styles.HeaderListItem}>
+              <NavLink to="/cart" className={styles.HeaderListNav}>
+                Cart
+                <i className="material-icons">shopping_cart</i>
+              </NavLink>
             </li>
             {this.renderContent()}
           </ul>

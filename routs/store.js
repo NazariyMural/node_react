@@ -15,14 +15,14 @@ module.exports = router => {
   router.post("/api/store", (req, res, next) => {
     const product = new Product({
       _id: new mongoose.Types.ObjectId(),
-      name: "Samsung S8",
-      price: 250,
-      weight: 175,
+      name: "Apple Iphone X",
+      price: 310,
+      weight: 115,
       category: "Smartphone",
       img: [
-        "https://static.svyaznoy.ru/upload/iblock/36f45a204b88f7c74724d5474c657587/2.jpg"
+        "https://http2.mlstatic.com/iphone-x-256gb-novo-lacrado-produto-original-D_NQ_NP_733196-MLB26615779775_012018-F.jpg"
       ],
-      comments: ["Blahhhsah", "Blabalalalals"]
+      comments: ["Blabalalalals", "saa51ca5c5"]
     });
     // product
     //   .save()

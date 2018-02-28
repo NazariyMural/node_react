@@ -5,3 +5,4 @@ export const GET_CART = "GET_CART";
 export const INCREASE = "INCREASE";
 export const DELETE = "DELETE";
 export const DECREASE = "DECREASE";
+export const ADD_USER_PROPERTY = "ADD_USER_PROPERTY";

@@ -4,9 +4,7 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const def = require("./routs/default");
 const keys = require("./config/keys");
-const bodyParser = require('body-parser');
-
-
+const bodyParser = require("body-parser");
 
 mongoose.connect(keys.mongoURI);
 
@@ -35,16 +33,17 @@ app.use(bodyParser.json());
 require("./routs/auth")(app);
 require("./routs/store")(app);
 require("./routs/cart")(app);
+require("./routs/userAdd")(app);
 
 app.use("/api", def);
 
 // express will serve up production assets
-app.use(express.static('client/build'));
+app.use(express.static("client/build"));
 
-const path = require('path');
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-})
+const path = require("path");
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 
 ///store staff goes here
 // app.use("/store", storeRouts);

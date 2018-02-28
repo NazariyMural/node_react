@@ -2,8 +2,40 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 .Cart .CartImage {
   width: 50px;
   height: 65px;
+}
+
+.Cart .CartTdIconItem {
+  width: 50px;
+}
+
+.Cart .CartIncrease i {
+  cursor: pointer;
+  font-size: 30px;
+}
+.Cart .CartIncrease i:hover {
+  color: #2bbbad;
+}
+
+.Cart .CartDecrease i {
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.Cart .CartDecrease i:hover {
+  color: #1d70cf;
+}
+
+.Cart .CartDelete i {
+  cursor: pointer;
+  padding: 5px 5px 14px 5px;
+  font-size: 30px;
+}
+
+.Cart .CartDelete i:hover {
+  color: #e22a2a;
 }

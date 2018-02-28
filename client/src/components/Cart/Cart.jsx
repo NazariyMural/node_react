@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./Cart.css";
 import { connect } from "react-redux";
+import CartDataAmount from "./CartDataAmount/CartDataAmount";
 import {
   getCart,
   fetchData,
@@ -17,8 +18,9 @@ class Cart extends Component {
       this.props.getCart(this.props.user.googleId);
     }, 500);
   }
+
   renderUserPurchase = () => {
-    if (!_.isEmpty(this.props.cart)) {
+    if (!_.isEmpty(this.props.cart) && !_.isEmpty(this.props.cart.productsID)) {
       let hash = {};
       const arrID = this.props.cart.productsID;
       arrID.forEach(id => {
@@ -33,11 +35,19 @@ class Cart extends Component {
         return false;
       });
       return this.renderCart(filtered);
+    } else {
+      return (
+        <tr>
+          <td colSpan="75%">
+            <h2>Cart is empty</h2>
+          </td>
+        </tr>
+      );
     }
   };
 
   renderCart = filtered => {
-    return _.map(filtered, (el, key) => {
+    let tableCart = _.map(filtered, (el, key) => {
       return (
         <tr key={el._id}>
           <td>
@@ -46,56 +56,50 @@ class Cart extends Component {
           <td>{el.name}</td>
           <td>{el.price}</td>
           <td>{el.quantity}</td>
-          <td>
-            <span>
-              <button
-                onClick={() =>
-                  this.props.deleteFromCart({
-                    id: el._id,
-                    userID: this.props.user.googleId
-                  })
-                }
-              >
-                del
-              </button>
+          <td className={styles.CartTdIconItem}>
+            <span
+              className={styles.CartIncrease}
+              onClick={() =>
+                this.props.increaseQuantity({
+                  id: el._id,
+                  userID: this.props.user.googleId
+                })
+              }
+            >
+              <i className="material-icons">add_box</i>
             </span>
           </td>
-          <td>
-            <span>
-              <button
-                onClick={() =>
-                  this.props.increaseQuantity({
-                    id: el._id,
-                    userID: this.props.user.googleId
-                  })
-                }
-              >
-                +
-              </button>
+          <td className={styles.CartTdIconItem}>
+            <span
+              className={styles.CartDecrease}
+              onClick={() =>
+                this.props.decreaseQuantity({
+                  id: el._id,
+                  userID: this.props.user.googleId
+                })
+              }
+            >
+              <i className="material-icons">indeterminate_check_box</i>
             </span>
           </td>
-          <td>
-            <span>
-              <button
-                onClick={() =>
-                  this.props.decreaseQuantity({
-                    id: el._id,
-                    userID: this.props.user.googleId
-                  })
-                }
-              >
-                -
-              </button>
+          <td className={styles.CartTdIconItem}>
+            <span
+              className={styles.CartDelete}
+              onClick={() =>
+                this.props.deleteFromCart({
+                  id: el._id,
+                  userID: this.props.user.googleId
+                })
+              }
+            >
+              <i className="material-icons">delete</i>
             </span>
           </td>
         </tr>
       );
     });
+    return tableCart;
   };
-
-  // increaseProduct = id => {
-  //   console.log(id);
-  // };
 
   render() {
     return (
@@ -111,6 +115,7 @@ class Cart extends Component {
           </thead>
           <tbody>{this.renderUserPurchase()}</tbody>
         </table>
+        <CartDataAmount />
       </div>
     );
   }

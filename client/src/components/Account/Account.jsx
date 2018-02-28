@@ -2,23 +2,26 @@ import React, { Component } from "react";
 import styles from "./Account.css";
 import { connect } from "react-redux";
 // import map from "lodash/map";
+import UserProfileEdit from "./UserProfileEdit/UserProfileEdit";
 
-class Surveys extends Component {
+class Account extends Component {
   renderUserData = () => {
     let dataUser;
     if (this.props.auth !== null && this.props.auth !== false) {
       dataUser = { ...this.props.auth };
       return (
-        <ul className={styles.UserDataList}>
-          <li key={dataUser.photos[0][0]["value"]}>
-            <img src={dataUser.photos[0][0]["value"]} alt="userPhoto" />
-          </li>
-          <li key={dataUser.name}>{dataUser.name}</li>
-          <li key={dataUser.emails[0][0]["value"]}>
-            Email: {dataUser.emails[0][0]["value"]}
-          </li>
-          {/* <li key={dataUser.placesLived[0]}>Place lived: {dataUser.placesLived[0]}</li> */}
-        </ul>
+        <div>
+          <ul className={styles.UserDataList}>
+            <li key={dataUser.photos[0][0]["value"]}>
+              <img src={dataUser.photos[0][0]["value"]} alt="userPhoto" />
+            </li>
+            <li key={dataUser.name}>{dataUser.name}</li>
+            <li key={dataUser.emails[0][0]["value"]}>
+              Email: {dataUser.emails[0][0]["value"]}
+            </li>
+          </ul>
+          <UserProfileEdit title="Lviv" />
+        </div>
       );
     } else {
       dataUser = <div>Loading...</div>;
@@ -39,4 +42,4 @@ const mapStateToProps = ({ auth }) => {
   return { auth };
 };
 
-export default connect(mapStateToProps)(Surveys);
+export default connect(mapStateToProps)(Account);

@@ -6,7 +6,8 @@ import {
   GET_CART,
   INCREASE,
   DELETE,
-  DECREASE
+  DECREASE,
+  ADD_USER_PROPERTY
 } from "./types";
 
 export const fetchUser = () => {
@@ -72,6 +73,15 @@ export const decreaseQuantity = decreaseData => dispatch => {
     .post("/api/cart/decrease", { decreaseData })
     .then(res => {
       dispatch({ type: DECREASE, payload: res.data });
+    })
+    .catch(err => console.log(err));
+};
+
+export const addUserProperty = userData => dispatch => {
+  axios
+    .post("/api/user-add", { userData })
+    .then(res => {
+      dispatch({ type: ADD_USER_PROPERTY, payload: res.data });
     })
     .catch(err => console.log(err));
 };

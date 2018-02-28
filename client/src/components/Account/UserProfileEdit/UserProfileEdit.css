@@ -1,0 +1,21 @@
+.Form button {
+  padding: 0 1rem;
+  margin-right: 10px;
+}
+
+.Form button:last-child {
+  background-color: #e53935;
+}
+
+.UserDataItemText {
+  display: inline-flex;
+}
+
+.UserDataItemText i {
+  cursor: pointer;
+  margin-left: 10px;
+}
+.UserDataItemText i:hover {
+  color: #2bbbad;
+  background-color: rgb(252, 252, 252);
+}

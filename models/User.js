@@ -5,9 +5,10 @@ const userSchema = new Schema({
   googleId: String,
   name: String,
   emails: Array,
-  photos: Array
-  // placesLived: Array,
-  // raw: Array
+  photos: Array,
+  address: String,
+  phone: Number,
+  creditCard: Object
 });
 
 mongoose.model("users", userSchema);

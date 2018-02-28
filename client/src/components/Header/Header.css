@@ -5,3 +5,19 @@
 .Rigth {
   text-align: right !important;
 }
+
+.HeaderListItem {
+  display: inline-flex;
+}
+
+.HeaderListItem .HeaderListNav {
+  display: inline-flex;
+}
+
+.HeaderListItem .HeaderListNav i {
+  margin-left: 5px;
+}
+
+.HeaderListItem .HeaderListNav:hover i {
+  color: #313131;
+}
