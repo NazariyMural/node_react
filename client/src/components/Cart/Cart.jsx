@@ -8,6 +8,7 @@ import {
   deleteItem
 } from "../../actions/index";
 import _ from "lodash";
+import CartDataAmount from "../Notification/CartDataAmount/CartDataAmount";
 
 class Cart extends Component {
   componentDidMount() {
@@ -44,11 +45,9 @@ class Cart extends Component {
     }
   };
   renderCart = () => {
-    const cart = this.props.cart;
-    const totalPrice = this.props.cart.userCart.totalPrice;
-    const totalQty = this.props.cart.userCart.totalQty;
+    // const cart = this.props.cart;
     const cartItems = this.props.cart.userCart.items;
-    console.log(cart);
+    // console.log(cart);
 
     return _.map(cartItems, (item, key) => {
       return (
@@ -121,7 +120,7 @@ class Cart extends Component {
           </thead>
           <tbody>{this.renderData()}</tbody>
         </table>
-        {/* //         <CartDataAmount /> */}
+        <CartDataAmount />
       </div>
     );
   }

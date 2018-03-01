@@ -31,6 +31,8 @@ function CartClass(oldCart) {
     }
   };
   this.deleteItem = function(id) {
+    this.totalQty -= this.items[id].qty;
+    this.totalPrice -= this.items[id].item.price * this.items[id].qty;
     delete this.items[id];
   };
   this.genetayeArray = function() {

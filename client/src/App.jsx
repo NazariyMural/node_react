@@ -7,6 +7,7 @@ import Account from "./components/Account/Account";
 import Cart from "./components/Cart/Cart";
 import { connect } from "react-redux";
 import * as actions from "./actions";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 class App extends Component {
   componentDidMount() {
@@ -14,19 +15,23 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="container">
-        <BrowserRouter>
-          <div>
-            <Header />
-            <Switch>
-              <Route path="/cart" component={Cart} />
-              <Route path="/store" component={Store} />
-              <Route path="/account" component={Account} />
-              <Route path="/" component={Landing} />
-            </Switch>
-          </div>
-        </BrowserRouter>
-      </div>
+      <MuiThemeProvider>
+        <div>
+          <BrowserRouter>
+            <div>
+              <Header />
+              <div className="container">
+                <Switch>
+                  <Route path="/cart" component={Cart} />
+                  <Route path="/store" component={Store} />
+                  <Route path="/account" component={Account} />
+                  <Route path="/" component={Landing} />
+                </Switch>
+              </div>
+            </div>
+          </BrowserRouter>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

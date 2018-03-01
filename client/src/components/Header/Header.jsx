@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styles from "./Header.css";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
+import CartHeaderNotification from "../Notification/CartDataAmount/CartHeaderItem/CartHeaderItem";
 
 class Header extends Component {
   renderContent = () => {
@@ -28,6 +29,7 @@ class Header extends Component {
   };
 
   render() {
+    // console.log(this.props.cart);
     return (
       <nav className={styles.Header}>
         <div className="nav-wrapper">
@@ -53,7 +55,7 @@ class Header extends Component {
             <li className={styles.HeaderListItem}>
               <NavLink to="/cart" className={styles.HeaderListNav}>
                 Cart
-                <i className="material-icons">shopping_cart</i>
+                <CartHeaderNotification cart={this.props.cart} />
               </NavLink>
             </li>
             {this.renderContent()}
@@ -64,8 +66,8 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { auth };
+const mapStateToProps = ({ auth, cart }) => {
+  return { auth, cart };
 };
 
 export default connect(mapStateToProps)(Header);

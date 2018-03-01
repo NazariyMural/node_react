@@ -1,0 +1,17 @@
+.Cart {
+  display: flex;
+  position: relative;
+}
+
+.Cart span.Badge {
+  position: absolute;
+  display: inline-block;
+  top: 10px;
+  left: 18px;
+  padding: 0;
+  background-color: blueviolet;
+}
+
+.Cart:hover i {
+  color: #313131;
+}
