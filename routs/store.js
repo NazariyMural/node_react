@@ -19,9 +19,7 @@ module.exports = router => {
       price: 310,
       weight: 115,
       category: "Smartphone",
-      img: [
-        "https://http2.mlstatic.com/iphone-x-256gb-novo-lacrado-produto-original-D_NQ_NP_733196-MLB26615779775_012018-F.jpg"
-      ],
+      img: [""],
       comments: ["Blabalalalals", "saa51ca5c5"]
     });
     // product

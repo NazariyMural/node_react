@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styles from "./Landing.css";
 import { connect } from "react-redux";
-// import map from "lodash/map";
 
 class Landing extends Component {
   render() {

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styles from "./Account.css";
 import { connect } from "react-redux";
-// import map from "lodash/map";
 import UserProfileEdit from "./UserProfileEdit/UserProfileEdit";
 
 class Account extends Component {
@@ -26,7 +25,6 @@ class Account extends Component {
     } else {
       dataUser = <div>Loading...</div>;
     }
-    // return dataUser;
   };
   render() {
     return (
