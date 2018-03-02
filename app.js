@@ -46,6 +46,6 @@ app.use(express.static("client/build"));
 // });
 
 //this staff need for uploading data
-// app.use(express.static("./uploads"));
+app.use(express.static("./client/uploads"));
 
 module.exports = app;

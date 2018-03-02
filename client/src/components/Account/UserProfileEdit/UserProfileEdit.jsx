@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./UserProfileEdit.css";
 import { connect } from "react-redux";
-// import map from "lodash/map";
+
 import {
   addUserProperty,
   addLocation,
@@ -293,9 +293,40 @@ class UserEdit extends Component {
     return formatted_email;
   }
 
-  fileSelectHandler = e => {
-    const file = e.target.files[0];
-    console.log(file);
+  renderUserImage = () => {
+    if (this.props.auth === null) {
+      return (
+        <div>
+          <h2>Loading</h2>
+        </div>
+      );
+    } else if (this.props.auth === false) {
+      return (
+        <div>
+          <h2>Join us!</h2>
+        </div>
+      );
+    } else if (this.props.auth) {
+      return (
+        <div className={styles.UserData}>
+          <img src={this.props.auth.photos[0]} alt="userPhoto" />
+          <FlatButton
+            label="Choose an Image"
+            labelPosition="before"
+            style={style.uploadButton}
+            containerElement="label"
+          >
+            <input
+              type="file"
+              style={style.uploadInput}
+              ref="file"
+              name="file"
+              onChange={this.handleFileUpload}
+            />
+          </FlatButton>
+        </div>
+      );
+    }
   };
 
   handleFileUpload = e => {
@@ -306,60 +337,30 @@ class UserEdit extends Component {
   };
 
   render() {
-    const styles = {
-      uploadButton: {
-        verticalAlign: "middle"
-      },
-      uploadInput: {
-        cursor: "pointer",
-        position: "absolute",
-        top: 0,
-        bottom: 0,
-        right: 0,
-        left: 0,
-        width: "100%",
-        opacity: 0
-      }
-    };
     return (
       <div>
+        {this.renderUserImage()}
         {this.renderDisplay()}
-
-        <div>
-          <h1>File upload</h1>
-          <span>Some info</span>
-          <form
-            action="#"
-            onSubmit={e => this.handleFileUpload(e)}
-            encType="multipart/form-data"
-          >
-            <FlatButton
-              label="Choose an Image"
-              labelPosition="before"
-              style={styles.uploadButton}
-              containerElement="label"
-            >
-              <input
-                type="file"
-                style={styles.uploadInput}
-                ref="file"
-                name="file"
-                onChange={this.fileSelectHandler}
-              />
-            </FlatButton>
-            <button
-              type="submit"
-              className="btn"
-              onClick={this.handleFileUpload}
-            >
-              Submit
-            </button>
-          </form>
-        </div>
       </div>
     );
   }
 }
+
+const style = {
+  uploadButton: {
+    verticalAlign: "middle"
+  },
+  uploadInput: {
+    cursor: "pointer",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    width: "100%",
+    opacity: 0
+  }
+};
 
 const mapStateToProps = ({ auth }) => {
   return { auth };

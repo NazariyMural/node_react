@@ -49,45 +49,70 @@ module.exports = router => {
       .catch(err => console.log(err, "router store error"));
   });
 
-  //
-
-  //set storage engine
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "./client/src/uploads");
-    },
-    filename: (req, file, cb) => {
-      cb(null, file.originalname);
-    }
-  });
-
-  const fileFilter = (req, file, cb) => {
-    //reqect file
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-      cb(null, true);
-    } else {
-      cb(null, false);
-    }
-  };
-
-  // //init upload
-  const upload = multer({
-    storage,
-    limits: {
-      fileSize: 1024 * 1024 * 5
-    },
-    fileFilter: fileFilter
-  });
-
-  router.post("/api/user-add-image", upload.single("file"), (req, res) => {
-    console.log(req.file);
+  router.post("/api/user-add-image", (req, res) => {
     User.findOne({ googleId: req.body.userID })
       .then(user => {
-        user.set("photos", [req.file.filename]);
-        user.save().then(result => console.log(result));
+        user.set("photos", [req.body.photoURL]);
+        user.save().then(result => res.send(result));
       })
       .catch(err => console.log(err));
   });
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+
+  // //
+
+  // //set storage engine
+  // const storage = multer.diskStorage({
+  //   destination: (req, file, cb) => {
+  //     cb(null, "./client/src/uploads");
+  //   },
+  //   filename: (req, file, cb) => {
+  //     cb(null, file.originalname);
+  //   }
+  // });
+
+  // const fileFilter = (req, file, cb) => {
+  //   //reqect file
+  //   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+  //     cb(null, true);
+  //   } else {
+  //     cb(null, false);
+  //   }
+  // };
+
+  // // //init upload
+  // const upload = multer({
+  //   storage,
+  //   limits: {
+  //     fileSize: 1024 * 1024 * 5
+  //   },
+  //   fileFilter: fileFilter
+  // });
+
+  // router.post("/api/user-add-image", upload.single("file"), (req, res) => {
+  //   console.log(req.file);
+  //   User.findOne({ googleId: req.body.userID })
+  //     .then(user => {
+  //       user.set("photos", [req.file.filename]);
+  //       user.save().then(result => console.log(result));
+  //     })
+  //     .catch(err => console.log(err));
+  // });
 
   // router.get("/api/user-add-image", (req, res) => {
   //   User.findOne({ googleId: "112889707649724402783" })

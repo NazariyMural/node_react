@@ -11,9 +11,16 @@
   width: 40%;
   min-width: 350px;
 }
-/* .UserDataItemText {
+
+.UserData {
   display: inline-flex;
-} */
+  flex-direction: column;
+}
+
+.UserData img {
+  width: 250px;
+  height: 350px;
+}
 
 .Collection i {
   cursor: pointer;

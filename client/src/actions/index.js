@@ -11,6 +11,8 @@ import {
   ADD_USER_PHOTO
 } from "./types";
 
+import { storage } from "../firebase";
+
 export const fetchUser = () => {
   return dispatch => {
     axios
@@ -120,21 +122,43 @@ export const addLocation = userData => dispatch => {
 };
 
 export const uploadData = ({ file, userID }) => dispatch => {
-  console.log(file);
-  const fd = new FormData();
-  fd.append("file", file, file.name);
-  fd.append("userID", userID);
-  axios
-    .post("api/user-add-image", fd)
-    .then(response => {
-      console.log(response);
-      dispatch({
-        type: ADD_USER_PHOTO,
-        payload: response.data
-      });
+  const storageRef = storage.ref("/user-images").child(userID);
+  storageRef
+    .child(file.name)
+    .put(file, { contentType: file.type })
+    .then(snapshoot => {
+      axios
+        .post("api/user-add-image", {
+          photoURL: snapshoot.downloadURL,
+          userID: userID
+        })
+        .then(response => {
+          dispatch({
+            type: ADD_USER_PHOTO,
+            payload: response.data
+          });
+        });
     })
+
     .catch(err => console.log(err));
 };
+
+// export const uploadData = ({ file, userID }) => dispatch => {
+//   console.log(file);
+//   const fd = new FormData();
+//   fd.append("file", file, file.name);
+//   fd.append("userID", userID);
+//   axios
+//     .post("api/user-add-image", fd)
+//     .then(response => {
+//       console.log(response);
+//       dispatch({
+//         type: ADD_USER_PHOTO,
+//         payload: response.data
+//       });
+//     })
+//     .catch(err => console.log(err));
+// };
 
 // export const putDataToCart = purchaseData => dispatch => {
 //   axios
