@@ -6,7 +6,9 @@ import {
   DELETE_ITEM,
   REDUCE,
   ADD_USER_PROPERTY,
-  ADD_TO_CART
+  ADD_TO_CART,
+  ADD_USER_LOCATION,
+  ADD_USER_PHOTO
 } from "./types";
 
 export const fetchUser = () => {
@@ -82,6 +84,58 @@ export const deleteItem = deleteItemData => {
   };
 };
 
+export const addUserProperty = userData => dispatch => {
+  axios
+    .post("/api/user-add", { userData })
+    .then(res => {
+      dispatch({ type: ADD_USER_PROPERTY, payload: res.data });
+    })
+    .catch(err => console.log(err));
+};
+
+//user locaation creator
+export const addLocation = userData => dispatch => {
+  const location = userData.address;
+  const geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json`;
+  const params = {
+    address: location,
+    key: "AIzaSyD4sf00SfQgC2fpETO0OPVUcAl7bN3ggQs"
+  };
+  axios
+    .get(geocodeURL, { params })
+    .then(response => {
+      const data = {
+        userData,
+        location: response.data.results[0]
+      };
+      axios.post("/api/user-add-location", { data }).then(result => {
+        console.log(result.data.location);
+        dispatch({
+          type: ADD_USER_LOCATION,
+          payload: result.data.location
+        });
+      });
+    })
+    .catch(err => console.log(err));
+};
+
+export const uploadData = ({ file, userID }) => dispatch => {
+  console.log(file);
+  const fd = new FormData();
+  fd.append("file", file, file.name);
+  fd.append("userID", userID);
+  axios
+    .post("api/user-add-image", fd)
+    .then(response => {
+      console.log(response);
+      dispatch({
+        type: ADD_USER_PHOTO,
+        payload: response.data
+      });
+    })
+    .catch(err => console.log(err));
+};
+
 // export const putDataToCart = purchaseData => dispatch => {
 //   axios
 //     .post("/api/cart", { purchaseData })
@@ -129,11 +183,4 @@ export const deleteItem = deleteItemData => {
 //     .catch(err => console.log(err));
 // };
 
-export const addUserProperty = userData => dispatch => {
-  axios
-    .post("/api/user-add", { userData })
-    .then(res => {
-      dispatch({ type: ADD_USER_PROPERTY, payload: res.data });
-    })
-    .catch(err => console.log(err));
-};
+//

@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import styles from "./UserProfileEdit.css";
 import { connect } from "react-redux";
 // import map from "lodash/map";
-import { addUserProperty } from "../../../actions/index";
+import {
+  addUserProperty,
+  addLocation,
+  uploadData
+} from "../../../actions/index";
+
+import FlatButton from "material-ui/FlatButton";
 
 class UserEdit extends Component {
   state = {
     editingPhone: false,
-    editingAddress: false
+    editingAddress: false,
+    editingName: false
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -17,12 +24,48 @@ class UserEdit extends Component {
     if (this.state.editingAddress) {
       this.refs.address.focus();
     }
+    if (this.state.editingName) {
+      this.refs.userName.focus();
+    }
   }
 
   renderDisplay = () => {
     return (
       <div>
         <ul>
+          <li>
+            {this.state.editingName ? (
+              <form onSubmit={this.handleSubmitName} className={styles.Form}>
+                <input type="text" ref="userName" />
+                <button className="btn waves-effect waves-light" type="submit">
+                  Submit
+                </button>
+                <button
+                  className="btn waves-effect waves-light"
+                  onClick={() => this.setState({ editingName: false })}
+                >
+                  Cancel
+                </button>
+              </form>
+            ) : (
+              <span className={styles.userDataItem}>
+                {this.props.auth.name ? (
+                  <div className={styles.UserDataItemText}>
+                    {this.renderUserName()}
+                  </div>
+                ) : null}
+              </span>
+            )}
+          </li>
+
+          <li>
+            <div className={styles.userDataItem}>
+              <div className={styles.UserDataItemText}>
+                {this.renderUserEmail()}
+              </div>
+            </div>
+          </li>
+
           <li>
             {this.state.editingPhone ? (
               <form onSubmit={this.handleSubmitPhone} className={styles.Form}>
@@ -40,15 +83,9 @@ class UserEdit extends Component {
             ) : (
               <span className={styles.userDataItem}>
                 {this.props.auth.phone ? (
-                  <span className={styles.UserDataItemText}>
-                    Phone: {this.props.auth.phone}
-                    <i
-                      className="material-icons"
-                      onClick={this.handlePhoneEdit}
-                    >
-                      mode_edit
-                    </i>
-                  </span>
+                  <div className={styles.UserDataItemText}>
+                    {this.renderUserPhone()}
+                  </div>
                 ) : (
                   <span className={styles.UserDataItemText}>
                     Add phone number{" "}
@@ -79,19 +116,11 @@ class UserEdit extends Component {
                 </button>
               </form>
             ) : (
-              <span className={styles.userDataItem}>
-                {this.props.auth.address ? (
-                  <span className={styles.UserDataItemText}>
-                    Location: {this.props.auth.address}
-                    <i
-                      className="material-icons"
-                      onClick={this.handleAddressEdit}
-                    >
-                      mode_edit
-                    </i>
-                  </span>
+              <div className={styles.userDataItem}>
+                {this.props.auth.location ? (
+                  <div>{this.renderUserLocation()}</div>
                 ) : (
-                  <span className={styles.UserDataItemText}>
+                  <span className={styles.UserAddItemText}>
                     Add your address{" "}
                     <i
                       className="material-icons"
@@ -101,13 +130,32 @@ class UserEdit extends Component {
                     </i>
                   </span>
                 )}
-              </span>
+              </div>
             )}
           </li>
         </ul>
       </div>
     );
   };
+
+  //name handler
+  handleNameEdit = () => {
+    this.setState({ editingName: true });
+  };
+  handleSubmitName = event => {
+    let userName = this.refs.userName.value;
+    if (!userName) {
+      this.setState({ editingName: false });
+      return;
+    }
+    event.preventDefault();
+    this.props.addUserProperty({
+      userID: this.props.auth.googleId,
+      name: userName
+    });
+    this.setState({ editingName: false });
+  };
+  //end
 
   //phone handler
   handlePhoneEdit = () => {
@@ -139,7 +187,7 @@ class UserEdit extends Component {
       return;
     }
     event.preventDefault();
-    this.props.addUserProperty({
+    this.props.addLocation({
       userID: this.props.auth.googleId,
       address: address
     });
@@ -163,8 +211,153 @@ class UserEdit extends Component {
     );
   }
 
+  renderUserLocation() {
+    const collectionClasses = ["collection"];
+    collectionClasses.push(styles.Collection);
+    const location = this.props.auth.location;
+    const formatted_address = (
+      <ul
+        className={collectionClasses.join(" ")}
+        key={location.formatted_address}
+      >
+        <li key={location.place_id} className="collection-item avatar">
+          <i className="material-icons circle">my_location</i>
+          <span className="title">Current location:</span>
+          <p>{location.formatted_address}</p>
+          <a href="#!" className="secondary-content">
+            <i className="material-icons" onClick={this.handleAddressEdit}>
+              mode_edit
+            </i>
+          </a>
+        </li>
+      </ul>
+    );
+    return formatted_address;
+  }
+
+  renderUserPhone() {
+    const collectionClasses = ["collection"];
+    collectionClasses.push(styles.Collection);
+    const phone = this.props.auth.phone;
+    const formatted_phone = (
+      <ul className={collectionClasses.join(" ")}>
+        <li className="collection-item avatar">
+          <i className="material-icons circle">phone_iphone</i>
+          <span className="title">Phone number:</span>
+          <p>{phone}</p>
+          <a href="#!" className="secondary-content">
+            <i className="material-icons" onClick={this.handlePhoneEdit}>
+              mode_edit
+            </i>
+          </a>
+        </li>
+      </ul>
+    );
+    return formatted_phone;
+  }
+
+  renderUserName() {
+    const collectionClasses = ["collection"];
+    collectionClasses.push(styles.Collection);
+    const name = this.props.auth.name;
+    const formatted_name = (
+      <ul className={collectionClasses.join(" ")}>
+        <li className="collection-item avatar">
+          <i className="material-icons circle">phone_iphone</i>
+          <span className="title">Your name:</span>
+          <p>{name}</p>
+          <a href="#!" className="secondary-content">
+            <i className="material-icons" onClick={this.handleNameEdit}>
+              mode_edit
+            </i>
+          </a>
+        </li>
+      </ul>
+    );
+    return formatted_name;
+  }
+
+  renderUserEmail() {
+    const collectionClasses = ["collection"];
+    collectionClasses.push(styles.Collection);
+    const email = this.props.auth.emails[0][0]["value"];
+    const formatted_email = (
+      <ul className={collectionClasses.join(" ")}>
+        <li className="collection-item avatar">
+          <i className="material-icons circle">email</i>
+          <span className="title">Your email:</span>
+          <p>{email}</p>
+        </li>
+      </ul>
+    );
+    return formatted_email;
+  }
+
+  fileSelectHandler = e => {
+    const file = e.target.files[0];
+    console.log(file);
+  };
+
+  handleFileUpload = e => {
+    e.preventDefault();
+    const file = this.refs.file.files[0];
+    // console.log(file);
+    this.props.uploadData({ file: file, userID: this.props.auth.googleId });
+  };
+
   render() {
-    return this.renderDisplay();
+    const styles = {
+      uploadButton: {
+        verticalAlign: "middle"
+      },
+      uploadInput: {
+        cursor: "pointer",
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: "100%",
+        opacity: 0
+      }
+    };
+    return (
+      <div>
+        {this.renderDisplay()}
+
+        <div>
+          <h1>File upload</h1>
+          <span>Some info</span>
+          <form
+            action="#"
+            onSubmit={e => this.handleFileUpload(e)}
+            encType="multipart/form-data"
+          >
+            <FlatButton
+              label="Choose an Image"
+              labelPosition="before"
+              style={styles.uploadButton}
+              containerElement="label"
+            >
+              <input
+                type="file"
+                style={styles.uploadInput}
+                ref="file"
+                name="file"
+                onChange={this.fileSelectHandler}
+              />
+            </FlatButton>
+            <button
+              type="submit"
+              className="btn"
+              onClick={this.handleFileUpload}
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    );
   }
 }
 
@@ -172,4 +365,21 @@ const mapStateToProps = ({ auth }) => {
   return { auth };
 };
 
-export default connect(mapStateToProps, { addUserProperty })(UserEdit);
+export default connect(mapStateToProps, {
+  addUserProperty,
+  addLocation,
+  uploadData
+})(UserEdit);
+
+// {/* <div className="file-field input-field">
+//               <div className="btn grey">
+//                 <span>File</span>
+//                 <input type="file" name="myImage" />
+//               </div>
+//               <div className="file-path-wrapper">
+//                 <input className="file-path validate" type="text" />
+//               </div>
+//             </div>
+//             <button type="submit" className="btn">
+//               Submit
+//             </button> */}

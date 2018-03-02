@@ -6,16 +6,32 @@
 .Form button:last-child {
   background-color: #e53935;
 }
-
-.UserDataItemText {
+.Collection {
+  margin: 0;
+  width: 40%;
+  min-width: 350px;
+}
+/* .UserDataItemText {
   display: inline-flex;
+} */
+
+.Collection i {
+  cursor: pointer;
+  color: coral;
+}
+.Collection i:hover {
+  color: rgb(236, 58, 14);
+  background-color: rgb(252, 252, 252);
+}
+.Collection a {
+  top: 6px !important;
+  right: 6px !important;
 }
 
-.UserDataItemText i {
+.UserAddItemText i {
   cursor: pointer;
-  margin-left: 10px;
 }
-.UserDataItemText i:hover {
+.UserAddItemText i:hover {
   color: #2bbbad;
   background-color: rgb(252, 252, 252);
 }

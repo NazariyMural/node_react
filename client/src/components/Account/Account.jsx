@@ -11,12 +11,11 @@ class Account extends Component {
       return (
         <div>
           <ul className={styles.UserDataList}>
-            <li key={dataUser.photos[0][0]["value"]}>
-              <img src={dataUser.photos[0][0]["value"]} alt="userPhoto" />
-            </li>
-            <li key={dataUser.name}>{dataUser.name}</li>
-            <li key={dataUser.emails[0][0]["value"]}>
-              Email: {dataUser.emails[0][0]["value"]}
+            <li key={dataUser.photos[0]}>
+              <img
+                src={require(`../../uploads/${dataUser.photos[0]}`)}
+                alt="userPhoto"
+              />
             </li>
           </ul>
           <UserProfileEdit title="Lviv" />

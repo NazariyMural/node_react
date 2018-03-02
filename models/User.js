@@ -8,7 +8,8 @@ const userSchema = new Schema({
   photos: Array,
   address: String,
   phone: Number,
-  creditCard: Object
+  creditCard: Object,
+  location: Object
 });
 
 mongoose.model("users", userSchema);

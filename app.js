@@ -40,12 +40,12 @@ app.use("/api", def);
 // express will serve up production assets
 app.use(express.static("client/build"));
 
-const path = require("path");
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-});
+// const path = require("path");
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+// });
 
-///store staff goes here
-// app.use("/store", storeRouts);
+//this staff need for uploading data
+// app.use(express.static("./uploads"));
 
 module.exports = app;
