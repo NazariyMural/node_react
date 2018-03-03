@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import styles from "./CartDataAmount.css";
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
+import Stripe from "../../Stripe/Stripe";
 
 class CartDataAmount extends Component {
   renderCartData = () => {
@@ -12,6 +13,7 @@ class CartDataAmount extends Component {
             <span>Sum: {this.props.cart.userCart.totalQty}</span>
             <br />
             <span>Amount: {this.props.cart.userCart.totalPrice}</span>
+            <Stripe totalSum={this.props.cart.userCart.totalPrice * 100} />
           </div>
         );
       }

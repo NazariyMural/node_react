@@ -143,6 +143,13 @@ export const uploadData = ({ file, userID }) => dispatch => {
     .catch(err => console.log(err));
 };
 
+export const handleStripeToken = ({ token, amount }) => async dispatch => {
+  const res = await axios.post("/api/stripe", { token, amount });
+  console.log(res);
+
+  dispatch({ type: FETCH_USER, payload: res.data });
+};
+
 // export const uploadData = ({ file, userID }) => dispatch => {
 //   console.log(file);
 //   const fd = new FormData();

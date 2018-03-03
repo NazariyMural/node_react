@@ -45,9 +45,7 @@ class Cart extends Component {
     }
   };
   renderCart = () => {
-    // const cart = this.props.cart;
     const cartItems = this.props.cart.userCart.items;
-    // console.log(cart);
 
     return _.map(cartItems, (item, key) => {
       return (
@@ -121,6 +119,7 @@ class Cart extends Component {
           <tbody>{this.renderData()}</tbody>
         </table>
         <CartDataAmount />
+        <br />
       </div>
     );
   }

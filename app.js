@@ -34,16 +34,17 @@ require("./routs/auth")(app);
 require("./routs/store")(app);
 require("./routs/cart")(app);
 require("./routs/userAdd")(app);
+require("./routs/stripe")(app);
 
 app.use("/api", def);
 
 // express will serve up production assets
 app.use(express.static("client/build"));
 
-// const path = require("path");
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-// });
+const path = require("path");
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 
 //this staff need for uploading data
 app.use(express.static("./client/uploads"));

@@ -8,15 +8,21 @@ import thunk from "redux-thunk";
 import reducers from "./reducers";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(
+  reducers,
+  {},
+  composeEnhancers(applyMiddleware(thunk))
+);
 // const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 // <Provider store={createStoreWithMiddleware(reducers)}>
 
 ReactDOM.render(
   <Provider store={store}>
-
     <App />
   </Provider>,
   document.getElementById("root")
 );
+
+// console.log("REACT STRIPE", process.env.REACT_APP_STRIPE_KEY);
+// console.log("Envoirment is ", process.env.NODE_ENV);

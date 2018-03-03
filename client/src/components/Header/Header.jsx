@@ -20,16 +20,15 @@ class Header extends Component {
           </li>
         );
       default:
-        return (
-          <li>
+        return [
+          <li key="2">
             <a href="/api/logout">Logout</a>
           </li>
-        );
+        ];
     }
   };
 
   render() {
-    // console.log(this.props.cart);
     return (
       <nav className={styles.Header}>
         <div className="nav-wrapper">
@@ -39,6 +38,7 @@ class Header extends Component {
           >
             Eliftech Market
           </NavLink>
+
           <ul className="right">
             <li>
               <NavLink exact to="/">
