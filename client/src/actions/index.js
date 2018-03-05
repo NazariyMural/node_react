@@ -9,6 +9,7 @@ import {
   ADD_TO_CART,
   ADD_USER_LOCATION,
   ADD_USER_PHOTO
+  // LOGIN_USER
 } from "./types";
 
 import { storage } from "../firebase";
@@ -149,6 +150,91 @@ export const handleStripeToken = ({ token, amount }) => async dispatch => {
 
   dispatch({ type: FETCH_USER, payload: res.data });
 };
+
+export const login = userData => dispatch => {
+  axios
+    .post("/api/login", {
+      username: userData.email,
+      password: userData.password
+    })
+    .then(result => {
+      console.log(result.data);
+      // if (result.data.hasOwnProperty("_id")) {
+      //   window.location = "/account";
+      //   dispatch({ type: LOGIN_USER, payload: result.data });
+      // }
+    })
+    .catch(err => console.log(err));
+};
+
+export const logout = () => dispatch => {
+  axios
+    .get("/api/logout")
+    .then(result => console.log(result))
+    .catch(err => console.log(err));
+
+  // dispatch({ type: FETCH_USER, payload: result.data });
+};
+
+export const loginAttempt = () => ({ type: "AUTHENTICATION_LOGIN_ATTEMPT" });
+export const loginFailure = error => ({
+  type: "AUTHENTICATION_LOGIN_FAILURE",
+  error
+});
+export const loginSuccess = json => ({
+  type: "AUTHENTICATION_LOGIN_SUCCESS",
+  json
+});
+
+export const storeUser = userData => dispatch => {
+  axios
+    .post("/api/sing-up", userData)
+    .then(result => console.log(result))
+    .catch(err => console.log(err));
+
+  // dispatch({ type: FETCH_USER, payload: result.data });
+};
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 // export const uploadData = ({ file, userID }) => dispatch => {
 //   console.log(file);

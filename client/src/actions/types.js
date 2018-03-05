@@ -9,3 +9,4 @@ export const ADD_USER_PROPERTY = "ADD_USER_PROPERTY";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const ADD_USER_LOCATION = "ADD_USER_LOCATION";
 export const ADD_USER_PHOTO = "ADD_USER_PHOTO";
+export const LOGIN_USER = "LOGIN_USER";
