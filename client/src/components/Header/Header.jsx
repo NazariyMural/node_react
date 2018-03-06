@@ -6,25 +6,54 @@ import CartHeaderNotification from "../Notification/CartDataAmount/CartHeaderIte
 
 class Header extends Component {
   renderContent = () => {
-    switch (this.props.auth) {
-      case null:
+    // switch (this.props.authentication) { // this.props.auth
+    //   case null:
+    //     return (
+    //       <li>
+    //         <p href="/">Loading...</p>
+    //       </li>
+    //     );
+    //   case false:
+    //     return (
+    //       <li>
+    //         <a href="/auth/google">Login with Password</a>
+    //       </li>
+    //     );
+    //   case this.props.authentication.hasOwnProperty("isLoggedIn"):
+    //     console.log(this.props.authentication.isLoggedIn);
+    //     return (
+    //       <li key="2">
+    //         <a href="/api/logout">Logout</a>
+    //       </li>
+    //     );
+    //   default:
+    //     return [
+    //       <li key="2">
+    //         <a href="/api/logout">Some problem</a>
+    //       </li>
+    //     ];
+    // }
+    if (this.props.authentication) {
+      if (!this.props.authentication.isLoggedIn) {
         return (
           <li>
-            <p href="/">Loading...</p>
+            <a href="/auth/google">Login with Password</a>
           </li>
         );
-      case false:
+      } else {
+        console.log(this.props.authentication.isLoggedIn);
         return (
-          <li>
-            <a href="/auth/google">Login with Google</a>
-          </li>
-        );
-      default:
-        return [
           <li key="2">
             <a href="/api/logout">Logout</a>
           </li>
-        ];
+        );
+      }
+    } else {
+      return (
+        <li>
+          <p href="/">Loading...</p>
+        </li>
+      );
     }
   };
 
@@ -41,8 +70,14 @@ class Header extends Component {
 
           <ul className="right">
             <li>
-              <NavLink exact to="/">
-                Home
+              <NavLink exact to="/login">
+                Login
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink exact to="/register">
+                Register
               </NavLink>
             </li>
 
@@ -66,8 +101,8 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, cart }) => {
-  return { auth, cart };
+const mapStateToProps = ({ auth, cart, authentication }) => {
+  return { auth, cart, authentication };
 };
 
 export default connect(mapStateToProps)(Header);

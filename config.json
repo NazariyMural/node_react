@@ -1,0 +1,12 @@
+{
+  "crypto": {
+    "secret": "secret"
+  },
+  "expressSession": {
+    "secret": "secret"
+  },
+  "mailgun": {
+    "apiKey": "key-a6831fad9c681569479ab46734f662a8",
+    "domain": "sandboxfa58bac976052d5e93f1cfa0b54c5337.mailgun.org"
+  }
+}

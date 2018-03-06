@@ -1,16 +1,12 @@
 import React, { Component } from "react";
-import styles from "./UserProfileEdit.css";
+import styles from "../UserProfileEdit/UserProfileEdit.css";
 import { connect } from "react-redux";
 
-import {
-  addUserProperty,
-  addLocation,
-  uploadData
-} from "../../../actions/index";
+import { addUserProperty, addLocation, uploadData } from "../../../actions/";
 
 import FlatButton from "material-ui/FlatButton";
 
-class UserEdit extends Component {
+class UserProfileLocal extends Component {
   state = {
     editingPhone: false,
     editingAddress: false,
@@ -49,7 +45,7 @@ class UserEdit extends Component {
               </form>
             ) : (
               <span className={styles.userDataItem}>
-                {this.props.auth.name ? (
+                {this.props.authentication.username ? (
                   <div className={styles.UserDataItemText}>
                     {this.renderUserName()}
                   </div>
@@ -82,7 +78,7 @@ class UserEdit extends Component {
               </form>
             ) : (
               <span className={styles.userDataItem}>
-                {this.props.auth.phone ? (
+                {this.props.auth ? (
                   <div className={styles.UserDataItemText}>
                     {this.renderUserPhone()}
                   </div>
@@ -117,7 +113,7 @@ class UserEdit extends Component {
               </form>
             ) : (
               <div className={styles.userDataItem}>
-                {this.props.auth.location ? (
+                {this.props.authentication.location ? (
                   <div>{this.renderUserLocation()}</div>
                 ) : (
                   <span className={styles.UserAddItemText}>
@@ -236,6 +232,7 @@ class UserEdit extends Component {
   }
 
   renderUserPhone() {
+    console.log(this.props.auth);
     const collectionClasses = ["collection"];
     collectionClasses.push(styles.Collection);
     const phone = this.props.auth.phone;
@@ -257,9 +254,11 @@ class UserEdit extends Component {
   }
 
   renderUserName() {
+    // console.log("userName");
     const collectionClasses = ["collection"];
     collectionClasses.push(styles.Collection);
-    const name = this.props.auth.name;
+    const name = this.props.authentication.username;
+    // console.log(name);
     const formatted_name = (
       <ul className={collectionClasses.join(" ")}>
         <li className="collection-item avatar">
@@ -280,7 +279,7 @@ class UserEdit extends Component {
   renderUserEmail() {
     const collectionClasses = ["collection"];
     collectionClasses.push(styles.Collection);
-    const email = this.props.auth.emails[0][0]["value"];
+    const email = this.props.authentication.email;
     const formatted_email = (
       <ul className={collectionClasses.join(" ")}>
         <li className="collection-item avatar">
@@ -294,22 +293,46 @@ class UserEdit extends Component {
   }
 
   renderUserImage = () => {
-    if (this.props.auth === null) {
+    if (this.props.authentication === null) {
       return (
         <div>
           <h2>Loading</h2>
         </div>
       );
-    } else if (this.props.auth === false) {
+    } else if (this.props.authentication === false) {
       return (
         <div>
           <h2>Join us!</h2>
         </div>
       );
-    } else if (this.props.auth) {
+    } else if (this.props.authentication) {
+      if (!this.props.authentication.img) {
+        return (
+          <div className={styles.UserData}>
+            <img
+              src="http://www.energogreen.com/wp-content/uploads/2017/02/profile-icon-9-grey.png"
+              alt="userPhoto"
+            />
+            <FlatButton
+              label="Choose an Image"
+              labelPosition="before"
+              style={style.uploadButton}
+              containerElement="label"
+            >
+              <input
+                type="file"
+                style={style.uploadInput}
+                ref="file"
+                name="file"
+                onChange={this.handleFileUpload}
+              />
+            </FlatButton>
+          </div>
+        );
+      }
       return (
         <div className={styles.UserData}>
-          <img src={this.props.auth.photos[0]} alt="userPhoto" />
+          <img src={this.props.authentication.img} alt="userPhoto" />
           <FlatButton
             label="Choose an Image"
             labelPosition="before"
@@ -337,6 +360,7 @@ class UserEdit extends Component {
   };
 
   render() {
+    // console.log(this.props.authentication);
     return (
       <div>
         {this.renderUserImage()}
@@ -362,12 +386,12 @@ const style = {
   }
 };
 
-const mapStateToProps = ({ auth }) => {
-  return { auth };
+const mapStateToProps = ({ auth, authentication }) => {
+  return { auth, authentication };
 };
 
 export default connect(mapStateToProps, {
   addUserProperty,
   addLocation,
   uploadData
-})(UserEdit);
+})(UserProfileLocal);

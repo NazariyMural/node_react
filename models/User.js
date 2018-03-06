@@ -12,4 +12,4 @@ const userSchema = new Schema({
   location: Object
 });
 
-mongoose.model("users", userSchema);
+// mongoose.model("users", userSchema);

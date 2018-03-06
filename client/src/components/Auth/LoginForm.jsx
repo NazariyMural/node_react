@@ -86,6 +86,7 @@ export default class LoginPage extends React.Component {
               </span>
             </AvGroup>
             <Button color="primary">Log In</Button>
+            <Button color="primary">Sing Up</Button>
           </AvForm>
         </div>
       </div>

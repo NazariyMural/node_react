@@ -4,17 +4,21 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Store from "./components/Store/Store";
 import Header from "./components/Header/Header";
 import EmailLogin from "./components/Auth/LogIn";
+import Register from "./components/Auth/registerContainer";
 import Account from "./components/Account/Account";
 import Cart from "./components/Cart/Cart";
 import { connect } from "react-redux";
-import * as actions from "./actions";
+// import * as actions from "./actions";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { PropagateLoader } from "react-spinners";
+import { checkSession, fetchUser } from "./actions";
 
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
+    this.props.checkSession();
     this.props.fetchUser();
   }
+
   render() {
     console.log(this.props.progress);
     return (
@@ -23,15 +27,6 @@ class App extends Component {
           <BrowserRouter>
             <div>
               <Header />
-              {/* <div
-                style={
-                  this.props.progress > 0
-                    ? { display: "block" }
-                    : { display: "none" }
-                }
-              >
-                Loading...
-              </div> */}
               <PropagateLoader
                 color={"#123abc"}
                 loading={this.props.progress > 0}
@@ -41,7 +36,8 @@ class App extends Component {
                   <Route path="/cart" component={Cart} />
                   <Route path="/store" component={Store} />
                   <Route path="/account" component={Account} />
-                  <Route path="/" component={EmailLogin} />
+                  <Route path="/login" component={EmailLogin} />
+                  <Route path="/register" component={Register} />
                 </Switch>
               </div>
             </div>
@@ -56,4 +52,4 @@ const mapStateToProps = ({ progress }) => {
   return { progress };
 };
 
-export default connect(mapStateToProps, actions)(App);
+export default connect(mapStateToProps, { checkSession, fetchUser })(App);
