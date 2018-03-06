@@ -280,7 +280,7 @@ class UserEdit extends Component {
   renderUserEmail() {
     const collectionClasses = ["collection"];
     collectionClasses.push(styles.Collection);
-    const email = this.props.auth.emails[0][0]["value"];
+    const email = this.props.auth.email;
     const formatted_email = (
       <ul className={collectionClasses.join(" ")}>
         <li className="collection-item avatar">
@@ -309,7 +309,14 @@ class UserEdit extends Component {
     } else if (this.props.auth) {
       return (
         <div className={styles.UserData}>
-          <img src={this.props.auth.photos[0]} alt="userPhoto" />
+          {this.props.auth.img ? (
+            <img src={this.props.auth.img} alt="userPhoto" />
+          ) : (
+            <img
+              src="http://www.energogreen.com/wp-content/uploads/2017/02/profile-icon-9-grey.png"
+              alt="userPhoto"
+            />
+          )}
           <FlatButton
             label="Choose an Image"
             labelPosition="before"
