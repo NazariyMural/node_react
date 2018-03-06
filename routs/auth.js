@@ -150,13 +150,8 @@ const { JSDOM } = require("jsdom");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const User = require("../models/UserSingUp");
-
 const router = express.Router();
 
-// configure mongoose promises
-mongoose.Promise = global.Promise;
-
-// GET to /checksession
 router.get("/checksession", (req, res) => {
   console.log(req.user, "current_user");
   if (req.user) {
@@ -165,13 +160,12 @@ router.get("/checksession", (req, res) => {
   return res.send(JSON.stringify({}));
 });
 
-// GET to /logout
 router.get("/logout", (req, res) => {
+  console.log("logout");
   req.logout();
   return res.send(JSON.stringify(req.user));
 });
 
-// POST to /login
 router.post("/login", async (req, res) => {
   const query = User.findOne({ email: req.body.email });
   const foundUser = await query.exec();
@@ -187,7 +181,6 @@ router.post("/login", async (req, res) => {
   });
 });
 
-// POST to /register
 router.post("/register", async (req, res) => {
   // First, check and make sure the email doesn't already exist
   const query = User.findOne({ email: req.body.email });
@@ -238,10 +231,10 @@ router.get("/google/callback", passport.authenticate("google"), (req, res) =>
 );
 
 //log out staff
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
-});
+// router.get("/logout", (req, res) => {
+//   req.logout();
+//   res.redirect("/");
+// });
 
 //current user information
 router.get("/current_user", (req, res) => {

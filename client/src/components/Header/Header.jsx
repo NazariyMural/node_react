@@ -2,9 +2,15 @@ import React, { Component } from "react";
 import styles from "./Header.css";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { logUserOut } from "../../actions";
 import CartHeaderNotification from "../Notification/CartDataAmount/CartHeaderItem/CartHeaderItem";
 
 class Header extends Component {
+  logOutClick = e => {
+    e.preventDefault();
+    this.props.logUserOut();
+  };
+
   renderContent = () => {
     // switch (this.props.authentication) { // this.props.auth
     //   case null:
@@ -34,20 +40,26 @@ class Header extends Component {
     //     ];
     // }
     if (this.props.authentication) {
-      if (!this.props.authentication.isLoggedIn) {
-        return (
-          <li>
-            <a href="/auth/google">Login with Password</a>
-          </li>
-        );
-      } else {
-        console.log(this.props.authentication.isLoggedIn);
-        return (
-          <li key="2">
-            <a href="/api/logout">Logout</a>
-          </li>
-        );
-      }
+      // if (!this.props.authentication.isLoggedIn) {
+      //   return (
+      //     <li>
+      //       <a href="/auth/google">Login with Password</a>
+      //     </li>
+      //   );
+      // } else {
+      //   return (
+      //     <li key="2">
+      //       <a href="/api/logout">Logout</a>
+      //     </li>
+      //   );
+      // }
+      return (
+        <li key="2">
+          <a href="/api/auth/logout" onClick={this.logOutClick}>
+            Logout
+          </a>
+        </li>
+      );
     } else {
       return (
         <li>
@@ -105,4 +117,4 @@ const mapStateToProps = ({ auth, cart, authentication }) => {
   return { auth, cart, authentication };
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, { logUserOut })(Header);

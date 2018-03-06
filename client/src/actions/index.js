@@ -146,6 +146,23 @@ export const addLocation = userData => dispatch => {
 
 //     .catch(err => console.log(err));
 // };
+export const logoutFailure = error => ({
+  type: "AUTHENTICATION_LOGOUT_FAILURE",
+  error
+});
+export const logoutSuccess = () => ({ type: "AUTHENTICATION_LOGOUT_SUCCESS" });
+
+export const logUserOut = () => dispatch => {
+  fetch("/api/auth/logout")
+    .then(response => {
+      if (response.status === 200) {
+        dispatch(logoutSuccess());
+      } else {
+        dispatch(logoutFailure(new Error(response.status)));
+      }
+    })
+    .catch(error => console.log(error));
+};
 
 export const handleStripeToken = ({ token, amount }) => async dispatch => {
   const res = await axios.post("/api/stripe", { token, amount });
@@ -259,85 +276,57 @@ export function logUserIn(userData) {
 }
 
 // Register a User
-export function registerUser(userData) {
-  return async dispatch => {
-    // clear the error box if it's displayed
-    dispatch(clearError());
+export const registerUser = userData => dispatch => {
+  dispatch(clearError());
 
-    // turn on spinner
-    dispatch(incrementProgress());
+  // turn on spinner
+  dispatch(incrementProgress());
 
-    // contact the API
-    await fetch(
-      // where to contact
-      "/api/auth/register",
-      // what to send
-      {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "same-origin"
+  fetch("/api/auth/register", {
+    method: "POST",
+    body: JSON.stringify(userData),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"
+  })
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
       }
-    )
-      .then(response => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        return null;
-      })
-      .then(async json => {
-        if (json && json.username) {
-          await dispatch(loginSuccess(json));
-          await dispatch(registrationSuccess());
-        } else {
-          dispatch(
-            registrationFailure(
-              new Error(
-                json.error.message
-                  ? "Email or username already exists"
-                  : json.error
-              )
-            )
-          );
-        }
-      })
-      .catch(error => {
+      return null;
+    })
+    .then(async json => {
+      if (json && json.username) {
+        await dispatch(loginSuccess(json));
+        await dispatch(registrationSuccess());
+      } else {
         dispatch(
           registrationFailure(
-            new Error(error.message || "Registration Failed. Please try again.")
+            new Error(
+              json.error.message
+                ? "Email or username already exists"
+                : json.error
+            )
           )
         );
-      });
+      }
+    })
+    .catch(error => {
+      dispatch(
+        registrationFailure(
+          new Error(error.message || "Registration Failed. Please try again.")
+        )
+      );
+    });
 
-    // turn off spinner
-    return dispatch(decrementProgress());
-  };
-}
+  // turn off spinner
+  return dispatch(decrementProgress());
+};
 
 // export const logout = () => dispatch => {
 //   axios
 //     .get("/api/logout")
-//     .then(result => console.log(result))
-//     .catch(err => console.log(err));
-
-//   // dispatch({ type: FETCH_USER, payload: result.data });
-// };
-
-// export const loginAttempt = () => ({ type: "AUTHENTICATION_LOGIN_ATTEMPT" });
-// export const loginFailure = error => ({
-//   type: "AUTHENTICATION_LOGIN_FAILURE",
-//   error
-// });
-// export const loginSuccess = json => ({
-//   type: "AUTHENTICATION_LOGIN_SUCCESS",
-//   json
-// });
-
-// export const storeUser = userData => dispatch => {
-//   axios
-//     .post("/api/sing-up", userData)
 //     .then(result => console.log(result))
 //     .catch(err => console.log(err));
 

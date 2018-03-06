@@ -7,8 +7,7 @@ import RegisterPage from "./register";
 
 export class RegisterPageContainer extends Component {
   registerFunction = userData => {
-    const { dispatch } = this.props;
-    dispatch(registerUser(userData));
+    this.props.registerUser(userData);
   };
 
   render() {
@@ -26,4 +25,6 @@ export class RegisterPageContainer extends Component {
 
 const mapStateToProps = state => ({ authentication: state.authentication });
 
-export default connect(mapStateToProps)(RegisterPageContainer);
+export default connect(mapStateToProps, { registerUser })(
+  RegisterPageContainer
+);
