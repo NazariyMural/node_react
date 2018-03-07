@@ -8,8 +8,8 @@ import {
   REDUCE,
   ADD_USER_PROPERTY,
   ADD_TO_CART,
-  ADD_USER_LOCATION
-  // ADD_USER_PHOTO,
+  ADD_USER_LOCATION,
+  ADD_USER_PHOTO
 } from "./types";
 import { clearError } from "./error";
 
@@ -125,6 +125,24 @@ export const addLocation = userData => dispatch => {
     .catch(err => console.log(err));
 };
 
+export const uploadData = ({ file, userID }) => dispatch => {
+  console.log(file);
+  const data = new FormData();
+  data.append("file", file);
+  data.append("userID", userID);
+  axios
+    .post("/api/user-add/user-add-image", data)
+    .then(response => {
+      console.log(response);
+      dispatch({
+        type: ADD_USER_PHOTO,
+        payload: response.data
+      });
+    })
+
+    .catch(err => console.log(err));
+};
+
 // export const uploadData = ({ file, userID }) => dispatch => {
 //   const storageRef = storage.ref("/user-images").child(userID);
 //   storageRef
@@ -132,7 +150,7 @@ export const addLocation = userData => dispatch => {
 //     .put(file, { contentType: file.type })
 //     .then(snapshoot => {
 //       axios
-//         .post("api/user-add-image", {
+//         .post("/api/user-add/user-add-image", {
 //           photoURL: snapshoot.downloadURL,
 //           userID: userID
 //         })
@@ -333,22 +351,22 @@ export const registerUser = userData => dispatch => {
 //   // dispatch({ type: FETCH_USER, payload: result.data });
 // };
 
-export const uploadData = ({ file, userID }) => dispatch => {
-  console.log(file);
-  const fd = new FormData();
-  fd.append("file", file, file.name);
-  fd.append("userID", userID);
-  axios
-    .post("api/user-add-image", fd)
-    .then(response => {
-      console.log(response);
-      // dispatch({
-      //   type: ADD_USER_PHOTO,
-      //   payload: response.data
-      // });
-    })
-    .catch(err => console.log(err));
-};
+// export const uploadData = ({ file, userID }) => dispatch => {
+//   console.log(file);
+//   const fd = new FormData();
+//   fd.append("file", file, file.name);
+//   fd.append("userID", userID);
+//   axios
+//     .post("api/user-add-image", fd)
+//     .then(response => {
+//       console.log(response);
+//       // dispatch({
+//       //   type: ADD_USER_PHOTO,
+//       //   payload: response.data
+//       // });
+//     })
+//     .catch(err => console.log(err));
+// };
 //
 //
 //

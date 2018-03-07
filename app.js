@@ -15,6 +15,8 @@ const path = require("path");
 const RateLimit = require("express-rate-limit");
 
 const User = require("./models/UserSingUp");
+const busboy = require("connect-busboy");
+const busboyBodyParser = require("busboy-body-parser");
 
 // Route Files
 // const api = require("./routs/api/index");
@@ -24,6 +26,7 @@ const cart = require("./routs/cart");
 const userAdd = require("./routs/userAdd");
 
 const app = express();
+app.use(busboy());
 
 // Connect to Mongoose
 mongoose.connect(
@@ -33,8 +36,12 @@ mongoose.connect(
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger("dev"));
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(busboyBodyParser());
+
 app.use(compression());
 app.use(cookieParser());
 // Express Session
@@ -62,16 +69,6 @@ const apiLimiter = new RateLimit({
   delayMs: 0 // disabled
 });
 app.use("/api/", apiLimiter);
-// app.use("/api/auth", auth);
-
-// require("./routs/auth")(app);
-// require("./routs/store")(app);
-// require("./routs/cart")(app);
-// require("./routs/userAdd")(app);
-// require("./routs/stripe")(app);
-// // require("./routs/userUp")(app);
-
-// app.use("/api", def);
 
 app.use("/api/auth", authentication);
 app.use("/api/store", store);

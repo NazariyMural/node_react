@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 // const User = mongoose.model("users");
 const User = require("../models/UserSingUp");
 const multer = require("multer");
+const AWS = require("aws-sdk");
+const Busboy = require("busboy");
 
 router.get("/user-add", (req, res, next) => {
   User.findOne({ googleId: "112889707649724402783" })
@@ -25,10 +27,8 @@ router.post("/user-add-change", (req, res, next) => {
           user.set("address", userData.address);
           user.save().then(result => res.send(result));
         } else if (userData.hasOwnProperty("phone")) {
-          console.log("phhhhhhhhhhhhhhhhhhhhhhhhhhhhhooooooooooooooooooonnne");
           user.set("phone", userData.phone);
           user.save().then(result => {
-            console.log(result, "resssssssssssult");
             return res.send(result);
           });
         } else if (userData.hasOwnProperty("creditCard")) {
@@ -55,72 +55,37 @@ router.post("/user-add-location", (req, res, next) => {
     .catch(err => console.log(err, "router store error"));
 });
 
+const BUCKET_NAME = "nazariymural";
+const IAM_USER_KEY = "AKIAJUG2IOXVXPHARW3Q";
+const IAM_USER_SECRET = "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";
+
 router.post("/user-add-image", (req, res) => {
-  User.findOne({ googleId: req.body.userID })
-    .then(user => {
-      user.set("photos", [req.body.photoURL]);
-      user.save().then(result => res.send(result));
-    })
-    .catch(err => console.log(err));
+  const file = req.files.file;
+
+  let s3bucket = new AWS.S3({
+    accessKeyId: IAM_USER_KEY,
+    secretAccessKey: IAM_USER_SECRET,
+    Bucket: BUCKET_NAME
+  });
+  s3bucket.createBucket(() => {
+    const params = {
+      Bucket: BUCKET_NAME,
+      Key: file.name,
+      Body: file.data,
+      ACL: "public-read"
+    };
+    s3bucket
+      .upload(params, (err, data) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log("success");
+      })
+      .promise()
+      .then(data => {
+        return res.send(data);
+      });
+  });
 });
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-// //
-
-//set storage engine
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "./client/src/uploads");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname);
-//   }
-// });
-
-// const fileFilter = (req, file, cb) => {
-//   //reqect file
-//   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// };
-
-// // //init upload
-// const upload = multer({
-//   storage,
-//   limits: {
-//     fileSize: 1024 * 1024 * 5
-//   },
-//   fileFilter: fileFilter
-// });
-
-router.post("/api/user-add-image", (req, res) => {
-  console.log(req.file);
-});
-
-// router.get("/api/user-add-image", (req, res) => {
-//   User.findOne({ googleId: "112889707649724402783" })
-//     .then(user => {
-//       user.photos[0];
-//       user.save().then(result => res.send(user.photos[0]));
-//     })
-//     .catch(err => console.log(err));
-// });
 
 module.exports = router;

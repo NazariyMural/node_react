@@ -153,7 +153,7 @@ const User = require("../models/UserSingUp");
 const router = express.Router();
 
 router.get("/checksession", (req, res) => {
-  console.log(req.user, "current_user");
+  // console.log(req.user, "current_user");
   if (req.user) {
     return res.send(JSON.stringify(req.user));
   }
