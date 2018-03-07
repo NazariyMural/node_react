@@ -5,13 +5,18 @@ import {
   ADD_USER_PHOTO,
   CHECK_USER_SESSION,
   LOGIN_USER_SUCCESS,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  LOGIN_WITH_GOOGLE
 } from "../actions/types";
 
 export default (state = null, action) => {
   switch (action.type) {
     case FETCH_USER: {
       return action.payload || false;
+    }
+    case LOGIN_WITH_GOOGLE: {
+      console.log("action.payload", action.payload);
+      return state;
     }
     case ADD_USER_PROPERTY: {
       return { ...action.payload };

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import styles from "../RegistrationStyle.css";
 
 export default class RegistrationForm extends Component {
   state = {
@@ -20,8 +22,8 @@ export default class RegistrationForm extends Component {
 
   render() {
     return (
-      <div className="row justify-content-center">
-        <div className="col-10 col-sm-7 col-md-5 col-lg-4">
+      <div className={styles.FormContainer}>
+        <div className={styles.FormWrapper}>
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -48,7 +50,7 @@ export default class RegistrationForm extends Component {
             id="username"
             name="username"
             onChange={this.handleInputChange}
-            placeholder="CaptainCode"
+            placeholder="Enter username"
             required
             type="text"
             value={this.state.username}
@@ -58,15 +60,28 @@ export default class RegistrationForm extends Component {
             id="fullName"
             name="fullName"
             onChange={this.handleInputChange}
-            placeholder="Smith"
+            placeholder="John Doe"
             required
             type="text"
             value={this.state.fullName}
           />
 
-          <button onClick={this.handleValidSubmit} className="btn">
+          <button
+            onClick={this.handleValidSubmit}
+            className="btn blue darken-4"
+            style={{ marginRight: 15 }}
+          >
             Register
           </button>
+          <Link to="/store" className="btn red accent-4">
+            Cancel
+          </Link>
+          <div className={styles.GoToLogIn}>
+            Have account? Then Log In by email and password, or Google
+          </div>
+          <Link to="/login" className="btn blue lighten-5 black-text">
+            Log In
+          </Link>
         </div>
       </div>
     );

@@ -4,12 +4,13 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   googleId: String,
   fullName: String,
-  emails: Array,
-  photos: Array,
+  email: Array,
+  photo: Array,
   address: String,
   phone: Number,
   creditCard: Object,
-  location: Object
+  location: Object,
+  username: Array
 });
 
 // mongoose.model("users", userSchema);

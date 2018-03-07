@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import styles from "../RegistrationStyle.css";
 
 export default class LoginPage extends Component {
   state = {
@@ -23,8 +24,8 @@ export default class LoginPage extends Component {
 
   render() {
     return (
-      <div className="row justify-content-center">
-        <div className="col-10 col-sm-7 col-md-5 col-lg-4">
+      <div className={styles.FormContainer}>
+        <div className={styles.FormWrapper}>
           <label htmlFor="exampleEmail">Email</label>
           <input
             id="userEmail"
@@ -61,6 +62,13 @@ export default class LoginPage extends Component {
           <Link to="/register" className="btn blue darken-3">
             Sing Up
           </Link>
+
+          <button
+            className="btn red darken-3"
+            onClick={() => this.props.googleLogin()}
+          >
+            Log In with Google
+          </button>
         </div>
       </div>
     );

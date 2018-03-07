@@ -21,13 +21,13 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "/google/callback",
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
       // console.log(refreshToken, "refreshToken")
       // console.log(accessToken, "accessToken")
-      // console.log(profile, "profile");
+      console.log(profile, "profile");
       const existingUser = await User.findOne({ googleId: profile.id });
       if (existingUser) {
         return done(null, existingUser);
@@ -35,11 +35,10 @@ passport.use(
 
       const user = await new User({
         googleId: profile.id,
-        name: profile.displayName,
-        emails: [profile.emails],
-        photos: [profile.photos]
-        // placesLived: [profile._json.placesLived[0].value],
-        // raw: [profile._json]
+        fullName: profile.displayName,
+        email: [profile.emails],
+        photo: [profile.photos],
+        username: [profile.emails]
       }).save();
       done(null, user);
     }
@@ -60,21 +59,3 @@ passport.use(
     // }
   )
 );
-
-// function fetchAlbums() {
-// 	fetch("https://rallycoding.herokuapp.com/api/music_albums")
-// 		.then(res => res.json())
-// 		.then(json => console.log(json));
-// }
-
-// fetchAlbums()
-
-//users
-// {
-//   "_id": {
-//       "$oid": "5a8f38c10773ee204c4c7d6b"
-//   },
-//   "googleId": "112889707649724402783",
-//   "name": "Nazariy Mural",
-//   "__v": 0
-// }

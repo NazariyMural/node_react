@@ -12,7 +12,8 @@ import {
   ADD_USER_PHOTO,
   CHECK_USER_SESSION,
   LOGIN_USER_SUCCESS,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  LOGIN_WITH_GOOGLE
 } from "./types";
 import { clearError } from "./error";
 
@@ -23,6 +24,14 @@ export const fetchUser = () => {
     axios
       .get("/api/auth/current_user")
       .then(res => dispatch({ type: FETCH_USER, payload: res.data }));
+  };
+};
+
+export const googleLogin = () => {
+  return dispatch => {
+    axios
+      .get("/api/auth/google")
+      .then(res => dispatch({ type: LOGIN_WITH_GOOGLE, payload: res.data }));
   };
 };
 
