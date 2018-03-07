@@ -9,7 +9,10 @@ import {
   ADD_USER_PROPERTY,
   ADD_TO_CART,
   ADD_USER_LOCATION,
-  ADD_USER_PHOTO
+  ADD_USER_PHOTO,
+  CHECK_USER_SESSION,
+  LOGIN_USER_SUCCESS,
+  LOGOUT_SUCCESS
 } from "./types";
 import { clearError } from "./error";
 
@@ -143,35 +146,23 @@ export const uploadData = ({ file, userID }) => dispatch => {
     .catch(err => console.log(err));
 };
 
-// export const uploadData = ({ file, userID }) => dispatch => {
-//   const storageRef = storage.ref("/user-images").child(userID);
-//   storageRef
-//     .child(file.name)
-//     .put(file, { contentType: file.type })
-//     .then(snapshoot => {
-//       axios
-//         .post("/api/user-add/user-add-image", {
-//           photoURL: snapshoot.downloadURL,
-//           userID: userID
-//         })
-//         .then(response => {
-//           dispatch({
-//             type: ADD_USER_PHOTO,
-//             payload: response.data
-//           });
-//         });
-//     })
+export const handleStripeToken = ({ token, amount }) => async dispatch => {
+  const res = await axios.post("/api/stripe", { token, amount });
+  console.log(res);
 
-//     .catch(err => console.log(err));
-// };
+  dispatch({ type: FETCH_USER, payload: res.data });
+};
 export const logoutFailure = error => ({
   type: "AUTHENTICATION_LOGOUT_FAILURE",
   error
 });
-export const logoutSuccess = () => ({ type: "AUTHENTICATION_LOGOUT_SUCCESS" });
+export const logoutSuccess = () => ({ type: LOGOUT_SUCCESS });
 
 export const logUserOut = () => dispatch => {
-  fetch("/api/auth/logout")
+  fetch("/api/auth/logout", {
+    method: "GET",
+    credentials: "same-origin"
+  })
     .then(response => {
       if (response.status === 200) {
         dispatch(logoutSuccess());
@@ -182,21 +173,6 @@ export const logUserOut = () => dispatch => {
     .catch(error => console.log(error));
 };
 
-export const handleStripeToken = ({ token, amount }) => async dispatch => {
-  const res = await axios.post("/api/stripe", { token, amount });
-  console.log(res);
-
-  dispatch({ type: FETCH_USER, payload: res.data });
-};
-
-//ACTION creators new
-export const sessionCheckFailure = () => ({
-  type: "AUTHENTICATION_SESSION_CHECK_FAILURE"
-});
-export const sessionCheckSuccess = json => ({
-  type: "AUTHENTICATION_SESSION_CHECK_SUCCESS",
-  json
-});
 export const checkSession = () => dispatch => {
   fetch("/api/auth/checksession", {
     method: "GET",
@@ -215,11 +191,13 @@ export const checkSession = () => dispatch => {
     })
     .then(json => {
       if (json.username) {
-        return dispatch(sessionCheckSuccess(json));
+        console.log(json.username);
+        return dispatch({ type: CHECK_USER_SESSION, payload: json });
+      } else {
+        return dispatch({ type: CHECK_USER_SESSION, payload: null });
       }
-      return dispatch(sessionCheckFailure());
     })
-    .catch(error => dispatch(sessionCheckFailure(error)));
+    .catch(error => console.log(error));
 };
 
 export const registrationFailure = error => ({
@@ -238,35 +216,25 @@ export const loginFailure = error => ({
   error
 });
 export const loginSuccess = json => ({
-  type: "AUTHENTICATION_LOGIN_SUCCESS",
+  type: LOGIN_USER_SUCCESS,
   json
 });
 
 export function logUserIn(userData) {
   return async dispatch => {
-    // clear the error box if it's displayed
-    dispatch(clearError());
-
     // turn on spinner
     dispatch(incrementProgress());
-
     // register that a login attempt is being made
     dispatch(loginAttempt());
 
-    // contact login API
-    await fetch(
-      // where to contact
-      "/api/auth/login",
-      // what to send
-      {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "same-origin"
-      }
-    )
+    await fetch("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify(userData),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+    })
       .then(response => {
         if (response.status === 200) {
           return response.json();
@@ -275,7 +243,8 @@ export function logUserIn(userData) {
       })
       .then(json => {
         if (json) {
-          dispatch(loginSuccess(json));
+          return dispatch(loginSuccess(json));
+          // return dispatch({ type: LOGIN_USER_SUCCESS, payload: json });
         } else {
           dispatch(
             loginFailure(
@@ -341,6 +310,28 @@ export const registerUser = userData => dispatch => {
   // turn off spinner
   return dispatch(decrementProgress());
 };
+
+// export const uploadData = ({ file, userID }) => dispatch => {
+//   const storageRef = storage.ref("/user-images").child(userID);
+//   storageRef
+//     .child(file.name)
+//     .put(file, { contentType: file.type })
+//     .then(snapshoot => {
+//       axios
+//         .post("/api/user-add/user-add-image", {
+//           photoURL: snapshoot.downloadURL,
+//           userID: userID
+//         })
+//         .then(response => {
+//           dispatch({
+//             type: ADD_USER_PHOTO,
+//             payload: response.data
+//           });
+//         });
+//     })
+
+//     .catch(err => console.log(err));
+// };
 
 // export const logout = () => dispatch => {
 //   axios

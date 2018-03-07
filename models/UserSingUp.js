@@ -12,11 +12,12 @@ const UserUp = new Schema({
   // password: { type: String, select: false },
   googleId: mongoose.Schema.Types.ObjectId,
   username: String,
-  firstName: String,
-  lastName: String,
+  fullName: String,
   phone: Number,
   creditCard: Object,
-  location: Object
+  location: Object,
+  photo: String,
+  isLoggedIn: Boolean
 });
 
 UserUp.plugin(passportLocalMongoose);

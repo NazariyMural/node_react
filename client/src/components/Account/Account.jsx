@@ -6,23 +6,19 @@ import UserProfileEdit from "./UserProfileEdit/UserProfileEdit";
 
 class Account extends Component {
   renderUserData = () => {
-    // if (this.props.authentication) {
-    //   if (this.props.authentication.id) {
-    //     return <UserProfileLocal title="Lviv" />;
-    //   }
-    //   return;
-    // }
     if (this.props.auth !== null && this.props.auth !== false) {
-      return <UserProfileEdit title="Lviv" />;
+      return (
+        <section>
+          <h2>User Profile</h2>
+          <UserProfileEdit title="Lviv" />
+        </section>
+      );
+    } else if (this.props.auth === false) {
+      return <h2 style={{ textAlign: "center" }}>Join us!</h2>;
     }
   };
   render() {
-    return (
-      <div className={styles.Account}>
-        <h2>User Profile</h2>
-        {this.renderUserData()}
-      </div>
-    );
+    return <div className={styles.Account}>{this.renderUserData()}</div>;
   }
 }
 

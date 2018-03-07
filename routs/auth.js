@@ -153,7 +153,7 @@ const User = require("../models/UserSingUp");
 const router = express.Router();
 
 router.get("/checksession", (req, res) => {
-  // console.log(req.user, "current_user");
+  console.log(req.user, "current_user");
   if (req.user) {
     return res.send(JSON.stringify(req.user));
   }
@@ -161,7 +161,7 @@ router.get("/checksession", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  console.log("logout");
+  console.log("logout", req.user);
   req.logout();
   return res.send(JSON.stringify(req.user));
 });
@@ -182,7 +182,6 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  // First, check and make sure the email doesn't already exist
   const query = User.findOne({ email: req.body.email });
   const foundUser = await query.exec();
 
@@ -195,8 +194,7 @@ router.post("/register", async (req, res) => {
     const newUser = new User({
       username: req.body.username,
       email: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      fullName: req.body.fullName,
       googleId: new mongoose.Types.ObjectId(),
       password: req.body.password
     });
@@ -237,8 +235,8 @@ router.get("/google/callback", passport.authenticate("google"), (req, res) =>
 // });
 
 //current user information
-router.get("/current_user", (req, res) => {
-  res.send(req.user);
-});
+// router.get("/current_user", (req, res) => {
+//   res.send(req.user);
+// });
 
 module.exports = router;

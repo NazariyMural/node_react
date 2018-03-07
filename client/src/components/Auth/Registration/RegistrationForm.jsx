@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Label } from "reactstrap";
 
-export default class RegisterPage extends Component {
+export default class RegistrationForm extends Component {
   state = {
     email: "",
-    firstName: "",
-    lastName: "",
+    fullName: "",
     password: "",
     username: ""
   };
@@ -24,7 +22,7 @@ export default class RegisterPage extends Component {
     return (
       <div className="row justify-content-center">
         <div className="col-10 col-sm-7 col-md-5 col-lg-4">
-          <Label for="email">Email</Label>
+          <label htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
@@ -34,7 +32,7 @@ export default class RegisterPage extends Component {
             type="email"
             value={this.state.email}
           />
-          <Label for="password">Password</Label>
+          <label htmlFor="password">Password</label>
           <input
             id="password"
             minLength="8"
@@ -45,7 +43,7 @@ export default class RegisterPage extends Component {
             type="password"
             value={this.state.password}
           />
-          <Label for="username">Username</Label>
+          <label htmlFor="username">Username</label>
           <input
             id="username"
             name="username"
@@ -55,25 +53,15 @@ export default class RegisterPage extends Component {
             type="text"
             value={this.state.username}
           />
-          <Label for="firstName">First Name</Label>
+          <label htmlFor="fullName">Full Name</label>
           <input
-            id="firstName"
-            name="firstName"
-            onChange={this.handleInputChange}
-            placeholder="Jamie"
-            required
-            type="text"
-            value={this.state.firstName}
-          />
-          <Label for="lastName">Last Name</Label>
-          <input
-            id="lastName"
-            name="lastName"
+            id="fullName"
+            name="fullName"
             onChange={this.handleInputChange}
             placeholder="Smith"
             required
             type="text"
-            value={this.state.lastName}
+            value={this.state.fullName}
           />
 
           <button onClick={this.handleValidSubmit} className="btn">

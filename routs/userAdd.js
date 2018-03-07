@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-// const User = mongoose.model("users");
 const User = require("../models/UserSingUp");
 const multer = require("multer");
 const AWS = require("aws-sdk");
-const Busboy = require("busboy");
 
 router.get("/user-add", (req, res, next) => {
   User.findOne({ googleId: "112889707649724402783" })
@@ -56,11 +54,12 @@ router.post("/user-add-location", (req, res, next) => {
 });
 
 const BUCKET_NAME = "nazariymural";
-const IAM_USER_KEY = "AKIAJUG2IOXVXPHARW3Q";
-const IAM_USER_SECRET = "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";
+const IAM_USER_KEY = "AKIAJOBVYPK3RVSODIJA";
+const IAM_USER_SECRET = "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";
 
-router.post("/user-add-image", (req, res) => {
+router.post("/user-add-image", async (req, res) => {
   const file = req.files.file;
+  const userID = req.body.userID;
 
   let s3bucket = new AWS.S3({
     accessKeyId: IAM_USER_KEY,
@@ -83,8 +82,12 @@ router.post("/user-add-image", (req, res) => {
       })
       .promise()
       .then(data => {
-        return res.send(data);
-      });
+        User.findOne({ googleId: userID }).then(user => {
+          user.set("photo", data.Location);
+          user.save().then(userResult => res.send(userResult));
+        });
+      })
+      .catch(err => console.log(err));
   });
 });
 
