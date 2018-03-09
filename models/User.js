@@ -1,16 +1,34 @@
+// const mongoose = require("mongoose");
+// const { Schema } = mongoose;
+
+// const userSchema = new Schema({
+//   googleId: String,
+//   fullName: String,
+//   email: Array,
+//   photo: Array,
+//   address: String,
+//   phone: Number,
+//   creditCard: Object,
+//   location: Object,
+//   username: Array
+// });
+
+// // mongoose.model("users", userSchema);
+
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
   googleId: String,
   fullName: String,
-  email: Array,
-  photo: Array,
+  username: String,
+  email: String,
+  photo: String,
   address: String,
   phone: Number,
   creditCard: Object,
   location: Object,
-  username: Array
+  isLoggedIn: Boolean
 });
 
-// mongoose.model("users", userSchema);
+mongoose.model("users", userSchema);

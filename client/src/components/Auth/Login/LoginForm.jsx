@@ -63,12 +63,13 @@ export default class LoginPage extends Component {
             Sing Up
           </Link>
 
-          <button
+          {/* <button
             className="btn red darken-3"
             onClick={() => this.props.googleLogin()}
           >
             Log In with Google
-          </button>
+          </button> */}
+          <a href="/api/auth/google">Log In with Google</a>
         </div>
       </div>
     );

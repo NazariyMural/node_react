@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { logUserIn, googleLogin } from "../../../actions";
+import { logUserIn } from "../../../actions";
 import LoginPage from "./LoginForm";
 
 export class LoginPageContainer extends Component {
@@ -35,4 +35,4 @@ const mapStateToProps = ({ auth }) => {
   return { auth };
 };
 
-export default connect(mapStateToProps, { googleLogin })(LoginPageContainer);
+export default connect(mapStateToProps)(LoginPageContainer);

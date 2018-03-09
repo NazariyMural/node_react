@@ -12,8 +12,7 @@ import {
   ADD_USER_PHOTO,
   CHECK_USER_SESSION,
   LOGIN_USER_SUCCESS,
-  LOGOUT_SUCCESS,
-  LOGIN_WITH_GOOGLE
+  LOGOUT_SUCCESS
 } from "./types";
 
 import { decrementProgress, incrementProgress } from "./progress";
@@ -26,13 +25,13 @@ export const fetchUser = () => {
   };
 };
 
-export const googleLogin = () => {
-  return dispatch => {
-    axios
-      .get("/api/auth/google")
-      .then(res => dispatch({ type: LOGIN_WITH_GOOGLE, payload: res.data }));
-  };
-};
+// export const googleLogin = () => {
+//   return dispatch => {
+//     axios
+//       .get("/api/auth/google")
+//       .then(res => dispatch({ type: LOGIN_WITH_GOOGLE, payload: res.data }));
+//   };
+// };
 
 export const fetchData = () => {
   console.log("store actions");
@@ -218,7 +217,7 @@ export const registrationSuccess = () => ({
 export const registrationSuccessViewed = () => ({
   type: "AUTHENTICATION_REGISTRATION_SUCCESS_VIEWED"
 });
-// export const loginAttempt = () => ({ type: "AUTHENTICATION_LOGIN_ATTEMPT" });
+export const loginAttempt = () => ({ type: "AUTHENTICATION_LOGIN_ATTEMPT" });
 export const loginFailure = error => ({
   type: "AUTHENTICATION_LOGIN_FAILURE",
   error
@@ -233,7 +232,7 @@ export function logUserIn(userData) {
     // turn on spinner
     dispatch(incrementProgress());
     // register that a login attempt is being made
-    // dispatch(loginAttempt());
+    dispatch(loginAttempt());
 
     await fetch("/api/auth/login", {
       method: "POST",
@@ -264,6 +263,7 @@ export function logUserIn(userData) {
       .catch(error => {
         dispatch(loginFailure(new Error(error)));
       });
+
     // turn off spinner
     return dispatch(decrementProgress());
   };
@@ -273,7 +273,6 @@ export function logUserIn(userData) {
 export const registerUser = userData => dispatch => {
   // turn on spinner
   dispatch(incrementProgress());
-
   fetch("/api/auth/register", {
     method: "POST",
     body: JSON.stringify(userData),

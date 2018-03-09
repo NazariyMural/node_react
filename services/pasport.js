@@ -6,10 +6,12 @@ const mongoose = require("mongoose");
 const User = mongoose.model("users");
 
 passport.serializeUser((user, done) => {
+  console.log("passport servise 1");
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
+  console.log("passport servise 2");
   User.findById(id).then(user => {
     done(null, user);
   });
@@ -21,10 +23,11 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: "/google/callback",
+      callbackURL: "/api/auth/google/callback",
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log("passport servise 3");
       // console.log(refreshToken, "refreshToken")
       // console.log(accessToken, "accessToken")
       console.log(profile, "profile");
@@ -32,13 +35,12 @@ passport.use(
       if (existingUser) {
         return done(null, existingUser);
       }
-
       const user = await new User({
         googleId: profile.id,
         fullName: profile.displayName,
-        email: [profile.emails],
-        photo: [profile.photos],
-        username: [profile.emails]
+        email: profile.emails[0].value,
+        photo: profile.photos[0].value,
+        username: profile.emails[0].value
       }).save();
       done(null, user);
     }
