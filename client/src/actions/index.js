@@ -15,7 +15,6 @@ import {
   LOGOUT_SUCCESS,
   LOGIN_WITH_GOOGLE
 } from "./types";
-import { clearError } from "./error";
 
 import { decrementProgress, incrementProgress } from "./progress";
 
@@ -219,7 +218,7 @@ export const registrationSuccess = () => ({
 export const registrationSuccessViewed = () => ({
   type: "AUTHENTICATION_REGISTRATION_SUCCESS_VIEWED"
 });
-export const loginAttempt = () => ({ type: "AUTHENTICATION_LOGIN_ATTEMPT" });
+// export const loginAttempt = () => ({ type: "AUTHENTICATION_LOGIN_ATTEMPT" });
 export const loginFailure = error => ({
   type: "AUTHENTICATION_LOGIN_FAILURE",
   error
@@ -234,7 +233,7 @@ export function logUserIn(userData) {
     // turn on spinner
     dispatch(incrementProgress());
     // register that a login attempt is being made
-    dispatch(loginAttempt());
+    // dispatch(loginAttempt());
 
     await fetch("/api/auth/login", {
       method: "POST",
@@ -265,7 +264,6 @@ export function logUserIn(userData) {
       .catch(error => {
         dispatch(loginFailure(new Error(error)));
       });
-
     // turn off spinner
     return dispatch(decrementProgress());
   };
@@ -273,8 +271,6 @@ export function logUserIn(userData) {
 
 // Register a User
 export const registerUser = userData => dispatch => {
-  dispatch(clearError());
-
   // turn on spinner
   dispatch(incrementProgress());
 
@@ -319,140 +315,3 @@ export const registerUser = userData => dispatch => {
   // turn off spinner
   return dispatch(decrementProgress());
 };
-
-// export const uploadData = ({ file, userID }) => dispatch => {
-//   const storageRef = storage.ref("/user-images").child(userID);
-//   storageRef
-//     .child(file.name)
-//     .put(file, { contentType: file.type })
-//     .then(snapshoot => {
-//       axios
-//         .post("/api/user-add/user-add-image", {
-//           photoURL: snapshoot.downloadURL,
-//           userID: userID
-//         })
-//         .then(response => {
-//           dispatch({
-//             type: ADD_USER_PHOTO,
-//             payload: response.data
-//           });
-//         });
-//     })
-
-//     .catch(err => console.log(err));
-// };
-
-// export const logout = () => dispatch => {
-//   axios
-//     .get("/api/logout")
-//     .then(result => console.log(result))
-//     .catch(err => console.log(err));
-
-//   // dispatch({ type: FETCH_USER, payload: result.data });
-// };
-
-// export const uploadData = ({ file, userID }) => dispatch => {
-//   console.log(file);
-//   const fd = new FormData();
-//   fd.append("file", file, file.name);
-//   fd.append("userID", userID);
-//   axios
-//     .post("api/user-add-image", fd)
-//     .then(response => {
-//       console.log(response);
-//       // dispatch({
-//       //   type: ADD_USER_PHOTO,
-//       //   payload: response.data
-//       // });
-//     })
-//     .catch(err => console.log(err));
-// };
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-// export const putDataToCart = purchaseData => dispatch => {
-//   axios
-//     .post("/api/cart", { purchaseData })
-//     .then(res => {
-//       dispatch({ type: TO_CART, payload: res.data });
-//     })
-//     .catch(err => console.log(err));
-// };
-
-// export const getCart = id => {
-//   return dispatch => {
-//     axios
-//       .get(`/api/cart/${id}`)
-//       .then(res => {
-//         dispatch({ type: GET_CART, payload: res.data });
-//       })
-//       .catch(err => console.log(err));
-//   };
-// };
-
-// export const increaseQuantity = increaseData => dispatch => {
-//   axios
-//     .post("/api/cart/increase", { increaseData })
-//     .then(res => {
-//       dispatch({ type: INCREASE, payload: res.data });
-//     })
-//     .catch(err => console.log(err));
-// };
-
-// export const deleteFromCart = delData => dispatch => {
-//   axios
-//     .post("/api/cart/delete", { delData })
-//     .then(res => {
-//       dispatch({ type: DELETE, payload: res.data });
-//     })
-//     .catch(err => console.log(err));
-// };
-
-// export const decreaseQuantity = decreaseData => dispatch => {
-//   axios
-//     .post("/api/cart/decrease", { decreaseData })
-//     .then(res => {
-//       dispatch({ type: DECREASE, payload: res.data });
-//     })
-//     .catch(err => console.log(err));
-// };
-
-//

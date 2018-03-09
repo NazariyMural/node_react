@@ -1,4 +1,5 @@
 require("babel-register");
+const cookieSession = require("cookie-session");
 const appConfig = require("./config.js");
 const bodyParser = require("body-parser");
 const compression = require("compression");
@@ -13,13 +14,13 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const path = require("path");
 const RateLimit = require("express-rate-limit");
+const keys = require("./config/keys");
 
 const User = require("./models/UserSingUp");
 const busboy = require("connect-busboy");
 const busboyBodyParser = require("busboy-body-parser");
 
 // Route Files
-// const api = require("./routs/api/index");
 const authentication = require("./routs/auth");
 const store = require("./routs/store");
 const cart = require("./routs/cart");
@@ -56,19 +57,24 @@ if (app.get("env") === "production") {
   app.set("trust proxy", 1);
   // sessionValues.cookie.secure = true;
 }
-app.use(expressSession(sessionValues));
-console.log(sessionValues);
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+);
+// app.use(expressSession(sessionValues));
 app.use(helmet());
 app.use(passport.initialize());
 app.use(passport.session());
 
 // configure rate limiter
-const apiLimiter = new RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 50,
-  delayMs: 0 // disabled
-});
-app.use("/api/", apiLimiter);
+// const apiLimiter = new RateLimit({
+//   windowMs: 1 * 60 * 1000, // 1 minute
+//   max: 50,
+//   delayMs: 0 // disabled
+// });
+// app.use("/api/", apiLimiter);
 
 app.use("/api/auth", authentication);
 app.use("/api/store", store);
@@ -108,10 +114,8 @@ module.exports = app;
 // const passport = require("passport");
 // const compression = require("compression");
 // const cookieParser = require("cookie-parser");
-// const def = require("./routs/default");
 // const keys = require("./config/keys");
 // const bodyParser = require("body-parser");
-// const cors = require("cors");
 // mongoose.connect(keys.mongoURI);
 // const LocalStrategy = require("passport-local").Strategy;
 // const RateLimit = require("express-rate-limit");
@@ -160,12 +164,12 @@ module.exports = app;
 // /*
 //    app.use(cookieSession), app.use(passport) - це є middleware. А middleware - то означає що через нього буде проходити кожен запит.
 // */
-// // app.use(
-// //   cookieSession({
-// //     maxAge: 30 * 24 * 60 * 60 * 1000,
-// //     keys: [keys.cookieKey]
-// //   })
-// // );
+// app.use(
+//   cookieSession({
+//     maxAge: 30 * 24 * 60 * 60 * 1000,
+//     keys: [keys.cookieKey]
+//   })
+// );
 
 // // app.use(passport.initialize());
 // // app.use(passport.session());
