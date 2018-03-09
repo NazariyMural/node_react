@@ -49,7 +49,7 @@ class UserEdit extends Component {
               </form>
             ) : (
               <span className={styles.userDataItem}>
-                {this.props.auth.name ? (
+                {this.props.auth.fullName ? (
                   <div className={styles.UserDataItemText}>
                     {this.renderUserName()}
                   </div>
@@ -151,7 +151,7 @@ class UserEdit extends Component {
     event.preventDefault();
     this.props.addUserProperty({
       userID: this.props.auth.googleId,
-      name: userName
+      fullName: userName
     });
     this.setState({ editingName: false });
   };
@@ -259,7 +259,7 @@ class UserEdit extends Component {
   renderUserName() {
     const collectionClasses = ["collection"];
     collectionClasses.push(styles.Collection);
-    const name = this.props.auth.name;
+    const name = this.props.auth.fullName;
     const formatted_name = (
       <ul className={collectionClasses.join(" ")}>
         <li className="collection-item avatar">
@@ -309,8 +309,8 @@ class UserEdit extends Component {
     } else if (this.props.auth) {
       return (
         <div className={styles.UserData}>
-          {this.props.auth.img ? (
-            <img src={this.props.auth.img} alt="userPhoto" />
+          {this.props.auth.photo ? (
+            <img src={this.props.auth.photo} alt="userPhoto" />
           ) : (
             <img
               src="http://www.energogreen.com/wp-content/uploads/2017/02/profile-icon-9-grey.png"

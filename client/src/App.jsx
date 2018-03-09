@@ -15,7 +15,6 @@ import { checkSession, fetchUser } from "./actions";
 class App extends Component {
   componentWillMount() {
     this.props.checkSession();
-    // this.props.fetchUser();
   }
 
   render() {

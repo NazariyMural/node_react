@@ -136,7 +136,6 @@ export const addLocation = userData => dispatch => {
 };
 
 export const uploadData = ({ file, userID }) => dispatch => {
-  console.log(file);
   const data = new FormData();
   data.append("file", file);
   data.append("userID", userID);

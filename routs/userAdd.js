@@ -32,8 +32,8 @@ router.post("/user-add-change", (req, res, next) => {
         } else if (userData.hasOwnProperty("creditCard")) {
           user.set("creditCard", userData.creditCard);
           user.save().then(result => res.send(result));
-        } else if (userData.hasOwnProperty("name")) {
-          user.set("name", userData.name);
+        } else if (userData.hasOwnProperty("fullName")) {
+          user.set("fullName", userData.fullName);
           user.save().then(result => res.send(result));
         }
       }
