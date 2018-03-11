@@ -3,6 +3,7 @@ const router = express.Router();
 const Cart = require("../models/Cart");
 const mongoose = require("mongoose");
 const Products = require("../models/Product");
+const map = require("lodash/map");
 
 function CartClass(oldCart) {
   this.items = oldCart.items || {};
@@ -131,146 +132,39 @@ router.post("/delete-item", (req, res, next) => {
     });
 });
 
+router.post("/add-to-purchase-history", (req, res) => {
+  const products = req.body.products;
+  const userID = req.body.userID;
+  Cart.findOne({ userID: userID })
+    .then(cart => {
+      const oldUserPurchase = cart.userPurchase;
+      const newObj = Object.assign({}, oldUserPurchase, products);
+      console.log("oldUserPurchase", oldUserPurchase);
+      console.log("---------------------------------------");
+      console.log("newObj", newObj);
+      cart.set("userPurchase", newObj);
+      cart.set("userCart", {
+        items: {},
+        totalQty: 0,
+        totalPrice: 0
+      });
+      cart.save().then(result => res.send(result));
+    })
+    .catch(err => {
+      res.send(err);
+      console.log("we got an error");
+    });
+});
+
+router.get("/remove-cart/:id", (req, res) => {
+  const userID = req.params.id;
+  console.log(userID);
+  Cart.findOne({ userID: userID })
+    .then(cart => {
+      console.log(cart);
+      cart.remove().then(result => res.send(null));
+    })
+    .catch(err => res.send([]));
+});
+
 module.exports = router;
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// router.get("/api/cart/:userId", (req, res, next) => {
-//   const id = req.params.userId;
-
-//   Cart.findOne({ userID: id })
-//     .then(cart => res.send(cart))
-//     .catch(err => console.log(err));
-// });
-
-// router.post("/api/cart", (req, res, next) => {
-//   const productID = req.body.purchaseData.productID;
-//   const userID = req.body.purchaseData.userID;
-//   const photoURL = req.body.purchaseData.photoURL;
-//   const price = req.body.purchaseData.price;
-//   const name = req.body.purchaseData.name;
-
-//   const idArr = [];
-//   idArr.push(productID);
-//   Cart.findOne({ userID: userID }).then(existingCart => {
-//     if (existingCart) {
-//       existingCart.productsID.push(productID);
-//       existingCart.save();
-//     } else {
-//       const cart = new Cart({
-//         userID: userID,
-//         productsID: idArr
-//       });
-//       cart
-//         .save()
-//         .then(result => res.send(result))
-//         .catch(err => console.log(err));
-//     }
-//   });
-// });
-
-// router.post("/api/cart/increase", (req, res, next) => {
-//   const productID = req.body.increaseData.id;
-//   const userID = req.body.increaseData.userID;
-//   const idArr = [];
-//   idArr.push(productID);
-//   Cart.findOne({ userID: userID }).then(existingCart => {
-//     existingCart.productsID.push(productID);
-//     existingCart
-//       .save()
-//       .then(result => res.send(result))
-//       .catch(err => console.log(err));
-//   });
-// });
-
-// router.post("/api/cart/delete", (req, res, next) => {
-//   const productID = req.body.delData.id;
-//   const userID = req.body.delData.userID;
-//   Cart.findOne({ userID: userID }).then(existingCart => {
-//     let filtered = existingCart.productsID.filter(el => {
-//       if (el !== productID) {
-//         return el;
-//       }
-//     });
-//     existingCart.productsID = filtered;
-//     existingCart
-//       .save()
-//       .then(result => res.send(result))
-//       .catch(err => console.log(err));
-//   });
-// });
-
-// router.post("/api/cart/decrease", (req, res, next) => {
-//   const productID = req.body.decreaseData.id;
-//   const userID = req.body.decreaseData.userID;
-//   Cart.findOne({ userID: userID }).then(existingCart => {
-//     existingCart.productsID.splice(productID, 1);
-//     existingCart
-//       .save()
-//       .then(result => res.send(result))
-//       .catch(err => console.log(err));
-//   });
-// });

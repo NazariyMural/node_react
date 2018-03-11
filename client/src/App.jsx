@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-// import Landing from "./components/Landing/Landing";
 import Store from "./components/Store/Store";
 import Header from "./components/Header/Header";
 import Login from "./components/Auth/Login/LogIn";
@@ -16,9 +15,7 @@ class App extends Component {
   componentWillMount() {
     this.props.checkSession();
   }
-
   render() {
-    console.log(this.props.progress);
     return (
       <MuiThemeProvider>
         <div>
@@ -31,10 +28,10 @@ class App extends Component {
               />
               <div className="container">
                 <Switch>
+                  <Route path="/login" component={Login} />
                   <Route path="/cart" component={Cart} />
                   <Route path="/store" component={Store} />
                   <Route path="/account" component={Account} />
-                  <Route path="/login" component={Login} />
                   <Route path="/register" component={Registration} />
                 </Switch>
               </div>
@@ -46,8 +43,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ progress }) => {
-  return { progress };
+const mapStateToProps = ({ auth, progress }) => {
+  return { auth, progress };
 };
 
 export default connect(mapStateToProps, { checkSession, fetchUser })(App);

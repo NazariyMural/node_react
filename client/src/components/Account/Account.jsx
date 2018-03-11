@@ -2,15 +2,24 @@ import React, { Component } from "react";
 import styles from "./Account.css";
 import { connect } from "react-redux";
 import UserProfileEdit from "./UserProfileEdit/UserProfileEdit";
-// import UserProfileLocal from "./UserProfileLocal/UserProfileLocal";
+import PurchaseHistory from "../Notification/PurchaseHistory/PurchaseHistory";
+import { getCart } from "../../actions";
 
 class Account extends Component {
   renderUserData = () => {
     if (this.props.auth !== null && this.props.auth !== false) {
+      //Get updated cart after deleating all items
+      this.props.getCart(this.props.auth.googleId);
       return (
-        <section>
-          <h2>User Profile</h2>
-          <UserProfileEdit title="Lviv" />
+        <section className={styles.AccountContainer}>
+          <div className={styles.UserProfile}>
+            <h2>User Profile</h2>
+            <UserProfileEdit title="Lviv" />
+          </div>
+
+          <div className={styles.UserHistory}>
+            <PurchaseHistory />
+          </div>
         </section>
       );
     } else if (this.props.auth === false) {
@@ -22,8 +31,8 @@ class Account extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, authentication }) => {
-  return { auth, authentication };
+const mapStateToProps = ({ auth }) => {
+  return { auth };
 };
 
-export default connect(mapStateToProps)(Account);
+export default connect(mapStateToProps, { getCart })(Account);

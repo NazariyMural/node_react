@@ -12,7 +12,9 @@ import {
   ADD_USER_PHOTO,
   CHECK_USER_SESSION,
   LOGIN_USER_SUCCESS,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  ADD_TO_PURCHASE_HISTORY,
+  REMOVE_CART
 } from "./types";
 
 import { decrementProgress, incrementProgress } from "./progress";
@@ -57,6 +59,19 @@ export const getCart = userID => {
   };
 };
 
+export const removeCart = userID => {
+  console.log(userID);
+  return dispatch => {
+    axios
+      .get(`/api/cart/remove-cart/${userID}`)
+      .then(res => {
+        console.log(res.data);
+        dispatch({ type: REMOVE_CART, payload: res.data });
+      })
+      .catch(err => err);
+  };
+};
+
 export const addToCart = addToCartData => {
   return dispatch => {
     axios
@@ -66,6 +81,20 @@ export const addToCart = addToCartData => {
       })
       .then(res => {
         dispatch({ type: ADD_TO_CART, payload: res.data });
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const handlePurchaseSubmit = ({ products, userID }) => {
+  return dispatch => {
+    axios
+      .post("/api/cart/add-to-purchase-history", {
+        products,
+        userID
+      })
+      .then(res => {
+        dispatch({ type: ADD_TO_PURCHASE_HISTORY, payload: res.data });
       })
       .catch(err => console.log(err));
   };

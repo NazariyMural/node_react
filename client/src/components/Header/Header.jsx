@@ -31,9 +31,7 @@ class Header extends Component {
     } else {
       return (
         <li>
-          {/* <p href="/">Loading...</p>
-         */}
-          <a href="/api/auth/google">Log In with Google</a>
+          <p href="/">Loading...</p>
         </li>
       );
     }

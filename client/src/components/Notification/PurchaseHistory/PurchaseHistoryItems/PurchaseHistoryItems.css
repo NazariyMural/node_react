@@ -1,0 +1,21 @@
+.History {
+  width: 350px;
+}
+
+.HistoryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e7e7e7;
+  padding: 10px;
+}
+
+.HistoryItem:hover {
+  cursor: pointer;
+  background-color: #f2f2f2;
+}
+
+.HistoryImage {
+  width: 50px;
+  height: 65px;
+}

@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.UserProfile {
+  width: 50%;
+}
+
 .Account .UserDataList {
   display: inline-flex;
   flex-direction: column;
@@ -12,4 +16,9 @@
 .Account .UserDataList img {
   width: 250px;
   height: 350px;
+}
+
+.AccountContainer {
+  display: flex;
+  flex-direction: row;
 }
