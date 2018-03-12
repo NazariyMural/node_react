@@ -42,7 +42,7 @@ class Header extends Component {
       <nav className={styles.Header}>
         <div className="nav-wrapper">
           <NavLink
-            to={this.props.auth ? "/store" : "/"}
+            to={this.props.auth ? "/account" : "/login"}
             className="left brand-logo"
           >
             Eliftech Market
@@ -62,7 +62,7 @@ class Header extends Component {
             </li> */}
 
             <li>
-              <NavLink to="/store">Store</NavLink>
+              <NavLink to="/">Home</NavLink>
             </li>
             <li>
               <NavLink to="/account">Account</NavLink>

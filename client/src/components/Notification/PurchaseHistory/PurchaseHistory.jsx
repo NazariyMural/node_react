@@ -22,7 +22,7 @@ class PurchaseHistory extends Component {
     } else {
       return (
         <div>
-          <h3>Your haven't any purchase yet! Buy something...</h3>
+          <h3>You are haven't any purchase yet! Buy something...</h3>
         </div>
       );
     }

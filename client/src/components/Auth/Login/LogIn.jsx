@@ -22,10 +22,7 @@ export class LoginPageContainer extends Component {
     }
     return (
       <div>
-        <LoginPage
-          loginFunction={this.logUserInFunction}
-          googleLogin={this.props.googleLogin}
-        />
+        <LoginPage loginFunction={this.logUserInFunction} />
       </div>
     );
   }

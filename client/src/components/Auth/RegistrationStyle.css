@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  background-color: #f0f0eb;
 }
 .FormContainer .FormWrapper {
   margin: 0 auto;
@@ -12,4 +13,25 @@
   min-width: 350px;
   box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.75);
   border-radius: 5px;
+}
+.LoginBtnGroupe {
+  display: flex;
+  padding: 10px 0;
+  justify-content: space-between;
+  align-items: center;
+}
+.LogoImg {
+  width: 120px;
+  height: 100px;
+  transform: scale(1.4);
+}
+
+.SingUpGroupe {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.SingUpGroupe h6 {
+  margin: 12px;
 }

@@ -53,13 +53,14 @@ router.post("/user-add-location", (req, res, next) => {
     .catch(err => console.log(err, "router store error"));
 });
 
-const BUCKET_NAME = "nazariymural";
-const IAM_USER_KEY = "AKIAJOBVYPK3RVSODIJA";
-const IAM_USER_SECRET = "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";
+const BUCKET_NAME = "elifftech";
+const IAM_USER_KEY = "AKIAIDKH3AYXJTEEOYXA";
+const IAM_USER_SECRET = "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";
 
 router.post("/user-add-image", async (req, res) => {
   const file = req.files.file;
   const userID = req.body.userID;
+  console.log(req.body.userID);
 
   let s3bucket = new AWS.S3({
     accessKeyId: IAM_USER_KEY,
@@ -82,6 +83,7 @@ router.post("/user-add-image", async (req, res) => {
       })
       .promise()
       .then(data => {
+        console.log(data);
         User.findOne({ googleId: userID }).then(user => {
           user.set("photo", data.Location);
           user.save().then(userResult => res.send(userResult));

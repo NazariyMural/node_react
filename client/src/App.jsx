@@ -26,13 +26,13 @@ class App extends Component {
                 color={"#123abc"}
                 loading={this.props.progress > 0}
               />
-              <div className="container">
+              <div>
                 <Switch>
                   <Route path="/login" component={Login} />
                   <Route path="/cart" component={Cart} />
-                  <Route path="/store" component={Store} />
                   <Route path="/account" component={Account} />
                   <Route path="/register" component={Registration} />
+                  <Route path="/" component={Store} />
                 </Switch>
               </div>
             </div>

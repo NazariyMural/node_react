@@ -39,6 +39,7 @@ export default (state = null, action) => {
       checkSesionState.isLoggedIn = true;
       checkSesionState.username = action.payload.username;
       checkSesionState.email = action.payload.email;
+      checkSesionState.creditCard = action.payload.creditCard;
       if (action.payload.photo) {
         checkSesionState.photo = action.payload.photo;
       }
@@ -58,6 +59,7 @@ export default (state = null, action) => {
       newState.id = action.json._id;
       newState.isLoggedIn = true;
       newState.username = action.json.username;
+      newState.creditCard = action.json.creditCard;
       newState.email = action.json.email;
       if (action.json.photo) {
         newState.photo = action.json.photo;

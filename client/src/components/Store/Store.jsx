@@ -76,7 +76,7 @@ class Store extends Component {
   };
   render() {
     return (
-      <div>
+      <div className="container">
         <div>Store</div>
         <ul>{this.renderProductsHandler()}</ul>
       </div>

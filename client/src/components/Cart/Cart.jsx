@@ -110,20 +110,22 @@ class Cart extends Component {
 
   render() {
     return (
-      <div className={styles.Cart}>
-        <table className="striped bordered">
-          <thead>
-            <tr>
-              <th />
-              <th>Name</th>
-              <th>Price</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>{this.renderData()}</tbody>
-        </table>
-        <CartDataAmount />
-        <br />
+      <div className="container">
+        <div className={styles.Cart}>
+          <table className="striped bordered">
+            <thead>
+              <tr>
+                <th />
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>{this.renderData()}</tbody>
+          </table>
+          <CartDataAmount />
+          <br />
+        </div>
       </div>
     );
   }

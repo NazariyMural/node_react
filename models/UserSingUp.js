@@ -10,7 +10,7 @@ const UserUp = new Schema({
     match: /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   },
   // password: { type: String, select: false },
-  googleId: mongoose.Schema.Types.ObjectId,
+  googleId: String,
   username: String,
   fullName: String,
   phone: Number,

@@ -42,3 +42,8 @@
   color: #2bbbad;
   background-color: rgb(252, 252, 252);
 }
+.UserDataItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+}

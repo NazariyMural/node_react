@@ -14,20 +14,21 @@ class UserEdit extends Component {
   state = {
     editingPhone: false,
     editingAddress: false,
-    editingName: false
+    editingName: false,
+    editingCard: false
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.editingPhone) {
-      this.refs.phone.focus();
-    }
-    if (this.state.editingAddress) {
-      this.refs.address.focus();
-    }
-    if (this.state.editingName) {
-      this.refs.userName.focus();
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.state.editingPhone) {
+  //     this.refs.phone.focus();
+  //   }
+  //   if (this.state.editingAddress) {
+  //     this.refs.address.focus();
+  //   }
+  //   if (this.state.editingName) {
+  //     this.refs.userName.focus();
+  //   }
+  // }
 
   renderDisplay = () => {
     return (
@@ -48,7 +49,7 @@ class UserEdit extends Component {
                 </button>
               </form>
             ) : (
-              <span className={styles.userDataItem}>
+              <span className={styles.UserDataItem}>
                 {this.props.auth.fullName ? (
                   <div className={styles.UserDataItemText}>
                     {this.renderUserName()}
@@ -59,10 +60,8 @@ class UserEdit extends Component {
           </li>
 
           <li>
-            <div className={styles.userDataItem}>
-              <div className={styles.UserDataItemText}>
-                {this.renderUserEmail()}
-              </div>
+            <div className={styles.UserDataItemText}>
+              {this.renderUserEmail()}
             </div>
           </li>
 
@@ -81,13 +80,13 @@ class UserEdit extends Component {
                 </button>
               </form>
             ) : (
-              <span className={styles.userDataItem}>
+              <span className={styles.UserDataItem}>
                 {this.props.auth.phone ? (
                   <div className={styles.UserDataItemText}>
                     {this.renderUserPhone()}
                   </div>
                 ) : (
-                  <span className={styles.UserDataItemText}>
+                  <span className={styles.UserAddItemText}>
                     Add phone number{" "}
                     <i
                       className="material-icons"
@@ -116,7 +115,7 @@ class UserEdit extends Component {
                 </button>
               </form>
             ) : (
-              <div className={styles.userDataItem}>
+              <div className={styles.UserDataItem}>
                 {this.props.auth.location ? (
                   <div>{this.renderUserLocation()}</div>
                 ) : (
@@ -131,6 +130,38 @@ class UserEdit extends Component {
                   </span>
                 )}
               </div>
+            )}
+          </li>
+
+          <li>
+            {this.state.editingCard ? (
+              <form onSubmit={this.handleSubmitCard} className={styles.Form}>
+                <input type="text" ref="card" />
+                <button className="btn waves-effect waves-light" type="submit">
+                  Submit
+                </button>
+                <button
+                  className="btn waves-effect waves-light"
+                  onClick={() => this.setState({ editingCard: false })}
+                >
+                  Cancel
+                </button>
+              </form>
+            ) : (
+              <span className={styles.UserDataItem}>
+                {this.props.auth.creditCard ? (
+                  <div className={styles.UserDataItemText}>
+                    {this.renderUserCard()}
+                  </div>
+                ) : (
+                  <span className={styles.UserAddItemText}>
+                    Add your credit card{" "}
+                    <i className="material-icons" onClick={this.handleCardEdit}>
+                      credit_card
+                    </i>
+                  </span>
+                )}
+              </span>
             )}
           </li>
         </ul>
@@ -195,6 +226,25 @@ class UserEdit extends Component {
   };
   //end
 
+  //card handler
+  handleCardEdit = () => {
+    this.setState({ editingCard: true });
+  };
+  handleSubmitCard = event => {
+    let card = this.refs.card.value;
+    if (!card) {
+      this.setState({ editingCard: false });
+      return;
+    }
+    event.preventDefault();
+    this.props.addUserProperty({
+      userID: this.props.auth.googleId,
+      creditCard: card
+    });
+    this.setState({ editingCard: false });
+  };
+  //end
+
   renderForm() {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -254,6 +304,27 @@ class UserEdit extends Component {
       </ul>
     );
     return formatted_phone;
+  }
+
+  renderUserCard() {
+    const collectionClasses = ["collection"];
+    collectionClasses.push(styles.Collection);
+    const card = this.props.auth.creditCard;
+    const formatted_card = (
+      <ul className={collectionClasses.join(" ")}>
+        <li className="collection-item avatar">
+          <i className="material-icons circle">phone_iphone</i>
+          <span className="title">Card number:</span>
+          <p>{card}</p>
+          <a href="#!" className="secondary-content">
+            <i className="material-icons" onClick={this.handleCardEdit}>
+              mode_edit
+            </i>
+          </a>
+        </li>
+      </ul>
+    );
+    return formatted_card;
   }
 
   renderUserName() {
