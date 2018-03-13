@@ -1,0 +1,21 @@
+.Compare {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+.Compare img {
+  width: 31px;
+  height: 30px;
+}
+.Compare span.Badge {
+  position: absolute;
+  display: inline-block;
+  top: 10px;
+  left: 18px;
+  padding: 0;
+  background-color: blueviolet;
+}
+
+.Compare:hover i {
+  color: #313131;
+}

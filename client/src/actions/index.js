@@ -14,7 +14,9 @@ import {
   LOGIN_USER_SUCCESS,
   LOGOUT_SUCCESS,
   ADD_TO_PURCHASE_HISTORY,
-  REMOVE_CART
+  REMOVE_CART,
+  ADD_TO_COMPARE,
+  GET_COMPARISON
 } from "./types";
 
 import { decrementProgress, incrementProgress } from "./progress";
@@ -60,7 +62,6 @@ export const getCart = userID => {
 };
 
 export const removeCart = userID => {
-  console.log(userID);
   return dispatch => {
     axios
       .get(`/api/cart/remove-cart/${userID}`)
@@ -81,6 +82,33 @@ export const addToCart = addToCartData => {
       })
       .then(res => {
         dispatch({ type: ADD_TO_CART, payload: res.data });
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const getComparison = userID => {
+  console.log(userID);
+  return dispatch => {
+    axios
+      .get(`/api/compare/${userID}`)
+      .then(res => {
+        dispatch({ type: GET_COMPARISON, payload: res.data });
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const addToCompare = addToCompareData => {
+  console.log(addToCompareData);
+  return dispatch => {
+    axios
+      .post("/api/compare/add-to-compare", {
+        productId: addToCompareData.productId,
+        userID: addToCompareData.userID
+      })
+      .then(res => {
+        dispatch({ type: ADD_TO_COMPARE, payload: res.data });
       })
       .catch(err => console.log(err));
   };

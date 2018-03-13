@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { NavLink, Redirect } from "react-router-dom";
 import { logUserOut } from "../../actions";
 import CartHeaderNotification from "../Notification/CartDataAmount/CartHeaderItem/CartHeaderItem";
+import CompareHeaderNotification from "../Notification/CompareHeaderNotification/CompareHeaderNotification";
 
 class Header extends Component {
   logOutClick = e => {
@@ -49,23 +50,20 @@ class Header extends Component {
           </NavLink>
 
           <ul className="right">
-            {/* <li>
-              <NavLink exact to="/login">
-                Login
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink exact to="/register">
-                Register
-              </NavLink>
-            </li> */}
-
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
             <li>
               <NavLink to="/account">Account</NavLink>
+            </li>
+            <li className={styles.HeaderListItem}>
+              <NavLink to="/compare" className={styles.HeaderListNav}>
+                Compare
+                <CompareHeaderNotification
+                  comparison={this.props.comparison}
+                  auth={this.props.auth}
+                />
+              </NavLink>
             </li>
             <li className={styles.HeaderListItem}>
               <NavLink to="/cart" className={styles.HeaderListNav}>

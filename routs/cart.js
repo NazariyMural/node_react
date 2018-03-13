@@ -56,9 +56,6 @@ router.post("/add-to-cart/", (req, res, next) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
 
-  // 5a92c284a5228d2c4caaa4fd
-  // 112889707649724402783
-
   Cart.findOne({ userID: userID })
     .then(existingCart => {
       if (existingCart) {

@@ -26,6 +26,7 @@ const authentication = require("./routs/auth");
 const store = require("./routs/store");
 const cart = require("./routs/cart");
 const userAdd = require("./routs/userAdd");
+const compare = require("./routs/compare");
 
 const app = express();
 app.use(busboy());
@@ -77,6 +78,7 @@ app.use("/api/auth", authentication);
 app.use("/api/store", store);
 app.use("/api/cart", cart);
 app.use("/api/user-add", userAdd);
+app.use("/api/compare", compare);
 
 // Configure Passport
 passport.use(new LocalStrategy(User1.authenticate()));
