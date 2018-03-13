@@ -6,6 +6,7 @@ import Login from "./components/Auth/Login/LogIn";
 import Registration from "./components/Auth/Registration/RegistrationContainer";
 import Account from "./components/Account/Account";
 import Cart from "./components/Cart/Cart";
+import PurchaseHistoryItem from "./components/Notification/PurchaseHistory/PurchaseHistoryItems/PurchaseHistoryItem/PurchaseHistoryItem";
 import { connect } from "react-redux";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { PropagateLoader } from "react-spinners";
@@ -30,6 +31,10 @@ class App extends Component {
                 <Switch>
                   <Route path="/login" component={Login} />
                   <Route path="/cart" component={Cart} />
+                  <Route
+                    path="/account/purchase/:id"
+                    component={PurchaseHistoryItem}
+                  />
                   <Route path="/account" component={Account} />
                   <Route path="/register" component={Registration} />
                   <Route path="/" component={Store} />

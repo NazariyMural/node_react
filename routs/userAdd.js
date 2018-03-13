@@ -54,8 +54,8 @@ router.post("/user-add-location", (req, res, next) => {
 });
 
 const BUCKET_NAME = "elifftech";
-const IAM_USER_KEY = "AKIAIDKH3AYXJTEEOYXA";
-const IAM_USER_SECRET = "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";
+const IAM_USER_KEY = "AKIAJNMNMZEYOGDBD2TA";
+const IAM_USER_SECRET = "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";
 
 router.post("/user-add-image", async (req, res) => {
   const file = req.files.file;

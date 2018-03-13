@@ -4,6 +4,7 @@ const Cart = require("../models/Cart");
 const mongoose = require("mongoose");
 const Products = require("../models/Product");
 const map = require("lodash/map");
+const moment = require("moment");
 
 function CartClass(oldCart) {
   this.items = oldCart.items || {};
@@ -135,14 +136,20 @@ router.post("/delete-item", (req, res, next) => {
 router.post("/add-to-purchase-history", (req, res) => {
   const products = req.body.products;
   const userID = req.body.userID;
+  const totalPrice = req.body.totalPrice;
+  const currentTime = moment().format("MMM Do YY, h:mm:ss a");
+  const _purchaseId = new mongoose.Types.ObjectId();
+
+  const currentPurchase = {
+    [_purchaseId]: {
+      currentTime: currentTime,
+      products: products,
+      totalPrice: totalPrice
+    }
+  };
   Cart.findOne({ userID: userID })
     .then(cart => {
-      const oldUserPurchase = cart.userPurchase;
-      const newObj = Object.assign({}, oldUserPurchase, products);
-      console.log("oldUserPurchase", oldUserPurchase);
-      console.log("---------------------------------------");
-      console.log("newObj", newObj);
-      cart.set("userPurchase", newObj);
+      cart.userPurchase.push(currentPurchase);
       cart.set("userCart", {
         items: {},
         totalQty: 0,
@@ -155,6 +162,30 @@ router.post("/add-to-purchase-history", (req, res) => {
       console.log("we got an error");
     });
 });
+
+// router.post("/add-to-purchase-history", (req, res) => {
+//   const products = req.body.products;
+//   const userID = req.body.userID;
+//   Cart.findOne({ userID: userID })
+//     .then(cart => {
+//       const oldUserPurchase = cart.userPurchase;
+//       const newObj = Object.assign({}, oldUserPurchase, products);
+//       console.log("oldUserPurchase", oldUserPurchase);
+//       console.log("---------------------------------------");
+//       console.log("newObj", newObj);
+//       cart.set("userPurchase", newObj);
+//       cart.set("userCart", {
+//         items: {},
+//         totalQty: 0,
+//         totalPrice: 0
+//       });
+//       cart.save().then(result => res.send(result));
+//     })
+//     .catch(err => {
+//       res.send(err);
+//       console.log("we got an error");
+//     });
+// });
 
 router.get("/remove-cart/:id", (req, res) => {
   const userID = req.params.id;

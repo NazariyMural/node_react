@@ -1,0 +1,16 @@
+.Tbody tr td img {
+  height: 120px;
+  width: 80px;
+}
+.Price {
+  text-align: center;
+}
+
+.NavLinks {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+.NavLinks a {
+  margin: 0 10px;
+}

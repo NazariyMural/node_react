@@ -18,17 +18,20 @@ class UserEdit extends Component {
     editingCard: false
   };
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.editingPhone) {
-  //     this.refs.phone.focus();
-  //   }
-  //   if (this.state.editingAddress) {
-  //     this.refs.address.focus();
-  //   }
-  //   if (this.state.editingName) {
-  //     this.refs.userName.focus();
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.editingPhone) {
+      this.refs.phone.focus();
+    }
+    if (this.state.editingAddress) {
+      this.refs.address.focus();
+    }
+    if (this.state.editingCard) {
+      this.refs.card.focus();
+    }
+    if (this.state.editingName) {
+      this.refs.userName.focus();
+    }
+  }
 
   renderDisplay = () => {
     return (

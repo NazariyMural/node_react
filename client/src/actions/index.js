@@ -86,12 +86,13 @@ export const addToCart = addToCartData => {
   };
 };
 
-export const handlePurchaseSubmit = ({ products, userID }) => {
+export const handlePurchaseSubmit = ({ products, userID, totalPrice }) => {
   return dispatch => {
     axios
       .post("/api/cart/add-to-purchase-history", {
         products,
-        userID
+        userID,
+        totalPrice
       })
       .then(res => {
         dispatch({ type: ADD_TO_PURCHASE_HISTORY, payload: res.data });

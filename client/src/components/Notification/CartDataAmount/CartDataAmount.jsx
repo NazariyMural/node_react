@@ -30,7 +30,8 @@ class CartDataAmount extends Component {
               onClick={() =>
                 this.props.handlePurchaseSubmit({
                   products: userCart.items,
-                  userID: this.props.cart.userID
+                  userID: this.props.cart.userID,
+                  totalPrice: userCart.totalPrice
                 })
               }
             >
