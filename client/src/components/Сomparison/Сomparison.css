@@ -1,0 +1,37 @@
+.ProductList {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+/* .Tbody tr td img {
+  height: 120px;
+  width: 80px;
+}
+.Price {
+  text-align: center;
+}
+
+.NavLinks {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+.NavLinks a {
+  margin: 0 10px;
+} */
+
+.TableList {
+  margin: 0;
+  padding: 0;
+}
+
+.TableImg {
+  height: 150px;
+}
+
+.Table {
+  table-layout: fixed;
+}
+.Table td {
+  overflow: visible;
+}

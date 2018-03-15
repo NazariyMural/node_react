@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const User = require("../models/UserSingUp");
 const multer = require("multer");
 const AWS = require("aws-sdk");
+const appConfig = require("../config/keys");
 
 router.get("/user-add", (req, res, next) => {
   User.findOne({ googleId: "112889707649724402783" })
@@ -53,19 +54,15 @@ router.post("/user-add-location", (req, res, next) => {
     .catch(err => console.log(err, "router store error"));
 });
 
-const BUCKET_NAME = "elifftech";
-const IAM_USER_KEY = "AKIAJNMNMZEYOGDBD2TA";
-const IAM_USER_SECRET = "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";
-
 router.post("/user-add-image", async (req, res) => {
   const file = req.files.file;
   const userID = req.body.userID;
   console.log(req.body.userID);
 
   let s3bucket = new AWS.S3({
-    accessKeyId: IAM_USER_KEY,
-    secretAccessKey: IAM_USER_SECRET,
-    Bucket: BUCKET_NAME
+    accessKeyId: appConfig.IAM_USER_KEY,
+    secretAccessKey: appConfig.IAM_USER_SECRET,
+    Bucket: appConfig.BUCKET_NAME
   });
   s3bucket.createBucket(() => {
     const params = {

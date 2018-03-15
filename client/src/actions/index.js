@@ -16,7 +16,8 @@ import {
   ADD_TO_PURCHASE_HISTORY,
   REMOVE_CART,
   ADD_TO_COMPARE,
-  GET_COMPARISON
+  GET_COMPARISON,
+  DELETE_ITEM_FROM_COMPARE
 } from "./types";
 
 import { decrementProgress, incrementProgress } from "./progress";
@@ -38,7 +39,6 @@ export const fetchUser = () => {
 // };
 
 export const fetchData = () => {
-  console.log("store actions");
   return dispatch => {
     axios
       .get("/api/store/store")
@@ -88,7 +88,6 @@ export const addToCart = addToCartData => {
 };
 
 export const getComparison = userID => {
-  console.log(userID);
   return dispatch => {
     axios
       .get(`/api/compare/${userID}`)
@@ -109,6 +108,21 @@ export const addToCompare = addToCompareData => {
       })
       .then(res => {
         dispatch({ type: ADD_TO_COMPARE, payload: res.data });
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const deleteFromCompare = deleteItemData => {
+  console.log(deleteItemData);
+  return dispatch => {
+    axios
+      .post("/api/compare/delete-item", {
+        productId: deleteItemData.productId,
+        userID: deleteItemData.userID
+      })
+      .then(res => {
+        dispatch({ type: DELETE_ITEM_FROM_COMPARE, payload: res.data });
       })
       .catch(err => console.log(err));
   };

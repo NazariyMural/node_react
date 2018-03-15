@@ -67,34 +67,25 @@ router.post("/add-to-compare", (req, res, next) => {
     });
 });
 
-// router.post("/delete-item", (req, res, next) => {
-//   const productId = req.body.productId;
-//   const userID = req.body.userID;
+router.post("/delete-item", (req, res, next) => {
+  const productId = req.body.productId;
+  const userID = req.body.userID;
 
-//   Compare.findOne({ userID: userID })
-//     .then(existingCart => {
-//       let cart = new CartClass(existingCart.userCart);
-//       Products.findById(productId).then(product => {
-//         cart.deleteItem(product._id);
-//         existingCart.set("userCart", cart);
-//         existingCart.save().then(result => res.send(result));
-//       });
-//     })
-//     .catch(err => {
-//       res.send(err);
-//       console.log("we got an error");
-//     });
-// });
+  console.log(userID, productId);
 
-// router.get("/remove-cart/:id", (req, res) => {
-//   const userID = req.params.id;
-//   console.log(userID);
-//   Compare.findOne({ userID: userID })
-//     .then(cart => {
-//       console.log(cart);
-//       cart.remove().then(result => res.send(null));
-//     })
-//     .catch(err => res.send([]));
-// });
+  Compare.findOne({ userID: userID })
+    .then(existingComparison => {
+      let compare = new CompareClass(existingComparison.userCompare);
+      Products.findById(productId).then(product => {
+        compare.deleteItem(product._id);
+        existingComparison.set("userCompare", compare);
+        existingComparison.save().then(result => res.send(result));
+      });
+    })
+    .catch(err => {
+      res.send(err);
+      console.log("we got an error");
+    });
+});
 
 module.exports = router;
