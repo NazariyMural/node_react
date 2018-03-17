@@ -32,10 +32,10 @@ const PurchaseHistoryItem = props => {
               return (
                 <tr key={key}>
                   <td>{product.item.name}</td>
-                  <td>{product.price}</td>
+                  <td>${product.price}</td>
                   <td>{product.qty}</td>
                   <td>
-                    <img src={product.item.img[0]} alt={product.item.name} />
+                    <img src={product.item.images} alt={product.item.name} />
                   </td>
                 </tr>
               );

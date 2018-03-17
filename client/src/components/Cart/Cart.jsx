@@ -56,13 +56,13 @@ class Cart extends Component {
         <tr key={item.item._id}>
           <td>
             <img
-              src={item.item.img[0]}
+              src={item.item.images}
               alt="data"
               className={styles.CartImage}
             />
           </td>
           <td>{item.item.name}</td>
-          <td>{item.price}</td>
+          <td>${item.price}</td>
           <td>{item.qty}</td>
           <td className={styles.CartTdIconItem}>
             <span

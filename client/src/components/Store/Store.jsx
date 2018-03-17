@@ -36,16 +36,18 @@ class Store extends Component {
     } else {
       let products = this.props.products;
       data = map(products, (product, key) => {
+        console.log(product.active);
         return (
           <li key={product._id} className={styles.Prodoct_Item}>
             <span>{product.category}</span>
             <img
-              src={product.img[0]}
+              src={product.images}
               alt="product"
               className={styles.Product_Image}
             />
             <span>{product.name}</span>
-            <span>{product.price}</span>
+            <span>${product.price}</span>
+            <span>{!product.active ? "Product is over" : null}</span>
             <span className={styles.CompareContainer}>
               <img
                 className={styles.CompareItem}

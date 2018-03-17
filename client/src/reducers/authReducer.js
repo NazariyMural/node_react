@@ -30,7 +30,7 @@ export default (state = null, action) => {
       return { ...action.payload };
     }
     case CHECK_USER_SESSION: {
-      console.log("action.payload", action.payload);
+      // console.log("action.payload", action.payload);
       if (!action.payload) {
         return false;
       }

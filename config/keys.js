@@ -7,5 +7,6 @@ module.exports = {
   stripePublishableKey: "pk_test_HAybvWtORYs4fgFprV6oBYEW",
   stripeSecretKey: "sk_test_PdwwXirEsLOnofIJpuReSFMV",
   IAM_USER_KEY: "AKIAJNMNMZEYOGDBD2TA",
-  IAM_USER_SECRET: "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"
+  IAM_USER_SECRET: "fdueFIvXyBT++XzFIMwuryALJb76PCOPkNSVx0S8",
+  BUCKET_NAME: "elifftech"
 };

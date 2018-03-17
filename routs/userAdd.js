@@ -66,7 +66,7 @@ router.post("/user-add-image", async (req, res) => {
   });
   s3bucket.createBucket(() => {
     const params = {
-      Bucket: BUCKET_NAME,
+      Bucket: appConfig.BUCKET_NAME,
       Key: file.name,
       Body: file.data,
       ACL: "public-read"

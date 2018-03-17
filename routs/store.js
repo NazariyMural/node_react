@@ -8,6 +8,7 @@ router.get("/store", (req, res, next) => {
   Product.find()
     .then(data => {
       res.send(data);
+      console.log(data);
     })
     .catch(err => console.log(err, "router store error"));
 });
