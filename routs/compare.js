@@ -30,8 +30,6 @@ router.post("/add-to-compare", (req, res, next) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
 
-  console.log(productId);
-
   Compare.findOne({ userID: userID })
     .then(existingСomparison => {
       if (existingСomparison) {
@@ -70,8 +68,6 @@ router.post("/add-to-compare", (req, res, next) => {
 router.post("/delete-item", (req, res, next) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
-
-  console.log(userID, productId);
 
   Compare.findOne({ userID: userID })
     .then(existingComparison => {

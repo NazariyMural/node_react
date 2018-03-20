@@ -1,0 +1,67 @@
+.ProductList {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.TableList {
+  margin: 0;
+  padding: 0;
+}
+
+.TableImages {
+  height: 150px;
+}
+
+.TableTags {
+  background: rgb(133, 139, 139);
+  color: aliceblue;
+  padding: 2px 10px;
+  margin: 0 2px;
+  border-radius: 10px;
+}
+.TableItem {
+  display: inline-flex;
+  flex-direction: column;
+}
+.TableKey {
+  border-right: 1px solid #c2c2c2;
+}
+.IconCont {
+  position: relative;
+}
+.IconCont .Cart {
+  vertical-align: middle;
+  height: 30px;
+  padding: 3px 20px 3px 20px;
+  border-radius: 4px;
+  transition: all 250ms ease-out;
+  position: absolute;
+  left: 46%;
+  top: 10px;
+  border: 1px solid transparent;
+}
+
+.IconCont .Cart:hover {
+  cursor: pointer;
+  color: #00f000;
+  border: 1px solid #227900;
+}
+
+.IconCont span {
+  display: inline-block;
+  margin: 30px 0 20px 0;
+}
+.IconCont .DelComp {
+  position: absolute;
+  right: 0;
+  transition: all 250ms ease-out;
+  border-radius: 50%;
+  border: 1px solid #d5d5d5;
+  padding: 3px;
+}
+.IconCont .DelComp:hover {
+  color: #f2f2f2;
+  cursor: pointer;
+  background-color: #e65959;
+  border: 1px solid transparent;
+}

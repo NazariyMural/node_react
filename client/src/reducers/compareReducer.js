@@ -9,7 +9,9 @@ export default (state = [], action) => {
     case GET_COMPARISON:
       return { ...action.payload };
     case ADD_TO_COMPARE:
-      return { ...action.payload };
+      const data = action.payload;
+      let addToComp = { ...state, ...data };
+      return addToComp;
     case DELETE_ITEM_FROM_COMPARE:
       return { ...action.payload };
     default:

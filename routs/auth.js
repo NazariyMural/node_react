@@ -9,7 +9,6 @@ const User = require("../models/UserSingUp");
 const router = express.Router();
 
 router.get("/checksession", (req, res) => {
-  console.log(req.user, "current_user");
   if (req.user) {
     return res.send(JSON.stringify(req.user));
   }
@@ -17,7 +16,6 @@ router.get("/checksession", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  console.log("logout", req.user);
   req.logout();
   return res.send(JSON.stringify(req.user));
 });
@@ -92,7 +90,6 @@ router.get("/google/callback", passport.authenticate("google"), (req, res) => {
 
 router.get("/current_user", (req, res) => {
   // res.send(req.session);
-  console.log("/current_user", req.user);
   res.send(req.user);
 });
 

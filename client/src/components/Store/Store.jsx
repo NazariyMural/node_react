@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import {
   fetchData,
   addToCart,
-  getCart,
   addToCompare,
   getComparison
 } from "../../actions";
@@ -36,7 +35,6 @@ class Store extends Component {
     } else {
       let products = this.props.products;
       data = map(products, (product, key) => {
-        console.log(product.active);
         return (
           <li key={product._id} className={styles.Prodoct_Item}>
             <span>{product.category}</span>
@@ -108,7 +106,6 @@ const mapStateToProps = ({ products }) => {
 export default connect(mapStateToProps, {
   fetchData,
   addToCart,
-  getCart,
   addToCompare,
   getComparison
 })(Store);

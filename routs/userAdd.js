@@ -57,7 +57,6 @@ router.post("/user-add-location", (req, res, next) => {
 router.post("/user-add-image", async (req, res) => {
   const file = req.files.file;
   const userID = req.body.userID;
-  console.log(req.body.userID);
 
   let s3bucket = new AWS.S3({
     accessKeyId: appConfig.IAM_USER_KEY,

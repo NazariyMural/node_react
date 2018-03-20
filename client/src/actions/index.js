@@ -30,20 +30,12 @@ export const fetchUser = () => {
   };
 };
 
-// export const googleLogin = () => {
-//   return dispatch => {
-//     axios
-//       .get("/api/auth/google")
-//       .then(res => dispatch({ type: LOGIN_WITH_GOOGLE, payload: res.data }));
-//   };
-// };
-
 export const fetchData = () => {
   return dispatch => {
     axios
       .get("/api/store/store")
       .then(res => {
-        console.log(res, "dispatch Products Action");
+        // console.log(res, "dispatch Products Action");
         dispatch({ type: FETCH_DATA, payload: res.data });
       })
       .catch(err => console.log(err, "Action Phones Error"));
@@ -99,7 +91,6 @@ export const getComparison = userID => {
 };
 
 export const addToCompare = addToCompareData => {
-  console.log(addToCompareData);
   return dispatch => {
     axios
       .post("/api/compare/add-to-compare", {
@@ -114,7 +105,6 @@ export const addToCompare = addToCompareData => {
 };
 
 export const deleteFromCompare = deleteItemData => {
-  console.log(deleteItemData);
   return dispatch => {
     axios
       .post("/api/compare/delete-item", {

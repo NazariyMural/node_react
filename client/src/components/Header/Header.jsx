@@ -22,8 +22,8 @@ class Header extends Component {
       );
     } else if (this.props.auth) {
       return (
-        <li key="2" className={styles.HeaderListItem}>
-          <span>{this.props.auth.fullName}</span>
+        <li key="1" className={styles.HeaderListItem}>
+          <NavLink to="/account">{this.props.auth.fullName}</NavLink>
           <a href="/api/auth/logout" onClick={this.logOutClick}>
             Logout
           </a>
@@ -53,9 +53,6 @@ class Header extends Component {
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
-            <li>
-              <NavLink to="/account">Account</NavLink>
-            </li>
             <li className={styles.HeaderListItem}>
               <NavLink to="/compare" className={styles.HeaderListNav}>
                 Compare
@@ -79,8 +76,8 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, cart }) => {
-  return { auth, cart };
+const mapStateToProps = ({ auth, cart, comparison }) => {
+  return { auth, cart, comparison };
 };
 
 export default connect(mapStateToProps, { logUserOut })(Header);

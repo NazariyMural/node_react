@@ -2,10 +2,15 @@
   display: flex;
   position: relative;
   align-items: center;
+  height: 100%;
 }
-.Compare img {
+.Compare .CompareSVG {
+  fill: #f2f2f2;
   width: 31px;
   height: 30px;
+}
+.Compare:hover .CompareSVG {
+  fill: #313131;
 }
 .Compare span.Badge {
   position: absolute;
@@ -14,8 +19,4 @@
   left: 18px;
   padding: 0;
   background-color: blueviolet;
-}
-
-.Compare:hover i {
-  color: #313131;
 }
