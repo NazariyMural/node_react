@@ -9,6 +9,7 @@ import {
 } from "../../actions/index";
 import _ from "lodash";
 import CartDataAmount from "../Notification/CartDataAmount/CartDataAmount";
+import { NavLink } from "react-router-dom";
 
 class Cart extends Component {
   componentDidMount() {
@@ -32,7 +33,10 @@ class Cart extends Component {
     } else if (this.props.auth === false) {
       return (
         <tr>
-          <td>Join us first!</td>
+          <td colSpan="70%" className="center">
+            <h2>Join us first!</h2>
+            <NavLink to={"/login"}>Log In</NavLink>
+          </td>
         </tr>
       );
     } else if (this.props.auth) {
@@ -43,7 +47,11 @@ class Cart extends Component {
       }
       return (
         <tr>
-          <td>Your cart is empty!</td>
+          <td colSpan="70%" className="center">
+            <h2>Your cart is empty!</h2>
+            <h4>Follow to store and buy something</h4>
+            <NavLink to={"/"}>Store</NavLink>
+          </td>
         </tr>
       );
     }

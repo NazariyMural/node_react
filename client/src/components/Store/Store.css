@@ -1,9 +1,14 @@
+.StoreWrapper {
+  background-color: #eceff1;
+}
+
 .Prodoct_Item {
   display: inline-flex;
   flex-direction: column;
   width: 250px;
   box-shadow: 0px 0px 12px 0px rgba(4, 8, 7, 0.59);
   margin: 5px;
+  background-color: #fff;
 }
 
 .Prodoct_Item span {

@@ -8,6 +8,7 @@ import {
 } from "../../actions";
 import map from "lodash/map";
 import styles from "./Store.css";
+import Product from "./Product/Product";
 
 class Store extends Component {
   componentDidMount() {
@@ -36,52 +37,13 @@ class Store extends Component {
       let products = this.props.products;
       data = map(products, (product, key) => {
         return (
-          <li key={product._id} className={styles.Prodoct_Item}>
-            <span>{product.category}</span>
-            <img
-              src={product.images}
-              alt="product"
-              className={styles.Product_Image}
-            />
-            <span>{product.name}</span>
-            <span>${product.price}</span>
-            <span>{!product.active ? "Product is over" : null}</span>
-            <span className={styles.CompareContainer}>
-              <img
-                className={styles.CompareItem}
-                src="https://cdn4.iconfinder.com/data/icons/banking-and-finance/500/finance-scale-128.png"
-                alt="compare"
-                onClick={() =>
-                  this.compareProductHandler({
-                    productId: product._id,
-                    userID: this.props.auth.googleId
-                  })
-                }
-              />
-            </span>
-            {map(product.comments, comment => {
-              return (
-                <ul key={comment}>
-                  <li key={comment}>{comment}</li>
-                </ul>
-              );
-            })}
-            {!this.props.auth ? (
-              <a className="waves-effect waves-light btn">Join us first</a>
-            ) : (
-              <a
-                className="waves-effect waves-light btn"
-                onClick={() =>
-                  this.props.addToCart({
-                    productId: product._id,
-                    userID: this.props.auth.googleId
-                  })
-                }
-              >
-                Buy
-              </a>
-            )}
-          </li>
+          <Product
+            key={product._id}
+            product={product}
+            compareProductHandler={this.compareProductHandler}
+            auth={this.props.auth}
+            addToCart={this.props.addToCart}
+          />
         );
       });
     }
@@ -89,10 +51,12 @@ class Store extends Component {
   };
   render() {
     return (
-      <div className="container">
-        <div>Store</div>
-        <ul>{this.renderProductsHandler()}</ul>
-      </div>
+      <section className={styles.StoreWrapper}>
+        <div className="container">
+          <div>Store</div>
+          <ul>{this.renderProductsHandler()}</ul>
+        </div>
+      </section>
     );
   }
 }

@@ -5,6 +5,7 @@ import { forOwn, map } from "lodash";
 import { getComparison, deleteFromCompare, addToCart } from "../../actions";
 import ComparisonTable from "./ComparisonTable/ComparisonTable";
 import AddMoreProducts from "./AddMoreProducts/AddMoreProducts";
+import { NavLink } from "react-router-dom";
 
 class Comparison extends Component {
   state = {
@@ -67,7 +68,13 @@ class Comparison extends Component {
   renderData = () => {
     const { auth, comparison } = this.props;
     if (!auth) {
-      return <div>Join us</div>;
+      return (
+        <div className={styles.AddMoreProducts}>
+          <h2>You have not Log In yet!</h2>
+          <h2>Join us first</h2>
+          <NavLink to={"/login"}>Log In</NavLink>
+        </div>
+      );
     } else if (comparison.userCompare) {
       if (Object.keys(comparison.userCompare.items).length < 2) {
         return (
