@@ -14,3 +14,9 @@
 .NavLinks a {
   margin: 0 10px;
 }
+
+@media screen and (max-width: 700px) {
+  .PurchaseHistoryItem h2 {
+    font-size: 30px;
+  }
+}

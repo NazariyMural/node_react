@@ -10,6 +10,7 @@ import {
 import _ from "lodash";
 import CartDataAmount from "../Notification/CartDataAmount/CartDataAmount";
 import { NavLink } from "react-router-dom";
+import CartItem from "./CartItem/CartItem";
 
 class Cart extends Component {
   componentDidMount() {
@@ -58,60 +59,16 @@ class Cart extends Component {
   };
   renderCart = () => {
     const cartItems = this.props.cart.userCart.items;
-
+    const { addToCart, reduceByOne, deleteItem, auth } = this.props;
     return _.map(cartItems, (item, key) => {
       return (
-        <tr key={item.item._id}>
-          <td>
-            <img
-              src={item.item.images}
-              alt="data"
-              className={styles.CartImage}
-            />
-          </td>
-          <td>{item.item.name}</td>
-          <td>${item.price}</td>
-          <td>{item.qty}</td>
-          <td className={styles.CartTdIconItem}>
-            <span
-              className={styles.CartIncrease}
-              onClick={() =>
-                this.props.addToCart({
-                  productId: item.item._id,
-                  userID: this.props.auth.googleId
-                })
-              }
-            >
-              <i className="material-icons">add_box</i>
-            </span>
-          </td>
-          <td className={styles.CartTdIconItem}>
-            <span
-              className={styles.CartDecrease}
-              onClick={() =>
-                this.props.reduceByOne({
-                  productId: item.item._id,
-                  userID: this.props.auth.googleId
-                })
-              }
-            >
-              <i className="material-icons">indeterminate_check_box</i>
-            </span>
-          </td>
-          <td className={styles.CartTdIconItem}>
-            <span
-              className={styles.CartDelete}
-              onClick={() =>
-                this.props.deleteItem({
-                  productId: item.item._id,
-                  userID: this.props.auth.googleId
-                })
-              }
-            >
-              <i className="material-icons">delete</i>
-            </span>
-          </td>
-        </tr>
+        <CartItem
+          item={item}
+          auth={auth}
+          addToCart={addToCart}
+          reduceByOne={reduceByOne}
+          deleteItem={deleteItem}
+        />
       );
     });
   };

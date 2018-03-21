@@ -52,13 +52,11 @@ class UserEdit extends Component {
                 </button>
               </form>
             ) : (
-              <span className={styles.UserDataItem}>
+              <div className={styles.UserDataItem}>
                 {this.props.auth.fullName ? (
-                  <div className={styles.UserDataItemText}>
-                    {this.renderUserName()}
-                  </div>
+                  <div>{this.renderUserName()}</div>
                 ) : null}
-              </span>
+              </div>
             )}
           </li>
 
@@ -419,7 +417,7 @@ class UserEdit extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.UserProfileContent}>
         {this.renderUserImage()}
         {this.renderDisplay()}
       </div>

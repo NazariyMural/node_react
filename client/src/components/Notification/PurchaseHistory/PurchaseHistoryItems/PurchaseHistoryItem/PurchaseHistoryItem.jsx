@@ -14,7 +14,7 @@ const style = {
 
 const PurchaseHistoryItem = props => {
   return (
-    <div>
+    <div className={styles.PurchaseHistoryItem}>
       <h2>Your purchase details by {props.location.state.date}</h2>
 
       <div className="container">

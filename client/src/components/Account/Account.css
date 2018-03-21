@@ -1,24 +1,68 @@
-.Account {
-  display: flex;
-  flex-direction: column;
+.AccountWrapper {
+  width: 100%;
+  background-color: #eceff1;
+  padding: 10px;
 }
 
-.UserProfile {
-  width: 50%;
-}
-
-.Account .UserDataList {
+.UserDataList {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
 }
 
-.Account .UserDataList img {
-  width: 250px;
-  height: 350px;
+.UserDataList img {
+  width: 200px;
+  height: 300px;
 }
 
 .AccountContainer {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 30px,
+    rgba(0, 0, 0, 0.23) 0px 6px 10px;
 }
+
+.AccountContainer .UserProfile {
+  width: 50%;
+  min-width: 320px;
+  background-color: #fff;
+}
+.AccountContainer .UserProfile h2 {
+  text-align: center;
+}
+
+.AccountContainer .UserHistory {
+  width: 50%;
+  min-width: 320px;
+  padding: 10px;
+  background-color: #fff;
+}
+.AccountContainer .UserHistory h2 {
+  text-align: center;
+}
+
+@media screen and (max-width: 700px) {
+  .AccountContainer .UserProfile {
+    width: 100%;
+  }
+  .AccountContainer .UserHistory {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 740px) {
+  .AccountWrapper {
+    padding: 20px 40px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .AccountWrapper {
+    padding: 20px 10%;
+  }
+}
+
+/* @media screen and (min-width: 880px) and (max-width: 989px) {
+  .AccountContainer {
+  }
+} */

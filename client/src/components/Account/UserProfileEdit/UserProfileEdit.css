@@ -1,3 +1,26 @@
+.UserProfileContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.UserProfileContent .UserDataItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.UserProfileContent .UserDataItem div {
+  width: 100%;
+}
+
+.UserProfileContent li .Collection {
+  margin: 0 auto;
+  background-color: blueviolet;
+}
+
 .Form button {
   padding: 0 1rem;
   margin-right: 10px;
@@ -9,7 +32,7 @@
 .Collection {
   margin: 0;
   width: 40%;
-  min-width: 350px;
+  min-width: 310px;
 }
 
 .UserData {
@@ -35,15 +58,14 @@
   right: 6px !important;
 }
 
+.UserAddItemText {
+  margin: 0 auto;
+}
+
 .UserAddItemText i {
   cursor: pointer;
 }
 .UserAddItemText i:hover {
   color: #2bbbad;
   background-color: rgb(252, 252, 252);
-}
-.UserDataItem {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
 }

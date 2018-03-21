@@ -10,7 +10,6 @@ import { getCart } from "../../actions";
 class Account extends Component {
   renderUserData = () => {
     if (this.props.auth !== null && this.props.auth !== false) {
-      //Get updated cart after deleating all items
       this.props.getCart(this.props.auth.googleId);
       return (
         <section className={styles.AccountContainer}>
@@ -29,11 +28,7 @@ class Account extends Component {
     }
   };
   render() {
-    return (
-      <div className="container">
-        <div className={styles.Account}>{this.renderUserData()}</div>
-      </div>
-    );
+    return <div className={styles.AccountWrapper}>{this.renderUserData()}</div>;
   }
 }
 
