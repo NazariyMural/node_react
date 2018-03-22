@@ -10,7 +10,7 @@
   height: 30px;
 }
 .Compare:hover .CompareSVG {
-  fill: #313131;
+  fill: #00b3aa;
 }
 .Compare span.Badge {
   position: absolute;

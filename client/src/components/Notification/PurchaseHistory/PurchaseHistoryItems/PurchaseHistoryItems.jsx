@@ -40,7 +40,7 @@ class PurchaseHistoryItems extends Component {
             >
               <td>{key}</td>
               <td>{purchase.currentTime}</td>
-              <td>{purchase.totalPrice}</td>
+              <td>${purchase.totalPrice}</td>
             </tr>
           );
         });

@@ -1,19 +1,49 @@
 .Header {
-  background-color: #2bbbad;
+  background-color: #011814;
 }
 
 .Rigth {
   text-align: right !important;
 }
 
-.HeaderListItem {
+.Header .Hamb {
+  display: none;
+}
+
+.Header .UserAuthStatus {
+  display: inline-flex;
+}
+.Header .HeaderMarketLink {
   display: inline-flex;
 }
 
-.HeaderListItem .HeaderListNav {
+.Header .HeaderListItem {
   display: inline-flex;
 }
 
-.HeaderListItem .HeaderListNav i {
+.Header .HeaderListItem:hover {
+  background-color: #404d4b;
+}
+
+.Header .HeaderListItem .HeaderListNav {
+  display: inline-flex;
+}
+
+.Header .HeaderListItem .HeaderListNav i {
   margin-left: 5px;
+}
+
+@media screen and (max-width: 650px) {
+  .Header .HeaderMarketLink {
+    display: none;
+  }
+  .Header .Logo {
+    display: none;
+  }
+
+  .Header .Hamb {
+    display: inline-flex;
+    margin-left: 12px;
+    cursor: pointer;
+  }
 }
