@@ -71,7 +71,6 @@ class Comparison extends Component {
 
   renderData = () => {
     const { auth, comparison } = this.props;
-    console.log("comparison", comparison);
     if (auth === false) {
       return (
         <div className={styles.AddMoreProducts}>

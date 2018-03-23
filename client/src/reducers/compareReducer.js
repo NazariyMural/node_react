@@ -10,7 +10,7 @@ export default (state = [], action) => {
       // console.log("state", state);
       // console.log("action", action.payload);
       if (action.payload) {
-        return { ...action.payload };
+        return action.payload;
       }
       return [...state];
     case ADD_TO_COMPARE:
@@ -18,7 +18,7 @@ export default (state = [], action) => {
       let addToComp = { ...state, ...data };
       return addToComp;
     case DELETE_ITEM_FROM_COMPARE:
-      return { ...action.payload };
+      return action.payload;
     default:
       return state;
   }
