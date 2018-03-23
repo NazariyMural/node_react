@@ -6,24 +6,28 @@ import {
   addToCart,
   reduceByOne,
   deleteItem
-} from "../../actions/index";
+} from "../../actions/cartActions";
 import _ from "lodash";
 import CartDataAmount from "../Notification/CartDataAmount/CartDataAmount";
 import { NavLink } from "react-router-dom";
 import CartItem from "./CartItem/CartItem";
 
 class Cart extends Component {
+  // componentWillReceiveProps(nextProps, nextState) {
+  //   const currentId = this.props.auth && this.props.auth.googleId;
+  //   const nextId = nextProps.auth && nextProps.auth.googleId;
+  //   if (currentId !== nextId) {
+  //     this.props.getCart(nextProps.auth.googleId);
+  //   }
+  //   console.log("componentWillReceiveProps");
+  // }
+
   componentDidMount() {
-    setTimeout(() => {
-      if (this.props.auth) {
-        this.props.getCart(this.props.auth.googleId);
-      } else {
-        setTimeout(() => {
-          this.props.getCart(this.props.auth.googleId);
-        }, 500);
-      }
-    }, 500);
+    if (this.props.auth) {
+      this.props.getCart(this.props.auth.googleId);
+    }
   }
+
   renderData = () => {
     if (this.props.auth === null) {
       return (
@@ -44,14 +48,22 @@ class Cart extends Component {
       if (!_.isEmpty(this.props.cart)) {
         if (!_.isEmpty(this.props.cart.userCart.items)) {
           return this.renderCart();
+        } else {
+          return (
+            <tr>
+              <td colSpan="70%" className="center">
+                <h2>Your cart is empty!</h2>
+                <h4>Follow to store and buy something</h4>
+                <NavLink to={"/"}>Store</NavLink>
+              </td>
+            </tr>
+          );
         }
       }
       return (
         <tr>
           <td colSpan="70%" className="center">
-            <h2>Your cart is empty!</h2>
-            <h4>Follow to store and buy something</h4>
-            <NavLink to={"/"}>Store</NavLink>
+            <h2>Loading...</h2>
           </td>
         </tr>
       );
@@ -63,6 +75,7 @@ class Cart extends Component {
     return _.map(cartItems, (item, key) => {
       return (
         <CartItem
+          key={key}
           item={item}
           auth={auth}
           addToCart={addToCart}

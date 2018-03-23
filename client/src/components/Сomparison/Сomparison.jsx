@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./Comparison.css";
 import { connect } from "react-redux";
-import { forOwn, map } from "lodash";
+import { forOwn, map, isEmpty } from "lodash";
 import { getComparison, deleteFromCompare, addToCart } from "../../actions";
 import ComparisonTable from "./ComparisonTable/ComparisonTable";
 import AddMoreProducts from "./AddMoreProducts/AddMoreProducts";
@@ -13,9 +13,9 @@ class Comparison extends Component {
     products: null
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth) {
-      this.props.getComparison(nextProps.auth.googleId);
+  componentDidMount() {
+    if (this.props.auth) {
+      this.props.getComparison(this.props.auth.googleId);
     }
   }
 
@@ -71,15 +71,22 @@ class Comparison extends Component {
 
   renderData = () => {
     const { auth, comparison } = this.props;
-    if (!auth) {
+    console.log("comparison", comparison);
+    if (auth === false) {
       return (
         <div className={styles.AddMoreProducts}>
-          <h2>You have not Log In yet!</h2>
+          <h2>You have not LogIn yet!</h2>
           <h2>Join us first</h2>
           <NavLink to={"/login"}>Log In</NavLink>
         </div>
       );
-    } else if (comparison.userCompare) {
+    } else if (isEmpty(comparison) || !comparison.userCompare) {
+      return (
+        <div className={styles.AddMoreProducts}>
+          <h2>You haven't add any products to compare</h2>
+        </div>
+      );
+    } else if (!isEmpty(comparison) && comparison.userCompare) {
       if (Object.keys(comparison.userCompare.items).length < 2) {
         return (
           <AddMoreProducts
@@ -90,15 +97,8 @@ class Comparison extends Component {
         );
       }
       return this.renderTableCompareHandler();
-    } else {
-      return (
-        <div className={styles.AddMoreProducts}>
-          <h2>You haven't add any products to compare</h2>
-        </div>
-      );
     }
   };
-
   render() {
     return this.renderData();
   }
