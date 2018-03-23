@@ -15,14 +15,6 @@ class Store extends Component {
     this.props.fetchData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth) {
-      this.props.getComparison(nextProps.auth.googleId);
-    } else {
-      this.props.getComparison();
-    }
-  }
-
   compareProductHandler = ({ productId, userID }) => {
     this.props.addToCompare({
       productId,
@@ -61,9 +53,10 @@ class Store extends Component {
   }
 }
 
-const mapStateToProps = ({ products }) => {
+const mapStateToProps = ({ products, auth }) => {
   return {
-    products
+    products,
+    auth
   };
 };
 

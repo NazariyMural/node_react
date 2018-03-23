@@ -43,11 +43,9 @@ class App extends Component {
                     />
                     <Route path="/account" component={Account} />
                     <Route path="/register" component={Registration} />
-                    <Route
-                      path="/compare"
-                      render={() => <CompaRison auth={auth} />}
-                    />
-                    <Route path="/" render={() => <Store auth={auth} />} />
+
+                    <Route path="/compare" component={CompaRison} />
+                    <Route path="/" component={Store} />
                   </Switch>
                 </div>
               </div>

@@ -12,8 +12,11 @@ class Comparison extends Component {
     props: null,
     products: null
   };
-  componentWillMount() {
-    this.props.getComparison(this.props.auth.googleId);
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth) {
+      this.props.getComparison(nextProps.auth.googleId);
+    }
   }
 
   getPropsHandler = () => {
@@ -45,6 +48,7 @@ class Comparison extends Component {
   };
 
   renderTableCompareHandler = () => {
+    const { deleteFromCompare, auth, addToCart } = this.props;
     const unodered = this.getProductsHandler();
     const compareProducts = {};
     Object.keys(unodered)
@@ -58,9 +62,9 @@ class Comparison extends Component {
     return (
       <ComparisonTable
         compareProducts={compareProducts}
-        deleteFromCompare={this.props.deleteFromCompare}
-        googleId={this.props.auth.googleId}
-        addToCart={this.props.addToCart}
+        deleteFromCompare={deleteFromCompare}
+        googleId={auth.googleId}
+        addToCart={addToCart}
       />
     );
   };
@@ -100,8 +104,8 @@ class Comparison extends Component {
   }
 }
 
-const mapStateToProps = ({ comparison }) => {
-  return { comparison };
+const mapStateToProps = ({ comparison, auth }) => {
+  return { comparison, auth };
 };
 
 export default connect(mapStateToProps, {
