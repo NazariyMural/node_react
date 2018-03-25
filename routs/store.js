@@ -7,9 +7,9 @@ const mongoose = require("mongoose");
 router.get("/store", (req, res, next) => {
   Product.find()
     .then(data => {
-      res.send(data);
+      res.status(200).send(data);
     })
-    .catch(err => console.log(err, "router store error"));
+    .catch(err => res.send(400).send(err));
 });
 
 router.post("/store", (req, res, next) => {
