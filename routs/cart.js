@@ -65,7 +65,7 @@ router.post("/add-to-cart/", (req, res, next) => {
           cart.add(product, product._id);
 
           existingCart.set("userCart", cart);
-          existingCart.save().then(result => res.send(result));
+          existingCart.save().then(result => res.status(200).send(result));
         });
       } else {
         new Cart({
@@ -86,7 +86,7 @@ router.post("/add-to-cart/", (req, res, next) => {
       }
     })
     .catch(err => {
-      res.send(err);
+      res.status(400).send(err);
       console.log("we got an error");
     });
 });
@@ -121,11 +121,11 @@ router.post("/delete-item", (req, res, next) => {
       Products.findById(productId).then(product => {
         cart.deleteItem(product._id);
         existingCart.set("userCart", cart);
-        existingCart.save().then(result => res.send(result));
+        existingCart.save().then(result => res.status(200).send(result));
       });
     })
     .catch(err => {
-      res.send(err);
+      res.status(400).send(err);
       console.log("we got an error");
     });
 });
@@ -159,30 +159,6 @@ router.post("/add-to-purchase-history", (req, res) => {
       console.log("we got an error");
     });
 });
-
-// router.post("/add-to-purchase-history", (req, res) => {
-//   const products = req.body.products;
-//   const userID = req.body.userID;
-//   Cart.findOne({ userID: userID })
-//     .then(cart => {
-//       const oldUserPurchase = cart.userPurchase;
-//       const newObj = Object.assign({}, oldUserPurchase, products);
-//       console.log("oldUserPurchase", oldUserPurchase);
-//       console.log("---------------------------------------");
-//       console.log("newObj", newObj);
-//       cart.set("userPurchase", newObj);
-//       cart.set("userCart", {
-//         items: {},
-//         totalQty: 0,
-//         totalPrice: 0
-//       });
-//       cart.save().then(result => res.send(result));
-//     })
-//     .catch(err => {
-//       res.send(err);
-//       console.log("we got an error");
-//     });
-// });
 
 router.get("/remove-cart/:id", (req, res) => {
   const userID = req.params.id;
