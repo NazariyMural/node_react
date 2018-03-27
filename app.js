@@ -36,11 +36,11 @@ app.use(busboy());
 //   `mongodb://nazariy:password@ds247078.mlab.com:47078/node-react-dev`
 // );
 
-// mongoose.connect(`mongodb://admin:admin@ds247688.mlab.com:47688/testdatadb`);
+mongoose.connect(`mongodb://admin:admin@ds247688.mlab.com:47688/testdatadb`);
 
-mongoose.connect(
-  `mongodb://nazariy:password@ds121889.mlab.com:21889/eliftech_test`
-);
+// mongoose.connect(
+//   `mongodb://nazariy:password@ds121889.mlab.com:21889/eliftech_test`
+// );
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

@@ -80,21 +80,20 @@ router.post("/add-to-cart/", (req, res, next) => {
               cart.add(product, product._id);
 
               cartRes.set("userCart", cart);
-              cartRes.save().then(result => res.send(result));
+              cartRes.save().then(result => res.status(200).send(result));
             });
           });
       }
     })
     .catch(err => {
       res.status(400).send(err);
-      console.log("we got an error");
     });
 });
 
 router.post("/reduce-by-one/", (req, res, next) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
-
+  console.log(userID);
   Cart.findOne({ userID: userID })
     .then(existingCart => {
       let cart = new CartClass(existingCart.userCart);
@@ -102,11 +101,11 @@ router.post("/reduce-by-one/", (req, res, next) => {
         cart.reduceByOne(product._id);
 
         existingCart.set("userCart", cart);
-        existingCart.save().then(result => res.send(result));
+        existingCart.save().then(result => res.status(200).send(result));
       });
     })
     .catch(err => {
-      res.send(err);
+      res.status(400).send(err);
       console.log("we got an error");
     });
 });
