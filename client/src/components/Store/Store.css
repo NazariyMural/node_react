@@ -1,5 +1,6 @@
 .StoreWrapper {
   background-color: #eceff1;
+  position: relative;
 }
 
 .Prodoct_Item {
@@ -38,4 +39,10 @@
   cursor: pointer;
   height: 60px;
   width: 60px;
+}
+
+.Tags {
+  position: fixed;
+  top: 10%;
+  right: 5%;
 }

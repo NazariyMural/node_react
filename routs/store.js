@@ -48,7 +48,6 @@ router.get("/:id", async (req, res, next) => {
   console.log(JSON.stringify(criteria));
   const currentAmount = await Product.find(criteria).count();
   let skipFormula = perPage * page - page;
-  // console.log(currentAmount);
   if (currentAmount < skipFormula) {
     skipFormula = 0;
   }

@@ -4,6 +4,7 @@ import { getTags } from "../../../actions/getTags";
 import _ from "lodash";
 import Checkbox from "material-ui/Checkbox";
 import { handlePaginationLists } from "../../../actions/paginationList";
+import { activeTags } from "../../../actions/getTags";
 
 class Tags extends Component {
   state = {
@@ -27,23 +28,14 @@ class Tags extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    // this.tagsSubmitHandler(this.state.checked);
-
     if (prevState.checked !== this.state.checked) {
+      this.props.activeTags(this.state.checked);
       this.props.handlePaginationLists(
         this.props.currentPage,
         this.state.checked
       );
     }
   }
-
-  tagsSubmitHandler = checkedData => {
-    // let currentPage = 0;
-    if (this.props.currentPage) {
-      // this.props.handlePaginationLists(this.props.currentPage, checkedData);
-    }
-    // this.props.handlePaginationLists(currentPage, checkedData);
-  };
 
   getTagsHandler = () => {
     if (!_.isEmpty(this.props.tags)) {
@@ -81,6 +73,8 @@ const mapStateToProps = ({ tags }) => {
   return { tags };
 };
 
-export default connect(mapStateToProps, { getTags, handlePaginationLists })(
-  Tags
-);
+export default connect(mapStateToProps, {
+  getTags,
+  handlePaginationLists,
+  activeTags
+})(Tags);

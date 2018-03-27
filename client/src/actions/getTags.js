@@ -11,3 +11,10 @@ export const getTags = () => dispatch => {
     })
     .catch(err => console.log(err));
 };
+
+export const activeTags = tags => {
+  return {
+    type: "ACIVE_TAGS",
+    payload: tags
+  };
+};

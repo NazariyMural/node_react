@@ -15,12 +15,10 @@ import { loadDataProduct } from "../../actions/getProduct";
 import Tags from "../Filter/Tags/Tags";
 
 class Store extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: ""
-    };
-  }
+  state = {
+    id: "",
+    activeTags: null
+  };
   // componentDidMount() {
   //   this.props.fetchData();
   // }
@@ -30,10 +28,13 @@ class Store extends Component {
   };
 
   handlePaginationList = event => {
+    const activeTags = map(this.props.activeTags, tag => tag);
+    console.log(activeTags);
+
     this.setState({
       id: event.target.id
     });
-    this.props.handlePaginationLists(event.target.id, "");
+    this.props.handlePaginationLists(event.target.id, activeTags.join(" "));
   };
 
   compareProductHandler = ({ productId, userID }) => {
@@ -75,7 +76,7 @@ class Store extends Component {
           <div>Store</div>
           <ul>{this.renderProductsHandler()}</ul>
         </div>
-        <section>
+        <section className={styles.Tags}>
           <Tags currentPage={this.state.id} />
         </section>
         <div className="paginationBox">
@@ -95,11 +96,12 @@ class Store extends Component {
   }
 }
 
-const mapStateToProps = ({ products, auth, getAllProducts }) => {
+const mapStateToProps = ({ products, auth, getAllProducts, activeTags }) => {
   return {
     products,
     auth,
-    allProduct: getAllProducts
+    allProduct: getAllProducts,
+    activeTags
   };
 };
 

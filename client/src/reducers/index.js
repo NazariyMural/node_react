@@ -7,6 +7,7 @@ import ProgressReducer from "./progress";
 
 import getAllProduct from "./getAllProduct";
 import getTags from "./tagsReduser";
+import activeTags from "./activeTags";
 
 export default combineReducers({
   auth: authReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
   progress: ProgressReducer,
 
   getAllProducts: getAllProduct,
-  tags: getTags
+  tags: getTags,
+  activeTags
 });
