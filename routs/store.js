@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Product = require("../models/Product");
 const mongoose = require("mongoose");
-// const checkAuth = require("../middleware/check_auth");
+const _ = require("lodash");
 
 // router.get("/store", (req, res, next) => {
 //   Product.find()
@@ -12,30 +12,55 @@ const mongoose = require("mongoose");
 //     .catch(err => res.send(400).send(err));
 // });
 
-router.get("/store", (req, res, next) => {
+router.get("/get-tags", (req, response, next) => {
+  Product.find({}, { tags: 1, _id: 0 }).then(tags => {
+    console.log("get-tags", tags);
+    response.send(tags);
+  });
+});
+
+router.get("/:id", async (req, res, next) => {
   const perPage = 5;
   let productData = req.params.id.split(",");
-  let resultsPagination = productData[0];
-  const page = resultsPagination || 0;
+  let page = 0;
+  if (_.isNumber(+productData[0])) {
+    page = productData[0];
+  }
 
-  Product.find({
-    name: {
-      $regex: new RegExp(productData[1], "i")
-    }
-  })
-    .skip(perPage * page - page)
-    .limit(perPage)
-    .exec((err, products) => {
-      Product.count().exec((err, count) => {
-        if (err) return next(err);
-        res.send({
-          product: products,
-          current: page,
-          pages: Math.ceil(count / perPage),
-          count: count
-        });
-      });
+  //
+  let criteria = [];
+  let tagsArr = productData.slice(1);
+  if (!tagsArr[0]) {
+    criteria.push({
+      tags: {
+        $nin: [""]
+      }
     });
+  } else {
+    criteria.push({
+      tags: {
+        $all: tagsArr
+      }
+    });
+  }
+
+  criteria = criteria.length > 0 ? { $and: criteria } : {};
+  console.log(JSON.stringify(criteria));
+  const currentAmount = await Product.find(criteria).count();
+  let skipFormula = perPage * page - page;
+  // console.log(currentAmount);
+  if (currentAmount < skipFormula) {
+    skipFormula = 0;
+  }
+  const filtered = await Product.find(criteria)
+    .skip(skipFormula)
+    .limit(perPage);
+  res.send({
+    product: filtered,
+    current: page,
+    pages: Math.ceil(currentAmount / perPage),
+    count: currentAmount
+  });
 });
 
 router.post("/store", (req, res, next) => {

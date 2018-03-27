@@ -5,10 +5,16 @@ import cartReducer from "./cartReducer";
 import compareReducer from "./compareReducer";
 import ProgressReducer from "./progress";
 
+import getAllProduct from "./getAllProduct";
+import getTags from "./tagsReduser";
+
 export default combineReducers({
   auth: authReducer,
   products: storeReducer,
   cart: cartReducer,
   comparison: compareReducer,
-  progress: ProgressReducer
+  progress: ProgressReducer,
+
+  getAllProducts: getAllProduct,
+  tags: getTags
 });
