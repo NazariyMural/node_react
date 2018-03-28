@@ -32,6 +32,7 @@ class Tags extends Component {
       this.props.activeTags(this.state.checked);
       this.props.handlePaginationLists(
         this.props.currentPage,
+        " ",
         this.state.checked
       );
     }

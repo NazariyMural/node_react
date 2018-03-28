@@ -14,8 +14,14 @@ const _ = require("lodash");
 
 router.get("/get-tags", (req, response, next) => {
   Product.find({}, { tags: 1, _id: 0 }).then(tags => {
-    console.log("get-tags", tags);
     response.send(tags);
+  });
+});
+
+router.get("/get-names", (req, response, next) => {
+  Product.distinct("name").then(names => {
+    console.log("get-tags", names);
+    response.send(names);
   });
 });
 
@@ -26,20 +32,26 @@ router.get("/:id", async (req, res, next) => {
   if (_.isNumber(+productData[0])) {
     page = productData[0];
   }
-
+  console.log(productData);
   //
   let criteria = [];
-  let tagsArr = productData.slice(1);
+  let tagsArr = productData.slice(2);
   if (!tagsArr[0]) {
     criteria.push({
       tags: {
         $nin: [""]
+      },
+      name: {
+        $regex: new RegExp(productData[1])
       }
     });
   } else {
     criteria.push({
       tags: {
         $all: tagsArr
+      },
+      name: {
+        $regex: new RegExp(productData[1])
       }
     });
   }

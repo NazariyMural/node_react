@@ -3,6 +3,23 @@
   position: relative;
 }
 
+.Products {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 150px;
+}
+
+.SearchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Products ul {
+  max-width: 815px;
+}
+
 .Prodoct_Item {
   display: inline-flex;
   flex-direction: column;
@@ -43,6 +60,7 @@
 
 .Tags {
   position: fixed;
-  top: 10%;
-  right: 5%;
+  top: 15%;
+  left: 20px;
+  width: 150px;
 }

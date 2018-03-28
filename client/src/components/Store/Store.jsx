@@ -13,6 +13,7 @@ import Product from "./Product/Product";
 import { handlePaginationLists } from "../../actions/paginationList";
 import { loadDataProduct } from "../../actions/getProduct";
 import Tags from "../Filter/Tags/Tags";
+import Search from "../Filter/Search/Search";
 
 class Store extends Component {
   state = {
@@ -34,7 +35,11 @@ class Store extends Component {
     this.setState({
       id: event.target.id
     });
-    this.props.handlePaginationLists(event.target.id, activeTags.join(" "));
+    this.props.handlePaginationLists(
+      event.target.id,
+      " ",
+      activeTags.join(" ")
+    );
   };
 
   compareProductHandler = ({ productId, userID }) => {
@@ -72,8 +77,10 @@ class Store extends Component {
     }
     return (
       <section className={styles.StoreWrapper}>
-        <div className="container">
-          <div>Store</div>
+        <div className={styles.SearchContainer}>
+          <Search currentPage={this.state.id} />
+        </div>
+        <div className={styles.Products}>
           <ul>{this.renderProductsHandler()}</ul>
         </div>
         <section className={styles.Tags}>
