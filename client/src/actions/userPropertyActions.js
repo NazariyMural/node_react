@@ -19,6 +19,7 @@ export const addLocation = userData => dispatch => {
     address: location,
     key: "AIzaSyD4sf00SfQgC2fpETO0OPVUcAl7bN3ggQs"
   };
+  console.log(params);
   axios
     .get(geocodeURL, { params })
     .then(response => {
@@ -27,7 +28,6 @@ export const addLocation = userData => dispatch => {
         location: response.data.results[0]
       };
       axios.post("/api/user-add/user-add-location/", { data }).then(result => {
-        console.log(result.data.location);
         dispatch({
           type: ADD_USER_LOCATION,
           payload: result.data.location

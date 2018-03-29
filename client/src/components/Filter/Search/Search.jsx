@@ -1,13 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
-import { handlePaginationLists } from "../../../actions/paginationList";
+import { mainSearch } from "../../../actions/mainSearch";
 import { getNames } from "../../../actions/getNames";
+import { searchAction } from "../../../actions/serchAction";
 import AutoComplete from "material-ui/AutoComplete";
 
 const style = {
   Search: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    margin: 0,
+    overflow: "hidden",
+    width: 350,
+    border: "1px solid #d3d3d3",
+    padding: "0 20px",
+    borderRadius: 10
+  },
+  Text: {
+    fontSize: 16
   }
 };
 
@@ -20,12 +30,24 @@ class Search extends Component {
     this.props.getNames();
   }
 
-  handleSearchSubmit = (value, ind) => {
-    console.log(value);
-    const { currentPage, activeTags } = this.props;
+  // handleSearchSubmit = (value, ind) => {
+  //   this.props.searchAction(value);
+  //   const { currentPage, activeTags, mainSearch } = this.props;
+  //   const tags = _.map(activeTags, tag => tag);
+  //   mainSearch(currentPage, value, tags.join(" "));
+  // };
+
+  handleSearchUpdate = (value, ind) => {
+    this.props.searchAction(value);
+    const { currentPage, activeTags, mainSearch } = this.props;
     const tags = _.map(activeTags, tag => tag);
-    console.log(tags);
-    this.props.handlePaginationLists(currentPage, value, tags.join(" "));
+    // console.log(tags);
+    mainSearch(currentPage, value, tags.join(" "));
+  };
+
+  handleInputChange = e => {
+    const value = this.refs.auto.refs.searchTextField.props.value;
+    this.props.searchAction(value);
   };
 
   searchRenderHandler = () => {
@@ -33,12 +55,18 @@ class Search extends Component {
       const names = _.map(this.props.names, name => name);
       return (
         <AutoComplete
-          onNewRequest={(value, ind) => this.handleSearchSubmit(value, ind)}
+          // onNewRequest={(value, ind) => this.handleSearchSubmit(value, ind)}
           style={style.Search}
-          floatingLabelText="Type 'name', of product"
+          hintText="Type 'name', of product"
           filter={AutoComplete.fuzzyFilter}
           dataSource={names}
           maxSearchResults={5}
+          onUpdateInput={(value, ind) => this.handleSearchUpdate(value, ind)}
+          floatingLabelStyle={style.Text}
+          fullWidth={true}
+          underlineShow={false}
+          onClose={this.handleInputChange}
+          ref={"auto"}
         />
       );
     }
@@ -54,14 +82,16 @@ class Search extends Component {
   }
 }
 
-const mapStateToProps = ({ names, activeTags }) => {
+const mapStateToProps = ({ names, activeTags, searchValue }) => {
   return {
     names,
-    activeTags
+    activeTags,
+    searchValue
   };
 };
 
 export default connect(mapStateToProps, {
-  handlePaginationLists,
-  getNames
+  mainSearch,
+  getNames,
+  searchAction
 })(Search);

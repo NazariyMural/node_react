@@ -29,7 +29,6 @@ router.post("/login", async (req, res) => {
   passport.authenticate("local")(req, res, () => {
     console.log("authenticate");
     if (req.user) {
-      console.log("authenticate 2");
       return res.send(JSON.stringify(req.user));
     }
     return res.send(JSON.stringify({ error: "There was an error logging in" }));
@@ -83,7 +82,6 @@ router.get(
 );
 
 router.get("/google/callback", passport.authenticate("google"), (req, res) => {
-  console.log("auth google 2");
   return res.redirect("/account");
 });
 

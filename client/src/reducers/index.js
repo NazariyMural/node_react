@@ -9,6 +9,7 @@ import getAllProduct from "./getAllProduct";
 import getTags from "./tagsReduser";
 import activeTags from "./activeTags";
 import names from "./namesReducer";
+import searchValue from "./searchReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
   getAllProducts: getAllProduct,
   tags: getTags,
   activeTags,
-  names
+  names,
+  searchValue
 });

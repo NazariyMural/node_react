@@ -18,7 +18,7 @@ export const Product = ({
       />
       <span>{product.name}</span>
       <span>${product.price}</span>
-      <span>{!product.active ? "Product is over" : null}</span>
+      <span>{!product.active ? "Product is over" : "Good descriptions"}</span>
       <span className={styles.CompareContainer}>
         <img
           className={styles.CompareItem}

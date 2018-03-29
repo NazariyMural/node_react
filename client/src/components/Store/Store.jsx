@@ -10,7 +10,7 @@ import map from "lodash/map";
 import styles from "./Store.css";
 import Product from "./Product/Product";
 
-import { handlePaginationLists } from "../../actions/paginationList";
+import { mainSearch } from "../../actions/mainSearch";
 import { loadDataProduct } from "../../actions/getProduct";
 import Tags from "../Filter/Tags/Tags";
 import Search from "../Filter/Search/Search";
@@ -28,17 +28,18 @@ class Store extends Component {
     this.props.loadDataProduct();
   };
 
-  handlePaginationList = event => {
-    const activeTags = map(this.props.activeTags, tag => tag);
-    console.log(activeTags);
-
+  paginationHandler = event => {
+    const { activeTags, searchValue } = this.props;
+    const tags = map(activeTags, tag => tag);
+    // const searchArr = map(searchValue, value => value);
     this.setState({
       id: event.target.id
     });
-    this.props.handlePaginationLists(
+    this.props.mainSearch(
       event.target.id,
-      " ",
-      activeTags.join(" ")
+      // searchArr.join(""),
+      searchValue,
+      tags.join(" ")
     );
   };
 
@@ -89,11 +90,7 @@ class Store extends Component {
         <div className="paginationBox">
           {pages &&
             pages.map((val, key) => (
-              <button
-                onClick={this.handlePaginationList.bind(this)}
-                key={key}
-                id={val}
-              >
+              <button onClick={this.paginationHandler} key={key} id={val}>
                 {val}
               </button>
             ))}
@@ -103,12 +100,19 @@ class Store extends Component {
   }
 }
 
-const mapStateToProps = ({ products, auth, getAllProducts, activeTags }) => {
+const mapStateToProps = ({
+  products,
+  auth,
+  getAllProducts,
+  activeTags,
+  searchValue
+}) => {
   return {
     products,
     auth,
     allProduct: getAllProducts,
-    activeTags
+    activeTags,
+    searchValue
   };
 };
 
@@ -119,5 +123,5 @@ export default connect(mapStateToProps, {
   getComparison,
 
   loadDataProduct,
-  handlePaginationLists
+  mainSearch
 })(Store);

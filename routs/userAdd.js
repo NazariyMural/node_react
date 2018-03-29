@@ -6,44 +6,15 @@ const multer = require("multer");
 const AWS = require("aws-sdk");
 const appConfig = require("../config/keys");
 
-router.get("/user-add", (req, res, next) => {
-  User.findOne({ googleId: "112889707649724402783" })
-    .then(user => {
-      res.send(user);
-    })
-    .catch(err => console.log(err, "router store error"));
-});
-
 router.post("/user-add-change", (req, res, next) => {
-  console.log("we are on add");
-  User.findOne({ googleId: req.body.userData.userID })
-    .then(user => {
-      console.log(req.body.userData);
-
-      const userData = req.body.userData;
-      for (const key in userData) {
-        if (userData.hasOwnProperty("address")) {
-          user.set("address", userData.address);
-          user.save().then(result => res.send(result));
-        } else if (userData.hasOwnProperty("phone")) {
-          user.set("phone", userData.phone);
-          user.save().then(result => {
-            return res.send(result);
-          });
-        } else if (userData.hasOwnProperty("creditCard")) {
-          user.set("creditCard", userData.creditCard);
-          user.save().then(result => res.send(result));
-        } else if (userData.hasOwnProperty("fullName")) {
-          user.set("fullName", userData.fullName);
-          user.save().then(result => res.send(result));
-        }
-      }
-    })
-    .catch(err => console.log(err, "router store error"));
+  const data = req.body.userData.updateData;
+  const query = { googleId: req.body.userData.userID };
+  const update = { $set: data };
+  const options = { new: true, upsert: true };
+  User.findOneAndUpdate(query, update, options, (err, doc) => res.send(doc));
 });
 
 router.post("/user-add-location", (req, res, next) => {
-  console.log("user-add-location");
   User.findOne({ googleId: req.body.data.userData.userID })
     .then(user => {
       const userData = req.body.data.userData;

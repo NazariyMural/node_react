@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { getTags } from "../../../actions/getTags";
 import _ from "lodash";
 import Checkbox from "material-ui/Checkbox";
-import { handlePaginationLists } from "../../../actions/paginationList";
+import { mainSearch } from "../../../actions/mainSearch";
 import { activeTags } from "../../../actions/getTags";
 
 class Tags extends Component {
@@ -28,11 +28,16 @@ class Tags extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    // const searchArr = _.map(this.props.searchValue, value => value);
+    // console.log(this.props.searchValue);
+    const { searchValue } = this.props;
+    // console.log(searchArr.join(""), "tags");
     if (prevState.checked !== this.state.checked) {
       this.props.activeTags(this.state.checked);
-      this.props.handlePaginationLists(
+      this.props.mainSearch(
         this.props.currentPage,
-        " ",
+        // searchArr.join(""),
+        searchValue,
         this.state.checked
       );
     }
@@ -70,12 +75,12 @@ class Tags extends Component {
   }
 }
 
-const mapStateToProps = ({ tags }) => {
-  return { tags };
+const mapStateToProps = ({ tags, searchValue }) => {
+  return { tags, searchValue };
 };
 
 export default connect(mapStateToProps, {
   getTags,
-  handlePaginationLists,
+  mainSearch,
   activeTags
 })(Tags);

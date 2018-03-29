@@ -42,7 +42,7 @@ router.get("/:id", async (req, res, next) => {
         $nin: [""]
       },
       name: {
-        $regex: new RegExp(productData[1])
+        $regex: new RegExp(productData[1], "i")
       }
     });
   } else {
@@ -51,7 +51,7 @@ router.get("/:id", async (req, res, next) => {
         $all: tagsArr
       },
       name: {
-        $regex: new RegExp(productData[1])
+        $regex: new RegExp(productData[1], "i")
       }
     });
   }
