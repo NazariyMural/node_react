@@ -13,7 +13,7 @@ export const addUserProperty = userData => dispatch => {
 
 //user locaation creator
 export const addLocation = userData => dispatch => {
-  const location = userData.address;
+  const location = userData.updateData.address;
   const geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json`;
   const params = {
     address: location,

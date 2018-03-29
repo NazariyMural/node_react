@@ -9,6 +9,7 @@ import {
 } from "../../../actions/userPropertyActions";
 
 import FlatButton from "material-ui/FlatButton";
+import ProfileDataItem from "./ProfileDataItem/ProfileDataItem";
 
 class UserEdit extends Component {
   state = {
@@ -20,16 +21,16 @@ class UserEdit extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.editingPhone) {
-      this.refs.phone.focus();
+      this.refs.editingPhone.focus();
     }
     if (this.state.editingAddress) {
-      this.refs.address.focus();
+      this.refs.editingAddress.focus();
     }
     if (this.state.editingCard) {
-      this.refs.card.focus();
+      this.refs.editingCard.focus();
     }
     if (this.state.editingName) {
-      this.refs.userName.focus();
+      this.refs.editingName.focus();
     }
   }
 
@@ -39,8 +40,13 @@ class UserEdit extends Component {
         <ul>
           <li>
             {this.state.editingName ? (
-              <form onSubmit={this.handleSubmitName} className={styles.Form}>
-                <input type="text" ref="userName" />
+              <form
+                onSubmit={this.handleEditSubmit}
+                id="editingName"
+                className={styles.Form}
+                name="fullName"
+              >
+                <input type="text" ref="editingName" />
                 <button className="btn waves-effect waves-light" type="submit">
                   Submit
                 </button>
@@ -54,7 +60,15 @@ class UserEdit extends Component {
             ) : (
               <div className={styles.UserDataItem}>
                 {this.props.auth.fullName ? (
-                  <div>{this.renderUserName()}</div>
+                  <div>
+                    <ProfileDataItem
+                      item={this.props.auth.fullName}
+                      title="Your name:"
+                      icon="account_circle"
+                      id="editingName"
+                      handlFormOpen={this.handlFormOpen}
+                    />
+                  </div>
                 ) : null}
               </div>
             )}
@@ -68,8 +82,13 @@ class UserEdit extends Component {
 
           <li>
             {this.state.editingPhone ? (
-              <form onSubmit={this.handleSubmitPhone} className={styles.Form}>
-                <input type="text" ref="phone" />
+              <form
+                onSubmit={this.handleEditSubmit}
+                id="editingPhone"
+                className={styles.Form}
+                name="phone"
+              >
+                <input type="text" ref="editingPhone" />
                 <button className="btn waves-effect waves-light" type="submit">
                   Submit
                 </button>
@@ -84,14 +103,21 @@ class UserEdit extends Component {
               <span className={styles.UserDataItem}>
                 {this.props.auth.phone ? (
                   <div className={styles.UserDataItemText}>
-                    {this.renderUserPhone()}
+                    <ProfileDataItem
+                      item={this.props.auth.phone}
+                      title="Phone number:"
+                      icon="phone_iphone"
+                      id="editingPhone"
+                      handlFormOpen={this.handlFormOpen}
+                    />
                   </div>
                 ) : (
                   <span className={styles.UserAddItemText}>
                     Add phone number{" "}
                     <i
+                      id="editingPhone"
                       className="material-icons"
-                      onClick={this.handlePhoneEdit}
+                      onClick={this.handlFormOpen}
                     >
                       phone_iphone
                     </i>
@@ -103,8 +129,13 @@ class UserEdit extends Component {
 
           <li>
             {this.state.editingAddress ? (
-              <form onSubmit={this.handleSubmitAddress} className={styles.Form}>
-                <input type="text" ref="address" id="edit_input" />
+              <form
+                onSubmit={this.handleEditSubmit}
+                id="editingAddress"
+                className={styles.Form}
+                name="address"
+              >
+                <input type="text" ref="editingAddress" />
                 <button className="btn waves-effect waves-light" type="submit">
                   Submit
                 </button>
@@ -118,13 +149,22 @@ class UserEdit extends Component {
             ) : (
               <div className={styles.UserDataItem}>
                 {this.props.auth.location ? (
-                  <div>{this.renderUserLocation()}</div>
+                  <div>
+                    <ProfileDataItem
+                      item={this.props.auth.location.formatted_address}
+                      title="Current location:"
+                      icon="my_location"
+                      id="editingAddress"
+                      handlFormOpen={this.handlFormOpen}
+                    />
+                  </div>
                 ) : (
                   <span className={styles.UserAddItemText}>
                     Add your address{" "}
                     <i
+                      id="editingAddress"
                       className="material-icons"
-                      onClick={this.handleAddressEdit}
+                      onClick={this.handlFormOpen}
                     >
                       add_location
                     </i>
@@ -136,8 +176,13 @@ class UserEdit extends Component {
 
           <li>
             {this.state.editingCard ? (
-              <form onSubmit={this.handleSubmitCard} className={styles.Form}>
-                <input type="text" ref="card" />
+              <form
+                onSubmit={this.handleEditSubmit}
+                id="editingCard"
+                className={styles.Form}
+                name="creditCard"
+              >
+                <input type="text" ref="editingCard" />
                 <button className="btn waves-effect waves-light" type="submit">
                   Submit
                 </button>
@@ -152,12 +197,22 @@ class UserEdit extends Component {
               <span className={styles.UserDataItem}>
                 {this.props.auth.creditCard ? (
                   <div className={styles.UserDataItemText}>
-                    {this.renderUserCard()}
+                    <ProfileDataItem
+                      item={this.props.auth.creditCard}
+                      title="Card number:"
+                      icon="credit_card"
+                      id="editingCard"
+                      handlFormOpen={this.handlFormOpen}
+                    />
                   </div>
                 ) : (
                   <span className={styles.UserAddItemText}>
                     Add your credit card{" "}
-                    <i className="material-icons" onClick={this.handleCardEdit}>
+                    <i
+                      className="material-icons"
+                      id="editingCard"
+                      onClick={this.handlFormOpen}
+                    >
                       credit_card
                     </i>
                   </span>
@@ -170,190 +225,38 @@ class UserEdit extends Component {
     );
   };
 
-  //name handler
-  handleNameEdit = () => {
-    this.setState({ editingName: true });
+  handlFormOpen = e => {
+    const currentEdit = e.target.id;
+    this.setState({ [currentEdit]: true });
   };
-  handleSubmitName = event => {
-    let userName = this.refs.userName.value;
-    if (!userName) {
-      this.setState({ editingName: false });
+
+  handleEditSubmit = event => {
+    let target = event.target.id;
+    let value = this.refs[target].value;
+    let userProps = event.target.name;
+
+    console.log(userProps);
+    if (!value) {
+      this.setState({ [target]: false });
       return;
     }
     event.preventDefault();
+    if (target === "editingAddress") {
+      this.props.addLocation({
+        userID: this.props.auth.googleId,
+        updateData: {
+          [userProps]: value
+        }
+      });
+    }
     this.props.addUserProperty({
       userID: this.props.auth.googleId,
       updateData: {
-        fullName: userName
+        [userProps]: value
       }
     });
-    this.setState({ editingName: false });
+    this.setState({ [target]: false });
   };
-  //end
-
-  //phone handler
-  handlePhoneEdit = () => {
-    this.setState({ editingPhone: true });
-  };
-  handleSubmitPhone = event => {
-    let phone = this.refs.phone.value;
-    if (!phone) {
-      this.setState({ editingPhone: false });
-      return;
-    }
-    event.preventDefault();
-    this.props.addUserProperty({
-      userID: this.props.auth.googleId,
-      updateData: {
-        phone: phone
-      }
-    });
-    this.setState({ editingPhone: false });
-  };
-  //end
-
-  //address handler
-  handleAddressEdit = () => {
-    this.setState({ editingAddress: true });
-  };
-  handleSubmitAddress = event => {
-    let address = this.refs.address.value;
-    if (!address) {
-      this.setState({ editingAddress: false });
-      return;
-    }
-    event.preventDefault();
-    this.props.addLocation({
-      userID: this.props.auth.googleId,
-      address: address
-    });
-    this.setState({ editingAddress: false });
-  };
-  //end
-
-  //card handler
-  handleCardEdit = () => {
-    this.setState({ editingCard: true });
-  };
-  handleSubmitCard = event => {
-    let card = this.refs.card.value;
-    if (!card) {
-      this.setState({ editingCard: false });
-      return;
-    }
-    event.preventDefault();
-    this.props.addUserProperty({
-      userID: this.props.auth.googleId,
-      updateData: {
-        creditCard: card
-      }
-    });
-    this.setState({ editingCard: false });
-  };
-  //end
-
-  renderForm() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" ref="title" defaultValue={this.props.title} />
-        <button
-          className="btn waves-effect waves-light"
-          type="submit"
-          name="action"
-        >
-          Submit
-          <i className="material-icons right">send</i>
-        </button>
-      </form>
-    );
-  }
-
-  renderUserLocation() {
-    const collectionClasses = ["collection"];
-    collectionClasses.push(styles.Collection);
-    const location = this.props.auth.location;
-    const formatted_address = (
-      <ul
-        className={collectionClasses.join(" ")}
-        key={location.formatted_address}
-      >
-        <li key={location.place_id} className="collection-item avatar">
-          <i className="material-icons circle">my_location</i>
-          <span className="title">Current location:</span>
-          <p>{location.formatted_address}</p>
-          <a href="#!" className="secondary-content">
-            <i className="material-icons" onClick={this.handleAddressEdit}>
-              mode_edit
-            </i>
-          </a>
-        </li>
-      </ul>
-    );
-    return formatted_address;
-  }
-
-  renderUserPhone() {
-    const collectionClasses = ["collection"];
-    collectionClasses.push(styles.Collection);
-    const phone = this.props.auth.phone;
-    const formatted_phone = (
-      <ul className={collectionClasses.join(" ")}>
-        <li className="collection-item avatar">
-          <i className="material-icons circle">phone_iphone</i>
-          <span className="title">Phone number:</span>
-          <p>{phone}</p>
-          <a href="#!" className="secondary-content">
-            <i className="material-icons" onClick={this.handlePhoneEdit}>
-              mode_edit
-            </i>
-          </a>
-        </li>
-      </ul>
-    );
-    return formatted_phone;
-  }
-
-  renderUserCard() {
-    const collectionClasses = ["collection"];
-    collectionClasses.push(styles.Collection);
-    const card = this.props.auth.creditCard;
-    const formatted_card = (
-      <ul className={collectionClasses.join(" ")}>
-        <li className="collection-item avatar">
-          <i className="material-icons circle">phone_iphone</i>
-          <span className="title">Card number:</span>
-          <p>{card}</p>
-          <a href="#!" className="secondary-content">
-            <i className="material-icons" onClick={this.handleCardEdit}>
-              mode_edit
-            </i>
-          </a>
-        </li>
-      </ul>
-    );
-    return formatted_card;
-  }
-
-  renderUserName() {
-    const collectionClasses = ["collection"];
-    collectionClasses.push(styles.Collection);
-    const name = this.props.auth.fullName;
-    const formatted_name = (
-      <ul className={collectionClasses.join(" ")}>
-        <li className="collection-item avatar">
-          <i className="material-icons circle">phone_iphone</i>
-          <span className="title">Your name:</span>
-          <p>{name}</p>
-          <a href="#!" className="secondary-content">
-            <i className="material-icons" onClick={this.handleNameEdit}>
-              mode_edit
-            </i>
-          </a>
-        </li>
-      </ul>
-    );
-    return formatted_name;
-  }
 
   renderUserEmail() {
     const collectionClasses = ["collection"];
@@ -455,3 +358,83 @@ export default connect(mapStateToProps, {
   addLocation,
   uploadData
 })(UserEdit);
+
+// handleSubmitName = event => {
+//   let userName = this.refs.userName.value;
+//   if (!userName) {
+//     this.setState({ editingName: false });
+//     return;
+//   }
+//   event.preventDefault();
+//   this.props.addUserProperty({
+//     userID: this.props.auth.googleId,
+//     updateData: {
+//       fullName: userName
+//     }
+//   });
+//   this.setState({ editingName: false });
+// };
+//end
+
+//phone handler
+// handlePhoneEdit = () => {
+//   this.setState({ editingPhone: true });
+// };
+// handleSubmitPhone = event => {
+//   let phone = this.refs.phone.value;
+//   if (!phone) {
+//     this.setState({ editingPhone: false });
+//     return;
+//   }
+//   event.preventDefault();
+//   this.props.addUserProperty({
+//     userID: this.props.auth.googleId,
+//     updateData: {
+//       phone: phone
+//     }
+//   });
+//   this.setState({ editingPhone: false });
+// };
+//end
+
+//address handler
+// handleAddressEdit = () => {
+//   this.setState({ editingAddress: true });
+// };
+// handleSubmitAddress = event => {
+//   let address = this.refs.address.value;
+//   if (!address) {
+//     this.setState({ editingAddress: false });
+//     return;
+//   }
+//   event.preventDefault();
+//   this.props.addLocation({
+//     userID: this.props.auth.googleId,
+//     updateData: {
+//       address: address
+//     }
+//   });
+//   this.setState({ editingAddress: false });
+// };
+//end
+
+//card handler
+// handleCardEdit = () => {
+//   this.setState({ editingCard: true });
+// };
+// handleSubmitCard = event => {
+//   let card = this.refs.card.value;
+//   if (!card) {
+//     this.setState({ editingCard: false });
+//     return;
+//   }
+//   event.preventDefault();
+//   this.props.addUserProperty({
+//     userID: this.props.auth.googleId,
+//     updateData: {
+//       creditCard: card
+//     }
+//   });
+//   this.setState({ editingCard: false });
+// };
+//end
