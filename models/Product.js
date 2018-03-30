@@ -10,7 +10,8 @@ const productSchema = mongoose.Schema({
   comments: Array,
   props: Object,
   tags: Array,
-  descr: String
+  descr: String,
+  unavailable: Boolean
 });
 
 productSchema.index({ name: "text" });

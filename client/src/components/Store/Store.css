@@ -39,26 +39,79 @@
 
 .Prodoct_Item .Product_Image {
   margin: 0 auto;
-  height: 250px;
-  width: 200px;
+  height: 220px;
+  width: 170px;
+}
+.Prodoct_Item .BtnContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding-bottom: 5px;
 }
 .Prodoct_Item .CompareContainer {
   position: relative;
-  height: 70px;
-  display: flex;
-  justify-content: flex-end;
-}
-.Prodoct_Item .CompareContainer .CompareItem {
-  height: 50px;
+  height: 36px;
   width: 50px;
-  transition: all 300ms ease-out;
-  position: absolute;
+  display: inline-flex;
+  justify-content: flex-end;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  padding: 2px;
+  border: 1px solid #afafaf93;
+  border-radius: 3px;
+  transition: all 500ms ease-out;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
-.Prodoct_Item .CompareContainer .CompareItem:hover {
+.Prodoct_Item .CompareContainer img {
+  opacity: 0.5;
+}
+.Prodoct_Item .CompareContainer:hover img {
+  opacity: 1;
+}
+
+.Prodoct_Item .CompareContainer:hover {
+  border: 1px solid rgb(155, 88, 0);
+}
+
+.Prodoct_Item .CompareContainer .CompareItem {
+  height: 70px;
+  width: 70px;
+  transition: all 300ms ease-out;
+  position: absolute;
+  top: -18px;
+  right: -11px;
+  transform: scale(0.86);
+}
+
+/* .Prodoct_Item .CompareContainer .CompareItem:hover {
   cursor: pointer;
   height: 60px;
   width: 60px;
+} */
+
+.Prodoct_Item .BtnBuy {
+  display: inline-block;
+  width: 70%;
+  font-size: 12px;
+}
+
+.Prodoct_Item .BtnBuy:hover {
+  background-color: #64dd17 !important;
+}
+
+.Prodoct_Item .BtnBuy i {
+  transition: all 250ms ease-out;
+}
+
+.Prodoct_Item .BtnBuy:hover i {
+  color: #000;
+}
+
+.Prodoct_Item .BtnJoin {
+  background-color: #01579b !important;
 }
 
 .Tags {

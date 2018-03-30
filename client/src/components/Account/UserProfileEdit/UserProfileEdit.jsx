@@ -235,7 +235,6 @@ class UserEdit extends Component {
     let value = this.refs[target].value;
     let userProps = event.target.name;
 
-    console.log(userProps);
     if (!value) {
       this.setState({ [target]: false });
       return;
