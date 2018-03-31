@@ -11,6 +11,8 @@ import activeTags from "./activeTags";
 import names from "./namesReducer";
 import searchValue from "./searchReducer";
 
+import waitList from "./waitListReducer";
+
 export default combineReducers({
   auth: authReducer,
   products: storeReducer,
@@ -22,5 +24,6 @@ export default combineReducers({
   tags: getTags,
   activeTags,
   names,
-  searchValue
+  searchValue,
+  waitList
 });

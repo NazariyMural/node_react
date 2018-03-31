@@ -9,7 +9,6 @@ const UserUp = new Schema({
     unique: true,
     match: /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   },
-  // password: { type: String, select: false },
   googleId: String,
   username: String,
   fullName: String,

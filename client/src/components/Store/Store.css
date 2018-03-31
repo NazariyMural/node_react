@@ -114,6 +114,28 @@
   background-color: #01579b !important;
 }
 
+.Prodoct_Item .BtnWait {
+  font-size: 12px;
+  position: relative;
+  display: inline-block;
+  width: 70%;
+  background-color: #fafafa !important;
+}
+.Prodoct_Item .BtnWait i {
+  position: absolute;
+  top: 0px;
+  left: 11px;
+  color: #000;
+}
+
+.Prodoct_Item .BtnWait span {
+  position: absolute;
+  top: 5px;
+  left: 45px;
+  line-height: 14px;
+  color: #000;
+}
+
 .Tags {
   position: fixed;
   top: 15%;

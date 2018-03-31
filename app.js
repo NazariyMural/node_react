@@ -27,6 +27,7 @@ const store = require("./routs/store");
 const cart = require("./routs/cart");
 const userAdd = require("./routs/userAdd");
 const compare = require("./routs/compare");
+const waitList = require("./routs/waitList");
 
 const app = express();
 app.use(busboy());
@@ -85,6 +86,7 @@ app.use("/api/store", store);
 app.use("/api/cart", cart);
 app.use("/api/user-add", userAdd);
 app.use("/api/compare", compare);
+app.use("/api/wait-list", waitList);
 
 // Configure Passport
 passport.use(new LocalStrategy(User1.authenticate()));

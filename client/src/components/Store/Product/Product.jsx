@@ -35,13 +35,15 @@ export const Product = ({
         className={btnClasses.join(" ")}
         onClick={() =>
           addToWaitList({
-            productId: product._id,
-            userID: auth.googleId
+            userID: auth.googleId,
+            productId: product._id
           })
         }
       >
-        <i class="material-icons">mail</i>
-        Notify me, when be available
+        <i className="material-icons">mail</i>
+        <span>
+          Notify when be<br /> available
+        </span>
       </a>
     );
   } else {

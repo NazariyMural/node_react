@@ -7,6 +7,7 @@ import {
   getComparison
 } from "../../actions";
 import map from "lodash/map";
+import { addToWaitList, getWaitList } from "../../actions/waitListAction";
 import styles from "./Store.css";
 import Product from "./Product/Product";
 
@@ -20,9 +21,11 @@ class Store extends Component {
     id: "",
     activeTags: null
   };
-  // componentDidMount() {
-  //   this.props.fetchData();
-  // }
+  componentDidMount() {
+    if (this.props.auth) {
+      this.props.getWaitList(this.props.auth.googleId);
+    }
+  }
 
   componentWillMount = () => {
     this.props.loadDataProduct();
@@ -63,6 +66,7 @@ class Store extends Component {
             compareProductHandler={this.compareProductHandler}
             auth={this.props.auth}
             addToCart={this.props.addToCart}
+            addToWaitList={this.props.addToWaitList}
           />
         );
       });
@@ -70,6 +74,7 @@ class Store extends Component {
     return data;
   };
   render() {
+    console.log(this.props.waitList);
     const pages = [];
     if (this.props.allProduct) {
       for (let i = 0; i < this.props.allProduct.pages; i++) {
@@ -105,14 +110,16 @@ const mapStateToProps = ({
   auth,
   getAllProducts,
   activeTags,
-  searchValue
+  searchValue,
+  waitList
 }) => {
   return {
     products,
     auth,
     allProduct: getAllProducts,
     activeTags,
-    searchValue
+    searchValue,
+    waitList
   };
 };
 
@@ -123,5 +130,8 @@ export default connect(mapStateToProps, {
   getComparison,
 
   loadDataProduct,
-  mainSearch
+  mainSearch,
+
+  addToWaitList,
+  getWaitList
 })(Store);
