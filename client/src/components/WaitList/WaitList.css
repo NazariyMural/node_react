@@ -1,0 +1,10 @@
+.SingleProduct {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.SingleProduct img {
+  height: 100px;
+}

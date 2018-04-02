@@ -36,3 +36,8 @@
 .SingUpGroupe h6 {
   margin: 12px;
 }
+
+a,
+button {
+  z-index: 0 !important;
+}

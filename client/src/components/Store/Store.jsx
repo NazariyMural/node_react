@@ -9,28 +9,59 @@ import {
 import map from "lodash/map";
 import { addToWaitList, getWaitList } from "../../actions/waitListAction";
 import styles from "./Store.css";
+import waitListStyles from "./ModalContentent/AddToWaitList.css";
 import Product from "./Product/Product";
 
 import { mainSearch } from "../../actions/mainSearch";
 import { loadDataProduct } from "../../actions/getProduct";
 import Tags from "../Filter/Tags/Tags";
 import Search from "../Filter/Search/Search";
+import ReactModal from "react-modal";
+import ModalContent from "./ModalContentent/AddToWaitList";
 
 class Store extends Component {
   state = {
     id: "",
-    activeTags: null
+    activeTags: null,
+    showModal: false,
+    modalContent: null
   };
+
+  //fetch data
   componentDidMount() {
     if (this.props.auth) {
       this.props.getWaitList(this.props.auth.googleId);
     }
   }
-
   componentWillMount = () => {
     this.props.loadDataProduct();
   };
+  //end
 
+  //modal handler
+  handleOpenModal = () => {
+    this.setState({ showModal: true });
+  };
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
+  };
+  addToWaitListHandler = ({ userID, productId }) => {
+    const { waitList, addToWaitList } = this.props;
+    const oldLen = waitList.userWaitList.length;
+    addToWaitList({ userID, productId })
+      .then(data => {
+        console.log(data);
+        console.log(oldLen);
+        console.log(data.payload.userWaitList.length);
+        if (data.payload.userWaitList.length > oldLen) {
+          this.handleOpenModal();
+        }
+      })
+      .catch(err => console.log(err));
+  };
+  //end
+
+  //pagination
   paginationHandler = event => {
     const { activeTags, searchValue } = this.props;
     const tags = map(activeTags, tag => tag);
@@ -45,13 +76,18 @@ class Store extends Component {
       tags.join(" ")
     );
   };
+  //end
 
+  //compare
   compareProductHandler = ({ productId, userID }) => {
     this.props.addToCompare({
       productId,
       userID
     });
   };
+  //end
+
+  //render product
   renderProductsHandler = () => {
     let data = <p>Loading...</p>;
     if (!this.props.auth === null) {
@@ -66,15 +102,17 @@ class Store extends Component {
             compareProductHandler={this.compareProductHandler}
             auth={this.props.auth}
             addToCart={this.props.addToCart}
-            addToWaitList={this.props.addToWaitList}
+            // addToWaitList={this.props.addToWaitList}
+            addToWaitListHandler={this.addToWaitListHandler}
           />
         );
       });
     }
     return data;
   };
+  //end
+
   render() {
-    console.log(this.props.waitList);
     const pages = [];
     if (this.props.allProduct) {
       for (let i = 0; i < this.props.allProduct.pages; i++) {
@@ -100,6 +138,17 @@ class Store extends Component {
               </button>
             ))}
         </div>
+
+        <ReactModal
+          isOpen={this.state.showModal}
+          contentLabel="onRequestClose Example"
+          onRequestClose={this.handleCloseModal}
+          className={waitListStyles.Modal}
+          overlayClassName={waitListStyles.Overlay}
+          ariaHideApp={false}
+        >
+          <ModalContent handleCloseModal={this.handleCloseModal} />
+        </ReactModal>
       </section>
     );
   }

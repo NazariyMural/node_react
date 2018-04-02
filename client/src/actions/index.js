@@ -67,7 +67,7 @@ export const removeCart = userID => {
 
 export const addToCart = addToCartData => {
   return dispatch => {
-    axios
+    return axios
       .post("/api/cart/add-to-cart", {
         productId: addToCartData.productId,
         userID: addToCartData.userID

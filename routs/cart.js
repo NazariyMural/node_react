@@ -93,7 +93,6 @@ router.post("/add-to-cart/", (req, res, next) => {
 router.post("/reduce-by-one/", (req, res, next) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
-  console.log(userID);
   Cart.findOne({ userID: userID })
     .then(existingCart => {
       let cart = new CartClass(existingCart.userCart);
@@ -161,10 +160,8 @@ router.post("/add-to-purchase-history", (req, res) => {
 
 router.get("/remove-cart/:id", (req, res) => {
   const userID = req.params.id;
-  console.log(userID);
   Cart.findOne({ userID: userID })
     .then(cart => {
-      console.log(cart);
       cart.remove().then(result => res.send(null));
     })
     .catch(err => res.send([]));

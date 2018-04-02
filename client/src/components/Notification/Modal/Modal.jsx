@@ -1,0 +1,14 @@
+import React, { Component } from "react";
+
+class Modal extends Component {
+  state = {};
+
+  render() {
+    return (
+      <div>
+        <span>Modal</span>
+      </div>
+    );
+  }
+}
+export default Modal;

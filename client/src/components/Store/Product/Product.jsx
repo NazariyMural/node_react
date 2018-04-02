@@ -7,7 +7,7 @@ export const Product = ({
   compareProductHandler,
   auth,
   addToCart,
-  addToWaitList
+  addToWaitListHandler
 }) => {
   const btnClasses = ["waves-effect waves-light btn green accent-4"];
 
@@ -34,7 +34,7 @@ export const Product = ({
       <a
         className={btnClasses.join(" ")}
         onClick={() =>
-          addToWaitList({
+          addToWaitListHandler({
             userID: auth.googleId,
             productId: product._id
           })

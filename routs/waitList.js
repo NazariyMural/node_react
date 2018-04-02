@@ -9,18 +9,16 @@ const moment = require("moment");
 router.get("/:id", async (req, res) => {
   const userID = req.params.id;
   const waitList = await WaitList.findOne({ userID });
-  console.log(waitList);
   res.status(200).send(waitList);
 });
 
 router.put("/add", async (req, res) => {
   const userID = req.body.userID;
   const productId = req.body.productId;
-  // const userID = "112889707649724402783";
-  // const productId = "5abe96e6f0b90e5cb4c6a20b";
 
   const product = await Products.findOne({ _id: productId });
   const waitlist = await WaitList.findOne({ userID });
+  console.log(userID, productId);
   if (!waitlist) {
     const list = await new WaitList({
       userID,
@@ -28,12 +26,30 @@ router.put("/add", async (req, res) => {
     }).save();
     const saveRes = await list.userWaitList.addToSet(product);
     const data = await list.save();
+    console.log(data);
     res.status(200).send(data);
   } else {
-    const saveRes = await waitlist.userWaitList.addToSet(product);
-    const data = await waitlist.save();
-    res.status(200).send(data);
+    const query = { userID: userID };
+    const update = { $addToSet: { userWaitList: product } };
+    const options = { new: true };
+    WaitList.findOneAndUpdate(query, update, options, (err, doc) =>
+      res.status(200).send(doc)
+    );
   }
+});
+
+router.delete("/remove/:data", async (req, res) => {
+  let productData = req.params.data.split("&");
+  const userID = productData[0];
+  const productId = productData[1];
+
+  const product = await Products.findOne({ _id: productId });
+  const query = { userID: userID };
+  const update = { $pull: { userWaitList: { name: "Iphone 10" } } };
+  const options = { new: true };
+  WaitList.findOneAndUpdate(query, update, options, (err, doc) => {
+    return res.status(200).send(doc);
+  });
 });
 
 module.exports = router;

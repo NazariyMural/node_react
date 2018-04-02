@@ -13,6 +13,8 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { PropagateLoader } from "react-spinners";
 import { checkSession, getComparison } from "./actions";
 
+import WaitList from "./components/WaitList/WaitList";
+
 class App extends Component {
   componentWillMount() {
     this.props.checkSession();
@@ -45,6 +47,7 @@ class App extends Component {
                     <Route path="/register" component={Registration} />
 
                     <Route path="/compare" component={CompaRison} />
+                    <Route path="/wait-list" component={WaitList} />
                     <Route path="/" component={Store} />
                   </Switch>
                 </div>
