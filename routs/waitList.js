@@ -5,6 +5,36 @@ const mongoose = require("mongoose");
 const Products = require("../models/Product");
 const map = require("lodash/map");
 const moment = require("moment");
+const cron = require("node-cron");
+const User = require("../models/UserSingUp");
+
+const timer = cron.schedule(
+  "*/7 * * * * *",
+  async () => {
+    const lists = await WaitList.find({
+      userWaitList: { $elemMatch: { unavailable: false } }
+    });
+    if (lists.length) {
+      const arrayOfIds = [];
+      map(lists, (list, key) => {
+        // console.log(list.userID);
+        arrayOfIds.push(list.userID);
+      });
+      const users = await User.find({
+        $and: [{ googleId: { $in: arrayOfIds } }, { isNotify: { $ne: true } }]
+      });
+      console.log(
+        "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+      );
+      console.log(users);
+      console.log(
+        "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+      );
+    }
+  },
+  false
+);
+// timer.start();
 
 router.get("/:id", async (req, res) => {
   const userID = req.params.id;
@@ -51,5 +81,30 @@ router.delete("/remove/:data", async (req, res) => {
     return res.status(200).send(doc);
   });
 });
+
+
+// nodemailer.createTestAccount((err, account) => {
+//   var transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//              user: 'nazariymurall@gmail.com',
+//              pass: 'NAZIK2012'
+//          }
+//      });
+
+//   let mailOptions = {
+//       from: '"Fred Foo 👻" <foo@example.com>', // sender address
+//       to: 'nazariymurall@gmail.com, nazik_94@ukr.net', // list of receivers
+//       subject: 'Hello ✔', // Subject line
+//       text: 'Hello world?', // plain text body
+//       html: '<b>Hello world?</b>' // html body
+//   };
+
+//   transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//           return console.log(error);
+//       }
+//   });
+// });
 
 module.exports = router;

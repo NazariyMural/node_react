@@ -50,7 +50,6 @@ class Store extends Component {
     const oldLen = waitList.userWaitList.length;
     addToWaitList({ userID, productId })
       .then(data => {
-        console.log(data);
         console.log(oldLen);
         console.log(data.payload.userWaitList.length);
         if (data.payload.userWaitList.length > oldLen) {

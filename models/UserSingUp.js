@@ -16,7 +16,8 @@ const UserUp = new Schema({
   creditCard: Object,
   location: Object,
   photo: String,
-  isLoggedIn: Boolean
+  isLoggedIn: Boolean,
+  isNotify: Boolean
 });
 
 UserUp.plugin(passportLocalMongoose);
