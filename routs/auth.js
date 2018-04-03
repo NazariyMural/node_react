@@ -82,7 +82,7 @@ router.get(
 );
 
 router.get("/google/callback", passport.authenticate("google"), (req, res) => {
-  return res.redirect("/account");
+  return res.redirect("/login");
   // return res.send(null);
 });
 

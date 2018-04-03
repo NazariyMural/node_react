@@ -17,6 +17,7 @@ function CartClass(oldCart) {
       storedItem = this.items[id] = { item: item, qty: 0, price: 0 };
     }
     storedItem.qty++;
+
     storedItem.price = storedItem.item.price * storedItem.qty;
     this.totalQty++;
     this.totalPrice += storedItem.item.price;
@@ -165,6 +166,37 @@ router.get("/remove-cart/:id", (req, res) => {
       cart.remove().then(result => res.send(null));
     })
     .catch(err => res.send([]));
+});
+
+router.get("/check-price/:id", async (req, res) => {
+  const userID = req.params.id;
+  const cart = await Cart.findOne({ userID: userID });
+  const arrOfOds = Object.keys(cart.userCart.items);
+  const products = await Products.find({
+    $and: [{ _id: { $in: arrOfOds } }]
+  });
+  let totalPrice = 0;
+  map(cart.userCart.items, (item, key) => {
+    map(products, product => {
+      if (`${product._id}` === `${item.item._id}`) {
+        cart.userCart.items[product._id].item.price = product.price;
+        cart.userCart.items[product._id].price =
+          product.price * cart.userCart.items[product._id].qty;
+        totalPrice += cart.userCart.items[product._id].price;
+        // console.log(cart.userCart.items[product._id].price);
+      }
+    });
+
+    // cart.userCart.totalPrice = totalPrice;
+  });
+  cart.userCart.totalPrice = totalPrice;
+  console.log(totalPrice);
+  const query = { userID: userID };
+  const update = { $set: { userCart: cart.userCart } };
+  const options = { new: true };
+  const upd = await Cart.findOneAndUpdate(query, update, options, (err, doc) =>
+    res.status(200).send(doc)
+  );
 });
 
 module.exports = router;

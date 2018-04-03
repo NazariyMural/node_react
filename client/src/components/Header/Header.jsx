@@ -3,15 +3,28 @@ import styles from "./Header.css";
 import { connect } from "react-redux";
 import { NavLink, Redirect } from "react-router-dom";
 import { logUserOut } from "../../actions";
+import { getCart } from "../../actions/cartActions";
+import { getWaitList } from "../../actions/waitListAction";
+import { getComparison } from "../../actions/compareActions";
 import CartHeaderNotification from "../Notification/CartDataAmount/CartHeaderItem/CartHeaderItem";
 import CompareHeaderNotification from "../Notification/CompareHeaderNotification/CompareHeaderNotification";
+import WaitListNotification from "../Notification/WaitList/WaitList";
 import Drawer from "./Drawer/Drawer";
-//
+
 class Header extends Component {
   state = {
     open: false
   };
 
+  //always visable notification
+  componentDidMount() {
+    const { auth, getCart, getWaitList, getComparison } = this.props;
+    if (auth) {
+      getCart(auth.googleId);
+      getWaitList(auth.googleId);
+      getComparison(auth.googleId);
+    }
+  }
   handleToggle = () => this.setState({ open: !this.state.open });
 
   handleClose = () => this.setState({ open: false });
@@ -89,6 +102,12 @@ class Header extends Component {
                   <CartHeaderNotification cart={this.props.cart} />
                 </NavLink>
               </li>
+              <li key="4" className={styles.HeaderListItem}>
+                <NavLink to="/wait-list" className={styles.HeaderListNav}>
+                  WaitList
+                  <WaitListNotification list={this.props.waitList} />
+                </NavLink>
+              </li>
             </div>
             {this.renderContent()}
           </ul>
@@ -103,8 +122,13 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, cart, comparison }) => {
-  return { auth, cart, comparison };
+const mapStateToProps = ({ auth, cart, comparison, waitList }) => {
+  return { auth, cart, comparison, waitList };
 };
 
-export default connect(mapStateToProps, { logUserOut })(Header);
+export default connect(mapStateToProps, {
+  logUserOut,
+  getCart,
+  getWaitList,
+  getComparison
+})(Header);

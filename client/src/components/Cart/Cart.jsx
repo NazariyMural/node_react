@@ -5,7 +5,8 @@ import {
   getCart,
   addToCart,
   reduceByOne,
-  deleteItem
+  deleteItem,
+  checkPrice
 } from "../../actions/cartActions";
 import _ from "lodash";
 import CartDataAmount from "../Notification/CartDataAmount/CartDataAmount";
@@ -13,18 +14,10 @@ import { NavLink } from "react-router-dom";
 import CartItem from "./CartItem/CartItem";
 
 class Cart extends Component {
-  // componentWillReceiveProps(nextProps, nextState) {
-  //   const currentId = this.props.auth && this.props.auth.googleId;
-  //   const nextId = nextProps.auth && nextProps.auth.googleId;
-  //   if (currentId !== nextId) {
-  //     this.props.getCart(nextProps.auth.googleId);
-  //   }
-  //   console.log("componentWillReceiveProps");
-  // }
-
   componentDidMount() {
     if (this.props.auth) {
       this.props.getCart(this.props.auth.googleId);
+      this.props.checkPrice(this.props.auth.googleId);
     }
   }
 
@@ -109,9 +102,9 @@ class Cart extends Component {
   }
 }
 
-const mapStateToProps = ({ products, cart, auth }) => {
+const mapStateToProps = ({ cart, auth, getAllProducts }) => {
   return {
-    products,
+    getAllProducts,
     cart,
     auth
   };
@@ -121,5 +114,6 @@ export default connect(mapStateToProps, {
   getCart,
   addToCart,
   reduceByOne,
-  deleteItem
+  deleteItem,
+  checkPrice
 })(Cart);

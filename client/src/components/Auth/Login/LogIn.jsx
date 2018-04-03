@@ -19,12 +19,15 @@ export class LoginPageContainer extends Component {
 
   componentDidMount() {
     if (this.props.auth) {
-      this.props.getWaitList(this.props.auth.googleId);
+      this.props.getWaitList(this.props.auth.googleId).then(res => {
+        this.renderWaitListNotification();
+      });
     }
   }
 
   componentWillReceiveProps(nextProps, nextState) {
     if (nextProps.auth !== this.props.auth) {
+      console.log("componentWillReceiveProps");
       this.props.getWaitList(nextProps.auth.googleId).then(res => {
         this.renderWaitListNotification();
       });
@@ -33,7 +36,6 @@ export class LoginPageContainer extends Component {
 
   logUserInFunction = userData => {
     const { logUserIn } = this.props;
-    // dispatch(logUserIn(userData));
     logUserIn(userData);
   };
 
@@ -46,6 +48,7 @@ export class LoginPageContainer extends Component {
   };
 
   renderWaitListNotification() {
+    console.log("this.state.redirect");
     const { waitList } = this.props;
     let availableNow = 0;
     if (waitList) {
@@ -66,6 +69,7 @@ export class LoginPageContainer extends Component {
 
   render() {
     const { auth } = this.props;
+    console.log(this.state.redirect);
     if (auth === null) {
       return <section>Loading...</section>;
     }

@@ -1,13 +1,15 @@
 import React from "react";
 import map from "lodash/map";
 import styles from "../Store.css";
+import { Link } from "react-router-dom";
 
 export const Product = ({
   product,
   compareProductHandler,
   auth,
   addToCart,
-  addToWaitListHandler
+  addToWaitListHandler,
+  handlePriceRender
 }) => {
   const btnClasses = ["waves-effect waves-light btn green accent-4"];
 
@@ -48,7 +50,11 @@ export const Product = ({
     );
   } else {
     btnClasses.push(styles.BtnJoin);
-    buy_btn = <a className={btnClasses.join(" ")}>Join us first</a>;
+    buy_btn = (
+      <Link to="/login" className={btnClasses.join(" ")}>
+        Join us first
+      </Link>
+    );
   }
 
   return (
@@ -60,7 +66,9 @@ export const Product = ({
         className={styles.Product_Image}
       />
       <span>{product.name}</span>
-      <span>${product.price}</span>
+      <span className={styles.Price}>
+        {handlePriceRender(product.originalPrice, product.price)}
+      </span>
       <span>{!product.active ? "Product is over" : "Good descriptions"}</span>
       {map(product.comments, comment => {
         return (

@@ -1,10 +1,62 @@
-.SingleProduct {
+.Wrapper {
+  background-color: #eceff1;
+  width: 100%;
+  min-height: 93vh;
+  height: 100%;
+  padding-top: 40px;
+}
+
+.Wrapper .WaitList {
   display: flex;
+  margin: 0 auto;
+  width: 80%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.Wrapper .SingleProduct {
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 230px;
+  padding: 10px 20px 30px 20px;
+  padding-left: 20px !important;
 }
 
-.SingleProduct img {
+.Wrapper .DisabledBtn {
+  line-height: 14px !important;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.Wrapper .DisabledBtn i {
+  margin-top: 6px;
+  margin-right: 8px;
+}
+
+.Wrapper .SingleProduct:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+}
+
+.Wrapper .SingleProduct .RemoveIcon {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.Wrapper .SingleProduct .RemoveIcon i {
+  cursor: pointer;
+  transition: all 300ms ease-out;
+}
+
+.Wrapper .SingleProduct .RemoveIcon i:hover {
+  color: tomato;
+}
+
+.Wrapper .SingleProduct img {
   height: 100px;
 }

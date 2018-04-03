@@ -1,0 +1,18 @@
+.WaitList {
+  display: inline-flex;
+  position: relative;
+}
+
+.WaitList span.Badge {
+  position: absolute;
+  display: inline-block;
+  top: 10px;
+  left: 18px;
+  padding: 0;
+  background-color: blueviolet;
+}
+
+.WaitList:hover i {
+  display: inline-block;
+  color: #00b3aa;
+}

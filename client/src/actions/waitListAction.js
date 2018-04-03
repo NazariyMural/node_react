@@ -19,9 +19,13 @@ export const addToWaitList = ({ userID, productId }) => dispatch => {
     .catch(err => console.log(err));
 };
 
-export const removeProduct = ({ userID, productId }) => dispatch => {
+export const removeProduct = ({
+  userID,
+  productName,
+  productDescr
+}) => dispatch => {
   axios
-    .delete(`/api/wait-list/remove/${userID}&${productId}`)
+    .delete(`/api/wait-list/remove/${userID}&${productName}&${productDescr}`)
     .then(res => {
       dispatch({ type: REMOVE_FROM_WAITLIST, payload: res.data });
     })

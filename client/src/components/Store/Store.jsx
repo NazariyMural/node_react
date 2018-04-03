@@ -6,7 +6,7 @@ import {
   addToCompare,
   getComparison
 } from "../../actions";
-import map from "lodash/map";
+import { map } from "lodash";
 import { addToWaitList, getWaitList } from "../../actions/waitListAction";
 import styles from "./Store.css";
 import waitListStyles from "./ModalContentent/AddToWaitList.css";
@@ -29,16 +29,16 @@ class Store extends Component {
 
   //fetch data
   componentDidMount() {
-    if (this.props.auth) {
-      this.props.getWaitList(this.props.auth.googleId);
+    const { auth, getWaitList } = this.props;
+    if (auth) {
+      getWaitList(this.props.auth.googleId);
     }
   }
   componentWillMount = () => {
     this.props.loadDataProduct();
   };
-  //end
 
-  //modal handler
+  //wait list modal handler
   handleOpenModal = () => {
     this.setState({ showModal: true });
   };
@@ -53,12 +53,28 @@ class Store extends Component {
         console.log(oldLen);
         console.log(data.payload.userWaitList.length);
         if (data.payload.userWaitList.length > oldLen) {
+          this.setState({ modalContent: "new_product" });
           this.handleOpenModal();
+        } else {
+          this.setState({ modalContent: "already_exist" });
         }
       })
       .catch(err => console.log(err));
   };
   //end
+
+  //price was changed modal hendler
+  handlePriceRender = (originalPrice, price) => {
+    if (originalPrice > price) {
+      return (
+        <span className={styles.DiscountCont}>
+          <span className={styles.OldPrice}>{`$${originalPrice}`}</span>
+          <span className={styles.Discount}>{`$${price}`}</span>
+        </span>
+      );
+    }
+    return <span className={styles.Price}>{`$${price}`}</span>;
+  };
 
   //pagination
   paginationHandler = event => {
@@ -103,6 +119,7 @@ class Store extends Component {
             addToCart={this.props.addToCart}
             // addToWaitList={this.props.addToWaitList}
             addToWaitListHandler={this.addToWaitListHandler}
+            handlePriceRender={this.handlePriceRender}
           />
         );
       });
@@ -154,7 +171,6 @@ class Store extends Component {
 }
 
 const mapStateToProps = ({
-  products,
   auth,
   getAllProducts,
   activeTags,
@@ -162,7 +178,6 @@ const mapStateToProps = ({
   waitList
 }) => {
   return {
-    products,
     auth,
     allProduct: getAllProducts,
     activeTags,

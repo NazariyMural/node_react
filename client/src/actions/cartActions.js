@@ -5,7 +5,8 @@ import {
   REDUCE,
   ADD_TO_CART,
   REMOVE_CART,
-  ADD_TO_PURCHASE_HISTORY
+  ADD_TO_PURCHASE_HISTORY,
+  CHECK_PRICE
 } from "./types";
 
 export const getCart = userID => {
@@ -83,6 +84,18 @@ export const handlePurchaseSubmit = ({ products, userID, totalPrice }) => {
       })
       .then(res => {
         dispatch({ type: ADD_TO_PURCHASE_HISTORY, payload: res.data });
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const checkPrice = auth => {
+  return dispatch => {
+    return axios
+      .get(`/api/cart/check-price/${auth}`)
+      .then(res => {
+        console.log(res.data);
+        dispatch({ type: CHECK_PRICE, payload: res.data });
       })
       .catch(err => console.log(err));
   };
