@@ -15,9 +15,13 @@ export default ({
         <img src={item.item.images} alt="data" className={styles.CartImage} />
       </td>
       <td>{item.item.name}</td>
-      {/* <td>${item.price}</td> */}
       <td>
-        ${handlePriceRender(item.price, item.qty, item.item.originalPrice)}
+        {handlePriceRender(
+          item.price,
+          item.qty,
+          item.item.originalPrice,
+          item.item.price
+        )}
       </td>
       <td>{item.qty}</td>
       <td className={styles.CartTdIconItem}>

@@ -6,7 +6,7 @@ import {
   addToCompare,
   getComparison
 } from "../../actions";
-import { map } from "lodash";
+import { map, isEmpty } from "lodash";
 import { addToWaitList, getWaitList } from "../../actions/waitListAction";
 import styles from "./Store.css";
 import waitListStyles from "./ModalContentent/AddToWaitList.css";
@@ -47,19 +47,28 @@ class Store extends Component {
   };
   addToWaitListHandler = ({ userID, productId }) => {
     const { waitList, addToWaitList } = this.props;
-    const oldLen = waitList.userWaitList.length;
-    addToWaitList({ userID, productId })
-      .then(data => {
-        console.log(oldLen);
-        console.log(data.payload.userWaitList.length);
-        if (data.payload.userWaitList.length > oldLen) {
+    if (!isEmpty(waitList)) {
+      const oldLen = waitList.userWaitList.length;
+      addToWaitList({ userID, productId })
+        .then(data => {
+          console.log(oldLen);
+          console.log(data.payload.userWaitList.length);
+          if (data.payload.userWaitList.length > oldLen) {
+            this.setState({ modalContent: "new_product" });
+            this.handleOpenModal();
+          } else {
+            this.setState({ modalContent: "already_exist" });
+          }
+        })
+        .catch(err => console.log(err));
+    } else {
+      addToWaitList({ userID, productId })
+        .then(data => {
           this.setState({ modalContent: "new_product" });
           this.handleOpenModal();
-        } else {
-          this.setState({ modalContent: "already_exist" });
-        }
-      })
-      .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+    }
   };
   //end
 
@@ -75,6 +84,7 @@ class Store extends Component {
     }
     return <span className={styles.Price}>{`$${price}`}</span>;
   };
+  //end
 
   //pagination
   paginationHandler = event => {

@@ -74,25 +74,30 @@ class Cart extends Component {
           addToCart={addToCart}
           reduceByOne={reduceByOne}
           deleteItem={deleteItem}
+          handlePriceRender={this.handlePriceRender}
         />
       );
     });
   };
 
   //price was changed modal hendler
-  handlePriceRender = (totalItemPrice, itemQty, originalPrice) => {
-    console.log(totalItemPrice);
-    console.log(itemQty);
-    console.log(originalPrice);
-    // if (originalPrice > price) {
-    //   return (
-    //     <span className={styles.DiscountCont}>
-    //       <span className={styles.OldPrice}>{`$${originalPrice}`}</span>
-    //       <span className={styles.Discount}>{`$${price}`}</span>
-    //     </span>
-    //   );
-    // }
-    // return <span className={styles.Price}>{`$${price}`}</span>;
+  handlePriceRender = (
+    totalItemPrice,
+    itemQty,
+    originalPrice,
+    currentPrice
+  ) => {
+    if (originalPrice > currentPrice) {
+      return (
+        <span className={styles.DiscountCont}>
+          <span className={styles.OldPrice}>{`$${originalPrice *
+            itemQty}`}</span>
+          <span className={styles.Discount}>{`$${currentPrice *
+            itemQty}`}</span>
+        </span>
+      );
+    }
+    return <span className={styles.Price}>{`$${currentPrice}`}</span>;
   };
 
   render() {

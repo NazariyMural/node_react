@@ -4,15 +4,25 @@ import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 // import map from "lodash/map";
 // import Stripe from "../../Stripe/Stripe";
-import { handlePurchaseSubmit } from "../../../actions";
+import {
+  handlePurchaseSubmit,
+  handleDeliverySubmit
+} from "../../../actions/cartActions";
 
 class CartDataAmount extends Component {
-  // handlePurchaseHistory = () => {
-  //   const { userCart } = this.props.cart;
-  //   map(userCart.items, (item, key) => {
-  //     console.log(item);
-  //   });
-  // };
+  purchaseSubmit = () => {
+    const { userCart } = this.props.cart;
+    // this.props.handlePurchaseSubmit({
+    //   products: userCart.items,
+    //   userID: this.props.cart.userID,
+    //   totalPrice: userCart.totalPrice
+    // });
+    this.props.handleDeliverySubmit({
+      products: userCart.items,
+      auth: this.props.auth
+    });
+  };
+
   renderCartData = () => {
     const { userCart } = this.props.cart;
     if (!isEmpty(this.props.cart)) {
@@ -24,17 +34,7 @@ class CartDataAmount extends Component {
             <span>Amount: {userCart.totalPrice}</span>
             {/* <Stripe totalSum={this.props.cart.userCart.totalPrice * 100} /> */}
             <br />
-            <button
-              type="submit"
-              className="btn"
-              onClick={() =>
-                this.props.handlePurchaseSubmit({
-                  products: userCart.items,
-                  userID: this.props.cart.userID,
-                  totalPrice: userCart.totalPrice
-                })
-              }
-            >
+            <button type="submit" className="btn" onClick={this.purchaseSubmit}>
               Pay
             </button>
           </div>
@@ -42,8 +42,8 @@ class CartDataAmount extends Component {
       }
     }
   };
+
   render() {
-    // console.log(this.props.cart);
     return (
       <div>
         <span>{this.renderCartData()}</span>
@@ -51,10 +51,11 @@ class CartDataAmount extends Component {
     );
   }
 }
-const mapStateToProps = ({ cart }) => {
-  return { cart };
+const mapStateToProps = ({ cart, auth }) => {
+  return { cart, auth };
 };
 
-export default connect(mapStateToProps, { handlePurchaseSubmit })(
-  CartDataAmount
-);
+export default connect(mapStateToProps, {
+  handlePurchaseSubmit,
+  handleDeliverySubmit
+})(CartDataAmount);

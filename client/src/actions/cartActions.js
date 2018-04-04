@@ -6,8 +6,11 @@ import {
   ADD_TO_CART,
   REMOVE_CART,
   ADD_TO_PURCHASE_HISTORY,
-  CHECK_PRICE
+  CHECK_PRICE,
+  SEND_TO_DELIVERY
 } from "./types";
+
+import map from "lodash/map";
 
 export const getCart = userID => {
   return dispatch => {
@@ -98,5 +101,35 @@ export const checkPrice = auth => {
         dispatch({ type: CHECK_PRICE, payload: res.data });
       })
       .catch(err => console.log(err));
+  };
+};
+
+export const handleDeliverySubmit = ({ products, auth }) => {
+  console.log(auth);
+  const items = [];
+  map(products, (item, key) => {
+    items.push({ name: item.item.name });
+  });
+  const data = {
+    arrival_point: auth.location.geometry.location,
+    email: auth.email,
+    items: items
+  };
+  return dispatch => {
+    fetch("https://delivery-service08.herokuapp.com/api/orders", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+    });
+    // axios
+    //   .post("https://delivery-service08.herokuapp.com/api/orders", { data })
+    //   .then(res => {
+    //     console.log(res.data);
+    //     dispatch({ type: SEND_TO_DELIVERY, payload: res.data });
+    //   })
+    //   .catch(err => console.log(err));
   };
 };

@@ -45,6 +45,13 @@ class WaitList extends Component {
         });
       }
     }
+    if (isEmpty(waitList) || isEmpty(waitList.userWaitList)) {
+      return (
+        <h4 className={styles.EmptyList}>
+          You haven't any product on your wait list
+        </h4>
+      );
+    }
   };
 
   render() {

@@ -60,3 +60,7 @@
 .Wrapper .SingleProduct img {
   height: 100px;
 }
+
+.Wrapper .EmptyList {
+  padding: 60px;
+}
