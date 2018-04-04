@@ -79,6 +79,22 @@ class Cart extends Component {
     });
   };
 
+  //price was changed modal hendler
+  handlePriceRender = (totalItemPrice, itemQty, originalPrice) => {
+    console.log(totalItemPrice);
+    console.log(itemQty);
+    console.log(originalPrice);
+    // if (originalPrice > price) {
+    //   return (
+    //     <span className={styles.DiscountCont}>
+    //       <span className={styles.OldPrice}>{`$${originalPrice}`}</span>
+    //       <span className={styles.Discount}>{`$${price}`}</span>
+    //     </span>
+    //   );
+    // }
+    // return <span className={styles.Price}>{`$${price}`}</span>;
+  };
+
   render() {
     return (
       <div className="container">

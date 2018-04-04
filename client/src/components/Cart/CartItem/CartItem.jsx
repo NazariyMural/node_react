@@ -1,14 +1,24 @@
 import React from "react";
 import styles from "../Cart.css";
 
-export default ({ item, addToCart, auth, reduceByOne, deleteItem }) => {
+export default ({
+  item,
+  addToCart,
+  auth,
+  reduceByOne,
+  deleteItem,
+  handlePriceRender
+}) => {
   return (
     <tr key={item.item._id}>
       <td>
         <img src={item.item.images} alt="data" className={styles.CartImage} />
       </td>
       <td>{item.item.name}</td>
-      <td>${item.price}</td>
+      {/* <td>${item.price}</td> */}
+      <td>
+        ${handlePriceRender(item.price, item.qty, item.item.originalPrice)}
+      </td>
       <td>{item.qty}</td>
       <td className={styles.CartTdIconItem}>
         <span

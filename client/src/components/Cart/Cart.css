@@ -40,3 +40,31 @@
 .Cart .CartDelete i:hover {
   color: #e22a2a;
 }
+
+.Cart .Price {
+  font-size: 18px;
+  padding: 5px;
+}
+
+.Cart .DiscountCont {
+  display: flex;
+  flex-direction: column;
+}
+.Cart .OldPrice {
+  position: relative;
+}
+.Cart .OldPrice::before {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 50%;
+  right: 0;
+  border-top: 1px solid #ff0000;
+  color: #474747;
+}
+
+.Cart .Discount {
+  background-color: #fff3b5;
+  padding: 5px 10px;
+  color: #ff0000;
+}
