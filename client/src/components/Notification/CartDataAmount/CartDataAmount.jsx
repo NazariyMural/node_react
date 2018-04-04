@@ -25,28 +25,24 @@ class CartDataAmount extends Component {
 
   renderCartData = () => {
     const { userCart, auth } = this.props.cart;
-    if (auth) {
-      if (!isEmpty(this.props.cart)) {
-        if (userCart.totalQty) {
-          return (
-            <div>
-              <span>Sum: {userCart.totalQty}</span>
-              <br />
-              <span>Amount: {userCart.totalPrice}</span>
-              {/* <Stripe totalSum={this.props.cart.userCart.totalPrice * 100} /> */}
-              <br />
-              <button
-                type="submit"
-                className="btn"
-                onClick={this.purchaseSubmit}
-              >
-                Pay
-              </button>
-            </div>
-          );
-        }
+    // if (auth) {
+    if (!isEmpty(this.props.cart)) {
+      if (userCart.totalQty) {
+        return (
+          <div>
+            <span>Sum: {userCart.totalQty}</span>
+            <br />
+            <span>Amount: {userCart.totalPrice}</span>
+            {/* <Stripe totalSum={this.props.cart.userCart.totalPrice * 100} /> */}
+            <br />
+            <button type="submit" className="btn" onClick={this.purchaseSubmit}>
+              Pay
+            </button>
+          </div>
+        );
       }
     }
+    // }
     return null;
   };
 
