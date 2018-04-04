@@ -173,7 +173,10 @@ class Store extends Component {
           overlayClassName={waitListStyles.Overlay}
           ariaHideApp={false}
         >
-          <ModalContent handleCloseModal={this.handleCloseModal} />
+          <ModalContent
+            handleCloseModal={this.handleCloseModal}
+            email={this.props.auth.email}
+          />
         </ReactModal>
       </section>
     );

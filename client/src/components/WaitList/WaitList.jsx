@@ -9,6 +9,7 @@ import {
 import { addToCart } from "../../actions";
 import styles from "./WaitList.css";
 import Product from "./Product/Product";
+import { Link } from "react-router-dom";
 
 class WaitList extends Component {
   //fetch data
@@ -29,27 +30,41 @@ class WaitList extends Component {
 
   renderProduct = () => {
     const { waitList, auth, removeProduct } = this.props;
-    if (waitList) {
-      if (!isEmpty(waitList.userWaitList)) {
-        return map(waitList.userWaitList, (product, key) => {
-          return (
-            <Product
-              key={key}
-              removeProduct={removeProduct}
-              auth={auth}
-              addToCartHandler={this.addToCartHandler}
-              keys={key}
-              product={product}
-            />
-          );
-        });
+    if (auth) {
+      if (waitList) {
+        if (!isEmpty(waitList.userWaitList)) {
+          return map(waitList.userWaitList, (product, key) => {
+            return (
+              <Product
+                key={key}
+                removeProduct={removeProduct}
+                auth={auth}
+                addToCartHandler={this.addToCartHandler}
+                keys={key}
+                product={product}
+              />
+            );
+          });
+        }
       }
-    }
-    if (isEmpty(waitList) || isEmpty(waitList.userWaitList)) {
+      if (isEmpty(waitList) || isEmpty(waitList.userWaitList)) {
+        return (
+          <div className={styles.EmptyList}>
+            <h4> You haven't any product on your wait list</h4>
+            <Link to="/store" className="btn  green accent-4">
+              Store
+            </Link>
+          </div>
+        );
+      }
+    } else {
       return (
-        <h4 className={styles.EmptyList}>
-          You haven't any product on your wait list
-        </h4>
+        <div className={styles.EmptyList}>
+          <h4>Join us first</h4>
+          <Link to="/login" className="btn blue darken-3">
+            Join us
+          </Link>
+        </div>
       );
     }
   };

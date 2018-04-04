@@ -7,6 +7,7 @@
   z-index: 2;
   border-radius: 10px;
   padding: 20px;
+  outline: none;
 }
 
 .Overlay {
@@ -24,8 +25,30 @@
   align-items: center;
   justify-content: center;
   width: 400px;
+  position: relative;
 }
 
 .ModalContent h4 {
   text-align: center;
+}
+
+.ModalContent i {
+  cursor: pointer;
+  transition: all 350ms ease-out;
+}
+.ModalContent i:hover {
+  color: #f00000;
+}
+
+.ModalContent .CloseIcon {
+  position: absolute;
+  top: -5px;
+  right: 0px;
+}
+
+.Email {
+  padding: 20px;
+  background-color: #d3d3d3;
+  font-size: 20px;
+  border-radius: 5px;
 }

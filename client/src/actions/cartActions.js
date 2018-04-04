@@ -97,7 +97,6 @@ export const checkPrice = auth => {
     return axios
       .get(`/api/cart/check-price/${auth}`)
       .then(res => {
-        console.log(res.data);
         dispatch({ type: CHECK_PRICE, payload: res.data });
       })
       .catch(err => console.log(err));

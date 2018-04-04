@@ -24,4 +24,19 @@
   align-items: center;
   justify-content: center;
   width: 400px;
+  position: relative;
+}
+
+.ModalContent i {
+  cursor: pointer;
+  transition: all 350ms ease-out;
+}
+.ModalContent i:hover {
+  color: #f00000;
+}
+
+.ModalContent .CloseIcon {
+  position: absolute;
+  top: -5px;
+  right: 0px;
 }

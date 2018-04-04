@@ -62,5 +62,9 @@
 }
 
 .Wrapper .EmptyList {
-  padding: 60px;
+  padding: 60px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
