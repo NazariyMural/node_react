@@ -10,7 +10,7 @@ const User = require("../models/UserSingUp");
 const mailSender = require("../helpers/mailSender");
 
 const timer = cron.schedule(
-  "*/5 * * * *",
+  "*/1 * * * *",
   async () => {
     const lists = await WaitList.find({
       userWaitList: { $elemMatch: { unavailable: false } }

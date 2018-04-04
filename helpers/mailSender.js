@@ -13,7 +13,7 @@ module.exports = (recipients, subject) => {
 
     let mailOptions = {
       from: '"ElifTech Market 👻 "',
-      to: recipients.join(),
+      bcc: recipients.join(),
       subject: subject,
       text: `Hello, world`,
       html: mailtemplate

@@ -30,7 +30,7 @@ const compare = require("./routs/compare");
 const waitList = require("./routs/waitList");
 
 const app = express();
-app.use(busboy());
+// app.use(busboy());
 
 // Connect to Mongoose
 // mongoose.connect(
