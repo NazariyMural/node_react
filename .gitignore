@@ -5,7 +5,6 @@
 
 # testing
 /coverage
-/config
 
 # production
 /build

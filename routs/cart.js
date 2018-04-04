@@ -183,14 +183,10 @@ router.get("/check-price/:id", async (req, res) => {
         cart.userCart.items[product._id].price =
           product.price * cart.userCart.items[product._id].qty;
         totalPrice += cart.userCart.items[product._id].price;
-        // console.log(cart.userCart.items[product._id].price);
       }
     });
-
-    // cart.userCart.totalPrice = totalPrice;
   });
   cart.userCart.totalPrice = totalPrice;
-  console.log(totalPrice);
   const query = { userID: userID };
   const update = { $set: { userCart: cart.userCart } };
   const options = { new: true };
