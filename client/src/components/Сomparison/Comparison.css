@@ -1,6 +1,35 @@
-.AddMoreProducts {
+.Wrapper {
+  background-color: #eceff1;
+  width: 100%;
+  min-height: 93vh;
+  height: 100%;
+  padding-top: 40px;
+}
+
+.Wrapper .Comparison {
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.Wrapper .EmptyList {
+  padding: 60px 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+}
+.Wrapper .EmptyList h4 {
+  text-align: center;
+}
+
+@media screen and (max-width: 700px) {
+  .Wrapper .EmptyList h4 {
+    font-size: 22px;
+  }
 }

@@ -4,7 +4,11 @@ import {
   FETCH_USER,
   CHECK_USER_SESSION,
   LOGIN_USER_SUCCESS,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE,
+  REGISTRATION_FAILURE,
+  REGISTRATION_SUCCESS,
+  LOGIN_FAILURE
 } from "./types";
 
 import { decrementProgress, incrementProgress } from "./progress";
@@ -17,11 +21,7 @@ export const fetchUser = () => {
   };
 };
 
-export const logoutFailure = error => ({
-  type: "AUTHENTICATION_LOGOUT_FAILURE",
-  error
-});
-
+export const logoutFailure = error => ({ type: LOGOUT_FAILURE, error });
 export const logoutSuccess = () => ({ type: LOGOUT_SUCCESS });
 
 export const logUserOut = () => dispatch => {
@@ -67,18 +67,15 @@ export const checkSession = () => dispatch => {
 };
 
 export const registrationFailure = error => ({
-  type: "AUTHENTICATION_REGISTRATION_FAILURE",
+  type: REGISTRATION_FAILURE,
   error
 });
 export const registrationSuccess = () => ({
-  type: "AUTHENTICATION_REGISTRATION_SUCCESS"
+  type: REGISTRATION_SUCCESS
 });
-export const registrationSuccessViewed = () => ({
-  type: "AUTHENTICATION_REGISTRATION_SUCCESS_VIEWED"
-});
-export const loginAttempt = () => ({ type: "AUTHENTICATION_LOGIN_ATTEMPT" });
+
 export const loginFailure = error => ({
-  type: "AUTHENTICATION_LOGIN_FAILURE",
+  type: LOGIN_FAILURE,
   error
 });
 export const loginSuccess = json => ({
@@ -88,10 +85,7 @@ export const loginSuccess = json => ({
 
 export function logUserIn(userData) {
   return async dispatch => {
-    // turn on spinner
     dispatch(incrementProgress());
-    // register that a login attempt is being made
-    dispatch(loginAttempt());
 
     await fetch("/api/auth/login", {
       method: "POST",
@@ -110,7 +104,6 @@ export function logUserIn(userData) {
       .then(json => {
         if (json) {
           return dispatch(loginSuccess(json));
-          // return dispatch({ type: LOGIN_USER_SUCCESS, payload: json });
         } else {
           dispatch(
             loginFailure(

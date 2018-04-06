@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import styles from "./Comparison.css";
 import { connect } from "react-redux";
 import { forOwn, map, isEmpty } from "lodash";
-import { NavLink } from "react-router-dom";
 import { getComparison, deleteFromCompare } from "../../actions/compareActions";
 import { addToCart } from "../../actions/cartActions";
 import ComparisonTable from "./ComparisonTable/ComparisonTable";
 import AddMoreProducts from "./AddMoreProducts/AddMoreProducts";
+import { Link } from "react-router-dom";
 
 class Comparison extends Component {
   state = {
@@ -74,26 +74,42 @@ class Comparison extends Component {
     const { auth, comparison } = this.props;
     if (auth === false) {
       return (
-        <div className={styles.AddMoreProducts}>
-          <h2>You have not LogIn yet!</h2>
-          <h2>Join us first</h2>
-          <NavLink to={"/login"}>Log In</NavLink>
+        <div className={styles.Wrapper}>
+          <section className={styles.Comparison}>
+            <div className={styles.EmptyList}>
+              <h4>Join us first</h4>
+              <Link to="/login" className="btn blue darken-3">
+                Join us
+              </Link>
+            </div>
+          </section>
         </div>
       );
     } else if (isEmpty(comparison) || !comparison.userCompare) {
       return (
-        <div className={styles.AddMoreProducts}>
-          <h2>You haven't add any products to compare</h2>
+        <div className={styles.Wrapper}>
+          <section className={styles.Comparison}>
+            <div className={styles.EmptyList}>
+              <h4> You haven't add any products to compare</h4>
+              <Link to="/store" className="btn  green accent-4">
+                Store
+              </Link>
+            </div>
+          </section>
         </div>
       );
     } else if (!isEmpty(comparison) && comparison.userCompare) {
       if (Object.keys(comparison.userCompare.items).length < 2) {
         return (
-          <AddMoreProducts
-            comparison={comparison}
-            googleId={this.props.auth.googleId}
-            deleteFromCompare={this.props.deleteFromCompare}
-          />
+          <div className={styles.Wrapper}>
+            <section className={styles.Comparison}>
+              <AddMoreProducts
+                comparison={comparison}
+                googleId={this.props.auth.googleId}
+                deleteFromCompare={this.props.deleteFromCompare}
+              />
+            </section>
+          </div>
         );
       }
       return this.renderTableCompareHandler();

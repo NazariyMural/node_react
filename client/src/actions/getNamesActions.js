@@ -1,11 +1,11 @@
 import axios from "axios";
-import { GET_NAMES } from "./types";
+import { GET_PRODUCT_NAMES } from "./types";
 export const getNames = () => dispatch => {
   axios
     .get("/api/store/get-names")
     .then(response => {
       dispatch({
-        type: GET_NAMES,
+        type: GET_PRODUCT_NAMES,
         payload: response.data
       });
     })
