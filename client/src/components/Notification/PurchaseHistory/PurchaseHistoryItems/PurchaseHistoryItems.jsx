@@ -19,7 +19,8 @@ class PurchaseHistoryItems extends Component {
     currentPurchaseKey: null,
     currentPurchaseProducts: null,
     currentPurchasePrice: null,
-    currentPurchaseDate: null
+    currentPurchaseDate: null,
+    link: null
   };
   renderPurchaseHistory = () => {
     if (!isEmpty(this.props.purchaseHistory)) {
@@ -34,7 +35,8 @@ class PurchaseHistoryItems extends Component {
                   key: key,
                   products: purchase.products,
                   date: purchase.currentTime,
-                  price: purchase.totalPrice
+                  price: purchase.totalPrice,
+                  link: purchase.link
                 })
               }
             >
@@ -48,13 +50,14 @@ class PurchaseHistoryItems extends Component {
     }
     return null;
   };
-  getCurrentPurchaseHandler = ({ key, products, price, date }) => {
+  getCurrentPurchaseHandler = ({ key, products, price, date, link }) => {
     this.setState({
       isClicked: true,
       purchaseKey: key,
       currentPurchaseProducts: products,
       currentPurchasePrice: price,
-      currentPurchaseDate: date
+      currentPurchaseDate: date,
+      link
     });
   };
   render() {
@@ -66,7 +69,8 @@ class PurchaseHistoryItems extends Component {
             state: {
               products: this.state.currentPurchaseProducts,
               price: this.state.currentPurchasePrice,
-              date: this.state.currentPurchaseDate
+              date: this.state.currentPurchaseDate,
+              link: this.state.link
             }
           }}
         />

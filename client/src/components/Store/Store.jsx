@@ -1,19 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  fetchData,
-  addToCart,
-  addToCompare,
-  getComparison
-} from "../../actions";
+import { addToCart } from "../../actions/cartActions";
+import { addToCompare } from "../../actions/compareActions";
+import { addToWaitList, getWaitList } from "../../actions/waitListActions";
+import { mainSearch } from "../../actions/mainSearchActions";
+import { loadDataProduct } from "../../actions/getProductActions";
 import { map, isEmpty } from "lodash";
-import { addToWaitList, getWaitList } from "../../actions/waitListAction";
 import styles from "./Store.css";
 import waitListStyles from "./ModalContentent/AddToWaitList.css";
 import Product from "./Product/Product";
-
-import { mainSearch } from "../../actions/mainSearch";
-import { loadDataProduct } from "../../actions/getProduct";
 import Tags from "../Filter/Tags/Tags";
 import Search from "../Filter/Search/Search";
 import ReactModal from "react-modal";
@@ -118,7 +113,7 @@ class Store extends Component {
     if (!this.props.auth === null) {
       return data;
     } else {
-      let products = this.props.allProduct.product;
+      let products = this.props.products.product;
       data = map(products, (product, key) => {
         return (
           <Product
@@ -140,8 +135,8 @@ class Store extends Component {
 
   render() {
     const pages = [];
-    if (this.props.allProduct) {
-      for (let i = 0; i < this.props.allProduct.pages; i++) {
+    if (this.props.products) {
+      for (let i = 0; i < this.props.products.pages; i++) {
         pages.push(i);
       }
     }
@@ -185,14 +180,14 @@ class Store extends Component {
 
 const mapStateToProps = ({
   auth,
-  getAllProducts,
+  products,
   activeTags,
   searchValue,
   waitList
 }) => {
   return {
     auth,
-    allProduct: getAllProducts,
+    products,
     activeTags,
     searchValue,
     waitList
@@ -200,11 +195,8 @@ const mapStateToProps = ({
 };
 
 export default connect(mapStateToProps, {
-  fetchData,
   addToCart,
   addToCompare,
-  getComparison,
-
   loadDataProduct,
   mainSearch,
 

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styles from "./UserProfileEdit.css";
 import { connect } from "react-redux";
-
 import {
   addUserProperty,
   addLocation,
@@ -40,23 +39,35 @@ class UserEdit extends Component {
         <ul>
           <li>
             {this.state.editingName ? (
-              <form
-                onSubmit={this.handleEditSubmit}
-                id="editingName"
-                className={styles.Form}
-                name="fullName"
-              >
-                <input type="text" ref="editingName" />
-                <button className="btn waves-effect waves-light" type="submit">
-                  Submit
-                </button>
-                <button
-                  className="btn waves-effect waves-light"
-                  onClick={() => this.setState({ editingName: false })}
+              <div>
+                <form
+                  onSubmit={this.handleEditSubmit}
+                  id="editingName"
+                  className={styles.Form}
+                  name="fullName"
                 >
-                  Cancel
-                </button>
-              </form>
+                  <input
+                    type="text"
+                    ref="editingName"
+                    placeholder="Enter Full Name"
+                    className={styles.Input}
+                  />
+                  <div className={styles.FormBtn}>
+                    <button
+                      className="btn waves-effect waves-light"
+                      type="submit"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      className="btn waves-effect waves-light"
+                      onClick={() => this.setState({ editingName: false })}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
             ) : (
               <div className={styles.UserDataItem}>
                 {this.props.auth.fullName ? (
@@ -88,16 +99,26 @@ class UserEdit extends Component {
                 className={styles.Form}
                 name="phone"
               >
-                <input type="text" ref="editingPhone" />
-                <button className="btn waves-effect waves-light" type="submit">
-                  Submit
-                </button>
-                <button
-                  className="btn waves-effect waves-light"
-                  onClick={() => this.setState({ editingPhone: false })}
-                >
-                  Cancel
-                </button>
+                <input
+                  type="text"
+                  ref="editingPhone"
+                  placeholder="Enter phone number"
+                  className={styles.Input}
+                />
+                <div className={styles.FormBtn}>
+                  <button
+                    className="btn waves-effect waves-light"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    className="btn waves-effect waves-light"
+                    onClick={() => this.setState({ editingPhone: false })}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </form>
             ) : (
               <span className={styles.UserDataItem}>
@@ -135,16 +156,26 @@ class UserEdit extends Component {
                 className={styles.Form}
                 name="address"
               >
-                <input type="text" ref="editingAddress" />
-                <button className="btn waves-effect waves-light" type="submit">
-                  Submit
-                </button>
-                <button
-                  className="btn waves-effect waves-light"
-                  onClick={() => this.setState({ editingAddress: false })}
-                >
-                  Cancel
-                </button>
+                <input
+                  type="text"
+                  ref="editingAddress"
+                  placeholder="Enter Your location"
+                  className={styles.Input}
+                />
+                <div className={styles.FormBtn}>
+                  <button
+                    className="btn waves-effect waves-light"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    className="btn waves-effect waves-light"
+                    onClick={() => this.setState({ editingAddress: false })}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </form>
             ) : (
               <div className={styles.UserDataItem}>
@@ -182,16 +213,26 @@ class UserEdit extends Component {
                 className={styles.Form}
                 name="creditCard"
               >
-                <input type="text" ref="editingCard" />
-                <button className="btn waves-effect waves-light" type="submit">
-                  Submit
-                </button>
-                <button
-                  className="btn waves-effect waves-light"
-                  onClick={() => this.setState({ editingCard: false })}
-                >
-                  Cancel
-                </button>
+                <input
+                  type="text"
+                  ref="editingCard"
+                  placeholder="Enter credit card"
+                  className={styles.Input}
+                />
+                <div className={styles.FormBtn}>
+                  <button
+                    className="btn waves-effect waves-light"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    className="btn waves-effect waves-light"
+                    onClick={() => this.setState({ editingCard: false })}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </form>
             ) : (
               <span className={styles.UserDataItem}>
@@ -357,83 +398,3 @@ export default connect(mapStateToProps, {
   addLocation,
   uploadData
 })(UserEdit);
-
-// handleSubmitName = event => {
-//   let userName = this.refs.userName.value;
-//   if (!userName) {
-//     this.setState({ editingName: false });
-//     return;
-//   }
-//   event.preventDefault();
-//   this.props.addUserProperty({
-//     userID: this.props.auth.googleId,
-//     updateData: {
-//       fullName: userName
-//     }
-//   });
-//   this.setState({ editingName: false });
-// };
-//end
-
-//phone handler
-// handlePhoneEdit = () => {
-//   this.setState({ editingPhone: true });
-// };
-// handleSubmitPhone = event => {
-//   let phone = this.refs.phone.value;
-//   if (!phone) {
-//     this.setState({ editingPhone: false });
-//     return;
-//   }
-//   event.preventDefault();
-//   this.props.addUserProperty({
-//     userID: this.props.auth.googleId,
-//     updateData: {
-//       phone: phone
-//     }
-//   });
-//   this.setState({ editingPhone: false });
-// };
-//end
-
-//address handler
-// handleAddressEdit = () => {
-//   this.setState({ editingAddress: true });
-// };
-// handleSubmitAddress = event => {
-//   let address = this.refs.address.value;
-//   if (!address) {
-//     this.setState({ editingAddress: false });
-//     return;
-//   }
-//   event.preventDefault();
-//   this.props.addLocation({
-//     userID: this.props.auth.googleId,
-//     updateData: {
-//       address: address
-//     }
-//   });
-//   this.setState({ editingAddress: false });
-// };
-//end
-
-//card handler
-// handleCardEdit = () => {
-//   this.setState({ editingCard: true });
-// };
-// handleSubmitCard = event => {
-//   let card = this.refs.card.value;
-//   if (!card) {
-//     this.setState({ editingCard: false });
-//     return;
-//   }
-//   event.preventDefault();
-//   this.props.addUserProperty({
-//     userID: this.props.auth.googleId,
-//     updateData: {
-//       creditCard: card
-//     }
-//   });
-//   this.setState({ editingCard: false });
-// };
-//end

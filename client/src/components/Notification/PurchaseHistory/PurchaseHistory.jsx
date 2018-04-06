@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-// import styles from "./PurchaseHistory.css";
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
-import { removeCart } from "../../../actions";
+import { removeCart } from "../../../actions/cartActions";
 import PurchaseHistoryItems from "./PurchaseHistoryItems/PurchaseHistoryItems";
 
 class PurchaseHistory extends Component {

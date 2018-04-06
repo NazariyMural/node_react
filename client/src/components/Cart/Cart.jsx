@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./Cart.css";
 import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
 import {
   getCart,
   addToCart,
@@ -8,10 +9,9 @@ import {
   deleteItem,
   checkPrice
 } from "../../actions/cartActions";
-import _ from "lodash";
 import CartDataAmount from "../Notification/CartDataAmount/CartDataAmount";
-import { NavLink } from "react-router-dom";
 import CartItem from "./CartItem/CartItem";
+import _ from "lodash";
 
 class Cart extends Component {
   componentDidMount() {

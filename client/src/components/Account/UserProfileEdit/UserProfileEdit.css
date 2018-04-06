@@ -20,10 +20,32 @@
   margin: 0 auto;
   background-color: blueviolet;
 }
+.Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  height: 100px;
+  border: 1px solid #d3d3d3;
+  margin: 0 auto;
+  width: 40%;
+  min-width: 310px;
+}
 
+.Form .FormBtn {
+  position: absolute;
+  width: 250px;
+  top: 50px;
+  left: 55px;
+  z-index: 500;
+}
 .Form button {
   padding: 0 1rem;
   margin-right: 10px;
+}
+
+.Form input.Input {
+  width: 250px;
 }
 
 .Form button:last-child {

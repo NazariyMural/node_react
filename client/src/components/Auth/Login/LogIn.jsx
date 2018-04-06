@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { logUserIn } from "../../../actions";
-import LoginPage from "./LoginForm";
-import { isEmpty, map } from "lodash";
-
+import { isEmpty, filter } from "lodash";
 import ReactModal from "react-modal";
+import { logUserIn } from "../../../actions/userAuthActions";
+import { getWaitList } from "../../../actions/waitListActions";
+import LoginPage from "./LoginForm";
 import ModalContent from "./ModalContent/AvailableProduct";
-
-import { getWaitList } from "../../../actions/waitListAction";
 import styles from "./ModalContent/AvailableProduct.css";
 
 export class LoginPageContainer extends Component {
@@ -16,7 +14,6 @@ export class LoginPageContainer extends Component {
     showModal: false,
     redirect: false
   };
-
   componentDidMount() {
     if (this.props.auth) {
       this.props.getWaitList(this.props.auth.googleId).then(res => {
@@ -25,9 +22,12 @@ export class LoginPageContainer extends Component {
     }
   }
 
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return nextProps.auth === this.props.auth;
+  // }
+
   componentWillReceiveProps(nextProps, nextState) {
     if (nextProps.auth !== this.props.auth) {
-      console.log("componentWillReceiveProps");
       this.props.getWaitList(nextProps.auth.googleId).then(res => {
         this.renderWaitListNotification();
       });
@@ -48,36 +48,28 @@ export class LoginPageContainer extends Component {
   };
 
   renderWaitListNotification() {
-    console.log("this.state.redirect");
     const { waitList } = this.props;
-    let availableNow = 0;
     if (waitList) {
+      let availableNow = [];
       if (!isEmpty(waitList.userWaitList)) {
-        map(waitList.userWaitList, (product, key) => {
-          if (!product.unavailable) availableNow++;
+        availableNow = filter(waitList.userWaitList, product => {
+          if (!product.unavailable) return product;
         });
       }
+      if (availableNow.length) {
+        this.handleOpenModal();
+      } else {
+        this.setState({ redirect: true });
+      }
     }
-    if (availableNow) {
-      this.handleOpenModal();
-    } else {
-      this.setState({ redirect: true });
-    }
-
     return null;
   }
 
   render() {
     const { auth } = this.props;
-    console.log(this.state.redirect);
     if (auth === null) {
       return <section>Loading...</section>;
     }
-    // if (auth) {
-    //   if (auth.isLoggedIn) {
-    //      return <Redirect to="/account" />;
-    //   }
-    // }
     if (this.state.redirect) {
       return <Redirect to="/account" />;
     }

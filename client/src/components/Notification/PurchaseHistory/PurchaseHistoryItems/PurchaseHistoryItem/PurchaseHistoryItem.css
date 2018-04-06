@@ -5,7 +5,17 @@
 .Price {
   text-align: center;
 }
-
+.Link {
+  text-align: center;
+}
+.Link a {
+  font-size: 16px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+.Link a:hover {
+  text-decoration: underline;
+}
 .NavLinks {
   display: flex;
   justify-content: center;

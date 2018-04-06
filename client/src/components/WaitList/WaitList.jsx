@@ -4,9 +4,9 @@ import { isEmpty, map } from "lodash";
 import {
   addToWaitList,
   getWaitList,
-  removeProduct
-} from "../../actions/waitListAction";
-import { addToCart } from "../../actions";
+  removeProduct,
+  addToCartAndPemoveProduct
+} from "../../actions/waitListActions";
 import styles from "./WaitList.css";
 import Product from "./Product/Product";
 import { Link } from "react-router-dom";
@@ -20,12 +20,8 @@ class WaitList extends Component {
   }
 
   addToCartHandler = ({ userID, productId, productName, productDescr }) => {
-    const { removeProduct, addToCart } = this.props;
-    addToCart({ userID, productId })
-      .then(data => {
-        removeProduct({ userID, productName, productDescr });
-      })
-      .catch(err => console.log(err));
+    const { addToCartAndPemoveProduct } = this.props;
+    addToCartAndPemoveProduct({ userID, productName, productDescr, productId });
   };
 
   renderProduct = () => {
@@ -85,6 +81,6 @@ const mapStateToProps = ({ auth, waitList, cart }) => {
 export default connect(mapStateToProps, {
   addToWaitList,
   getWaitList,
-  addToCart,
-  removeProduct
+  removeProduct,
+  addToCartAndPemoveProduct
 })(WaitList);

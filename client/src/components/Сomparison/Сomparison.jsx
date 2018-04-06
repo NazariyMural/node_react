@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import styles from "./Comparison.css";
 import { connect } from "react-redux";
 import { forOwn, map, isEmpty } from "lodash";
-import { getComparison, deleteFromCompare, addToCart } from "../../actions";
+import { NavLink } from "react-router-dom";
+import { getComparison, deleteFromCompare } from "../../actions/compareActions";
+import { addToCart } from "../../actions/cartActions";
 import ComparisonTable from "./ComparisonTable/ComparisonTable";
 import AddMoreProducts from "./AddMoreProducts/AddMoreProducts";
-import { NavLink } from "react-router-dom";
 
 class Comparison extends Component {
   state = {

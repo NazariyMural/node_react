@@ -133,15 +133,12 @@ router.post("/add-to-purchase-history", (req, res) => {
   const products = req.body.products;
   const userID = req.body.userID;
   const totalPrice = req.body.totalPrice;
+  const link = req.body.link;
   const currentTime = moment().format("MMM Do YY, h:mm:ss a");
   const _purchaseId = new mongoose.Types.ObjectId();
 
   const currentPurchase = {
-    [_purchaseId]: {
-      currentTime: currentTime,
-      products: products,
-      totalPrice: totalPrice
-    }
+    [_purchaseId]: { currentTime, products, totalPrice, link }
   };
   Cart.findOne({ userID: userID })
     .then(cart => {

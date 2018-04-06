@@ -1,10 +1,10 @@
+import { GET_PRODUCT_NAMES } from "../actions/types";
+
 export default (state = [], action) => {
   switch (action.type) {
-    case "GET_NAMES":
-      return [...action.payload];
+    case GET_PRODUCT_NAMES:
+      return action.payload;
     default:
-      return {
-        ...state
-      };
+      return { ...state };
   }
 };

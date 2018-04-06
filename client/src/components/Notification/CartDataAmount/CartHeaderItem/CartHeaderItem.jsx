@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import styles from "./CartHeaderNotification.css";
-// import isEmpty from "lodash/isEmpty";
 
 const badgeClasses = [styles.Badge];
 badgeClasses.push("new badge");
 
 class CartHeaderNotification extends Component {
   renderBadge = () => {
-    if (this.props.cart) {
+    if (this.props.cart && this.props.auth) {
       if (this.props.cart.userCart) {
         if (this.props.cart.userCart.totalQty > 0) {
           return (

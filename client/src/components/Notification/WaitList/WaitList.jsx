@@ -7,12 +7,12 @@ badgeClasses.push("new badge");
 
 class WaitList extends Component {
   renderBadge = () => {
-    const { list } = this.props;
+    const { list, auth } = this.props;
     const ready = _.filter(
       list.userWaitList,
       (product, key) => product.unavailable === false
     );
-    if (ready.length) {
+    if (ready.length && auth) {
       return (
         <span
           data-badge-caption=""

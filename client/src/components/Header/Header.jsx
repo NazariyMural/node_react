@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import styles from "./Header.css";
 import { connect } from "react-redux";
 import { NavLink, Redirect } from "react-router-dom";
-import { logUserOut } from "../../actions";
+import { logUserOut } from "../../actions/userAuthActions";
 import { getCart } from "../../actions/cartActions";
-import { getWaitList } from "../../actions/waitListAction";
+import { getWaitList } from "../../actions/waitListActions";
 import { getComparison } from "../../actions/compareActions";
 import CartHeaderNotification from "../Notification/CartDataAmount/CartHeaderItem/CartHeaderItem";
 import CompareHeaderNotification from "../Notification/CompareHeaderNotification/CompareHeaderNotification";
@@ -65,12 +65,13 @@ class Header extends Component {
   };
 
   render() {
+    const { auth, comparison, cart, waitList } = this.props;
     return (
       <nav className={styles.Header}>
         <div className="nav-wrapper">
           <div className={styles.Logo}>
             <NavLink
-              to={this.props.auth ? "/account" : "/login"}
+              to={auth ? "/account" : "/login"}
               className="left brand-logo"
             >
               Eliftech Market
@@ -91,21 +92,21 @@ class Header extends Component {
                 <NavLink to="/compare" className={styles.HeaderListNav}>
                   Compare
                   <CompareHeaderNotification
-                    comparison={this.props.comparison}
-                    auth={this.props.auth}
+                    comparison={comparison}
+                    auth={auth}
                   />
                 </NavLink>
               </li>
               <li className={styles.HeaderListItem}>
                 <NavLink to="/cart" className={styles.HeaderListNav}>
                   Cart
-                  <CartHeaderNotification cart={this.props.cart} />
+                  <CartHeaderNotification cart={cart} auth={auth} />
                 </NavLink>
               </li>
               <li key="4" className={styles.HeaderListItem}>
                 <NavLink to="/wait-list" className={styles.HeaderListNav}>
                   WaitList
-                  <WaitListNotification list={this.props.waitList} />
+                  <WaitListNotification list={waitList} auth={auth} />
                 </NavLink>
               </li>
             </div>

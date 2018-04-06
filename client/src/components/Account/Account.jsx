@@ -3,14 +3,11 @@ import styles from "./Account.css";
 import { connect } from "react-redux";
 import UserProfileEdit from "./UserProfileEdit/UserProfileEdit";
 import PurchaseHistory from "../Notification/PurchaseHistory/PurchaseHistory";
-import { getCart } from "../../actions";
-
-// import CardReactFormContainer from "card-react";
+import { getCart } from "../../actions/cartActions";
 
 class Account extends Component {
   renderUserData = () => {
     if (this.props.auth !== null && this.props.auth !== false) {
-      this.props.getCart(this.props.auth.googleId);
       return (
         <section className={styles.AccountContainer}>
           <div className={styles.UserProfile}>
@@ -37,33 +34,3 @@ const mapStateToProps = ({ auth }) => {
 };
 
 export default connect(mapStateToProps, { getCart })(Account);
-
-/* <CardReactFormContainer
-container="card-wrapper"
-formInputsNames={{
-  number: "CCnumber",
-  expiry: "CCexpiry",
-  cvc: "CCcvc",
-  name: "CCname"
-}}
-initialValues={{
-  number: "4242424242424242",
-  cvc: "123",
-  expiry: "16/12",
-  name: "Random Name"
-}}
-classes={{
-  valid: "valid-input",
-  invalid: "invalid-input"
-}}
-formatting={true}
->
-<form>
-  <input placeholder="Full name" type="text" name="CCname" />
-  <input placeholder="Card number" type="text" name="CCnumber" />
-  <input placeholder="MM/YY" type="text" name="CCexpiry" />
-  <input placeholder="CVC" type="text" name="CCcvc" />
-</form>
-</CardReactFormContainer>
-
-<section id="card-wrapper">Card</section> */

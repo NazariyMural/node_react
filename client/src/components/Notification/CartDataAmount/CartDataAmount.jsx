@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import styles from "./CartDataAmount.css";
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 // import map from "lodash/map";
@@ -12,27 +11,23 @@ import {
 class CartDataAmount extends Component {
   purchaseSubmit = () => {
     const { userCart } = this.props.cart;
-    // this.props.handlePurchaseSubmit({
-    //   products: userCart.items,
-    //   userID: this.props.cart.userID,
-    //   totalPrice: userCart.totalPrice
-    // });
     this.props.handleDeliverySubmit({
       products: userCart.items,
-      auth: this.props.auth
+      auth: this.props.auth,
+      userID: this.props.cart.userID,
+      totalPrice: userCart.totalPrice
     });
   };
 
   renderCartData = () => {
-    const { userCart, auth } = this.props.cart;
-    // if (auth) {
-    if (!isEmpty(this.props.cart)) {
-      if (userCart.totalQty) {
+    const { cart, auth } = this.props;
+    if (!isEmpty(this.props.cart) && auth) {
+      if (cart.userCart.totalQty) {
         return (
           <div>
-            <span>Sum: {userCart.totalQty}</span>
+            <span>Sum: {cart.userCart.totalQty}</span>
             <br />
-            <span>Amount: {userCart.totalPrice}</span>
+            <span>Amount: {cart.userCart.totalPrice}</span>
             {/* <Stripe totalSum={this.props.cart.userCart.totalPrice * 100} /> */}
             <br />
             <button type="submit" className="btn" onClick={this.purchaseSubmit}>

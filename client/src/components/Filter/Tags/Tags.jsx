@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getTags } from "../../../actions/getTags";
 import _ from "lodash";
 import Checkbox from "material-ui/Checkbox";
-import { mainSearch } from "../../../actions/mainSearch";
-import { activeTags } from "../../../actions/getTags";
+import { mainSearch } from "../../../actions/mainSearchActions";
+import { activeTags, getTags } from "../../../actions/tagsActions";
 
 class Tags extends Component {
   state = {

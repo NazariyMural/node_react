@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
-import { mainSearch } from "../../../actions/mainSearch";
-import { getNames } from "../../../actions/getNames";
-import { searchAction } from "../../../actions/serchAction";
+import { mainSearch, searchAction } from "../../../actions/mainSearchActions";
+import { getNames } from "../../../actions/getNamesActions";
 import AutoComplete from "material-ui/AutoComplete";
 
 const style = {
@@ -29,13 +28,6 @@ class Search extends Component {
   componentWillMount() {
     this.props.getNames();
   }
-
-  // handleSearchSubmit = (value, ind) => {
-  //   this.props.searchAction(value);
-  //   const { currentPage, activeTags, mainSearch } = this.props;
-  //   const tags = _.map(activeTags, tag => tag);
-  //   mainSearch(currentPage, value, tags.join(" "));
-  // };
 
   handleSearchUpdate = (value, ind) => {
     this.props.searchAction(value);

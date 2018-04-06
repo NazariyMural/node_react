@@ -6,11 +6,12 @@ import {
   ADD_TO_CART,
   REMOVE_CART,
   ADD_TO_PURCHASE_HISTORY,
-  CHECK_PRICE,
-  SEND_TO_DELIVERY
+  CHECK_PRICE
+  // SEND_TO_DELIVERY
 } from "./types";
 
 import map from "lodash/map";
+import { decrementProgress, incrementProgress } from "./progress";
 
 export const getCart = userID => {
   return dispatch => {
@@ -37,13 +38,13 @@ export const removeCart = userID => {
 
 export const addToCart = addToCartData => {
   return dispatch => {
-    axios
+    return axios
       .post("/api/cart/add-to-cart", {
         productId: addToCartData.productId,
         userID: addToCartData.userID
       })
       .then(res => {
-        dispatch({ type: ADD_TO_CART, payload: res.data });
+        return dispatch({ type: ADD_TO_CART, payload: res.data });
       })
       .catch(err => console.log(err));
   };
@@ -77,21 +78,6 @@ export const deleteItem = deleteItemData => {
   };
 };
 
-export const handlePurchaseSubmit = ({ products, userID, totalPrice }) => {
-  return dispatch => {
-    axios
-      .post("/api/cart/add-to-purchase-history", {
-        products,
-        userID,
-        totalPrice
-      })
-      .then(res => {
-        dispatch({ type: ADD_TO_PURCHASE_HISTORY, payload: res.data });
-      })
-      .catch(err => console.log(err));
-  };
-};
-
 export const checkPrice = auth => {
   return dispatch => {
     return axios
@@ -103,32 +89,61 @@ export const checkPrice = auth => {
   };
 };
 
-export const handleDeliverySubmit = ({ products, auth }) => {
-  console.log(auth);
+export const handlePurchaseSubmit = ({
+  products,
+  userID,
+  totalPrice,
+  link
+}) => {
+  return dispatch => {
+    return axios
+      .post("/api/cart/add-to-purchase-history", {
+        products,
+        userID,
+        totalPrice,
+        link
+      })
+      .then(res => {
+        dispatch({ type: ADD_TO_PURCHASE_HISTORY, payload: res.data });
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const handleDeliverySubmit = ({
+  products,
+  auth,
+  userID,
+  totalPrice,
+  link
+}) => {
   const items = [];
   map(products, (item, key) => {
     items.push({ name: item.item.name });
   });
   const data = {
-    arrival_point: auth.location.geometry.location,
+    arrivalPoint: auth.location.geometry.location,
     email: auth.email,
     items: items
   };
   return dispatch => {
-    fetch("https://delivery-service08.herokuapp.com/api/orders", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "same-origin"
-    });
-    // axios
-    //   .post("https://delivery-service08.herokuapp.com/api/orders", { data })
-    //   .then(res => {
-    //     console.log(res.data);
-    //     dispatch({ type: SEND_TO_DELIVERY, payload: res.data });
-    //   })
-    //   .catch(err => console.log(err));
+    dispatch(incrementProgress());
+    axios
+      .post("https://delivery-service08.herokuapp.com/api/orders", data)
+      .then(res => {
+        console.log(res);
+
+        dispatch(
+          handlePurchaseSubmit({
+            products,
+            userID,
+            totalPrice,
+            link: res.data.trackCode
+          })
+        ).then(savedData => dispatch(decrementProgress()));
+
+        // dispatch({ type: SEND_TO_DELIVERY, payload: res.data });
+      })
+      .catch(err => console.log(err));
   };
 };

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { registerUser } from "../../../actions";
-
+import { registerUser } from "../../../actions/userAuthActions";
 import RegistrationForm from "./RegistrationForm";
 
 export class RegistrationContainer extends Component {
@@ -14,12 +13,9 @@ export class RegistrationContainer extends Component {
     if (this.props.auth === null) {
       return <section>Loading...</section>;
     } else if (this.props.auth) {
-      const { isLoggedIn, registrationSucceeded } = this.props.auth;
-      if (registrationSucceeded) {
-        return <Redirect to="/account" />;
-      }
+      const { isLoggedIn } = this.props.auth;
       if (isLoggedIn) {
-        return <p>Please log out before registering a new user</p>;
+        return <Redirect to="/account" />;
       }
     }
     return <RegistrationForm registerFunction={this.registerFunction} />;

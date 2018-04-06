@@ -19,7 +19,7 @@ export default (state = null, action) => {
       return state;
     }
     case ADD_USER_PROPERTY: {
-      return { ...action.payload };
+      return action.payload;
     }
     case ADD_USER_LOCATION: {
       const newState = { ...state };
@@ -27,7 +27,7 @@ export default (state = null, action) => {
       return newState;
     }
     case ADD_USER_PHOTO: {
-      return { ...action.payload };
+      return action.payload;
     }
     case CHECK_USER_SESSION: {
       if (!action.payload) {
@@ -52,7 +52,6 @@ export default (state = null, action) => {
       return checkSesionState;
     }
     case LOGIN_USER_SUCCESS: {
-      console.log(action.json);
       const newState = Object.assign({}, state);
       newState.fullName = action.json.fullName;
       newState.id = action.json._id;

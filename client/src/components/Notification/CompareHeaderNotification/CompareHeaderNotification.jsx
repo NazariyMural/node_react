@@ -7,8 +7,8 @@ badgeClasses.push("new badge");
 
 class CompareHeaderNotification extends Component {
   renderBadge = () => {
-    const { comparison } = this.props;
-    if (!isEmpty(comparison)) {
+    const { comparison, auth } = this.props;
+    if (!isEmpty(comparison) && auth) {
       if (comparison.userCompare) {
         let qty = Object.keys(comparison.userCompare.items).length;
         if (qty) {

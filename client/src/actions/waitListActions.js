@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ADD_TO_WAITLIST, GET_WAITLIST, REMOVE_FROM_WAITLIST } from "./types";
+import { addToCart } from "./cartActions";
 
 export const getWaitList = googleId => dispatch => {
   return axios
@@ -30,4 +31,15 @@ export const removeProduct = ({
       dispatch({ type: REMOVE_FROM_WAITLIST, payload: res.data });
     })
     .catch(err => console.log(err));
+};
+
+export const addToCartAndPemoveProduct = ({
+  userID,
+  productName,
+  productDescr,
+  productId
+}) => dispatch => {
+  dispatch(addToCart({ userID, productId })).then(data => {
+    dispatch(removeProduct({ userID, productName, productDescr }));
+  });
 };

@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./PurchaseHistoryItem.css";
 import map from "lodash/map";
-// import RaisedButton from "material-ui/RaisedButton";
 import { Link } from "react-router-dom";
 
 const style = {
@@ -45,6 +44,13 @@ const PurchaseHistoryItem = props => {
       </div>
       <h4 className={styles.Price}>
         Current purchase price: ${props.location.state.price}
+      </h4>
+      <h4 className={styles.Link}>
+        Follow the link below to see information about delivery:
+        <br />
+        <a href={`${props.location.state.link}`}>{`${
+          props.location.state.link
+        }`}</a>
       </h4>
       <div className={styles.NavLinks}>
         <Link to="/account" className="btn blue darken-1">
