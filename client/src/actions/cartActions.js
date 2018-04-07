@@ -104,7 +104,8 @@ export const handlePurchaseSubmit = ({
         link
       })
       .then(res => {
-        dispatch({ type: ADD_TO_PURCHASE_HISTORY, payload: res.data });
+        dispatch({ type: ADD_TO_PURCHASE_HISTORY, payload: res.data.result });
+        return res.data;
       })
       .catch(err => console.log(err));
   };
@@ -128,22 +129,24 @@ export const handleDeliverySubmit = ({
   };
   return dispatch => {
     dispatch(incrementProgress());
-    axios
-      .post("https://delivery-service08.herokuapp.com/api/orders", data)
-      .then(res => {
-        console.log(res);
-
-        dispatch(
-          handlePurchaseSubmit({
-            products,
-            userID,
-            totalPrice,
-            link: res.data.trackCode
-          })
-        ).then(savedData => dispatch(decrementProgress()));
-
-        // dispatch({ type: SEND_TO_DELIVERY, payload: res.data });
-      })
-      .catch(err => console.log(err));
+    return new Promise((resolve, reject) => {
+      axios
+        .post("https://delivery-service08.herokuapp.com/api/orders", data)
+        .then(res => {
+          dispatch(
+            handlePurchaseSubmit({
+              products,
+              userID,
+              totalPrice,
+              link: res.data.trackCode
+            })
+          )
+            .then(data => {
+              dispatch(decrementProgress());
+              resolve(data);
+            })
+            .catch(err => reject(err));
+        });
+    }).catch(err => console.log(err));
   };
 };

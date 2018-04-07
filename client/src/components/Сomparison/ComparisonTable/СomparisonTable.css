@@ -16,7 +16,12 @@
 .TableImages {
   height: 150px;
 }
-
+td {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .TableTags {
   background: rgb(133, 139, 139);
   color: aliceblue;

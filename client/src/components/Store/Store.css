@@ -132,6 +132,19 @@
   color: #000;
 }
 
+.Prodoct_Item .BtnOver {
+  background-color: #d3d3d3 !important;
+  font-size: 12px;
+  position: relative;
+  padding-left: 40px;
+}
+
+.Prodoct_Item .BtnOver i {
+  position: absolute;
+  top: 0px;
+  left: 11px;
+}
+
 .Prodoct_Item .BtnWait span {
   position: absolute;
   top: 5px;
@@ -165,6 +178,57 @@
   background-color: #fff3b5;
   padding: 5px 10px;
   color: #ff0000;
+}
+
+.Prodoct_Item .Descr {
+  text-align: center;
+  padding: 0 20px;
+  font-size: 12px;
+  overflow: hidden;
+  height: 52px;
+  line-height: 25px;
+}
+
+.Prodoct_Item .Descr p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.Prodoct_Item .Descr:before {
+  content: "";
+  float: left;
+  width: 5px;
+  height: 52px;
+}
+
+.Prodoct_Item .Descr > *:first-child {
+  float: right;
+  width: 100%;
+  margin-left: -5px;
+}
+
+.Prodoct_Item .Descr:after {
+  content: "\02026";
+  box-sizing: content-box;
+  float: right;
+  position: relative;
+  top: -28px;
+  left: 95%;
+  width: 3em;
+  margin-left: -3em;
+  padding-right: 5px;
+  text-align: right;
+  background-size: 100% 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.2),
+    white 50%,
+    white
+  );
+}
+
+.Prodoct_Item .Descr .Descr_In {
+  display: inline-block;
 }
 
 .Tags {

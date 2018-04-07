@@ -22,9 +22,10 @@ class Comparison extends Component {
 
   getPropsHandler = () => {
     const { userCompare } = this.props.comparison;
-    return map(userCompare.items, (product, key) => {
+    const props = map(userCompare.items, (product, key) => {
       return Object.keys(product.item);
-    })[0];
+    });
+    return props.reduce((a, b) => (a.length > b.length ? a : b));
   };
 
   getProductsHandler = () => {
@@ -48,8 +49,25 @@ class Comparison extends Component {
     return final_obj;
   };
 
+  addToCartHanlder = ({ userID, productId }) => {
+    const { userCompare } = this.props.comparison;
+    if (userCompare) {
+      map(userCompare, (product, key) => {
+        if (
+          product[productId].item.active &&
+          product[productId].item.available
+        ) {
+          this.props.addToCart({
+            productId,
+            userID
+          });
+        }
+      });
+    }
+  };
+
   renderTableCompareHandler = () => {
-    const { deleteFromCompare, auth, addToCart } = this.props;
+    const { deleteFromCompare, auth } = this.props;
     const unodered = this.getProductsHandler();
     const compareProducts = {};
     Object.keys(unodered)
@@ -60,12 +78,13 @@ class Comparison extends Component {
 
     delete compareProducts.__v;
     delete compareProducts.comments;
+    delete compareProducts.available;
     return (
       <ComparisonTable
         compareProducts={compareProducts}
         deleteFromCompare={deleteFromCompare}
         googleId={auth.googleId}
-        addToCart={addToCart}
+        addToCart={this.addToCartHanlder}
       />
     );
   };

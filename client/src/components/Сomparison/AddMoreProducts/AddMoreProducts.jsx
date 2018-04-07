@@ -31,7 +31,7 @@ export const AddMoreProducts = ({
             <br />
             <img src={product.item.images} alt={product.item.images} />
             <h5>{product.item.name}</h5>
-            <span>{product.item.descr}</span>
+            <span className={styles.Descr}>{product.item.descr}</span>
             <h6>Current price: ${product.item.price}</h6>
           </div>
         );

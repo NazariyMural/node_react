@@ -11,7 +11,7 @@ const productSchema = mongoose.Schema({
   props: Object,
   tags: Array,
   descr: String,
-  unavailable: Boolean
+  available: Boolean
 });
 
 productSchema.index({ name: "text" });

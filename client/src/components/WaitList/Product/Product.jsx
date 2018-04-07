@@ -34,7 +34,7 @@ export default ({ removeProduct, auth, keys, addToCartHandler, product }) => {
         <h6>Current price: ${product.price}</h6>
       </li>
       <li>
-        {product.unavailable ? (
+        {!product.available ? (
           <a className={btnClassesDisable.join(" ")}>
             <i className="material-icons left">block</i>
             Not Available

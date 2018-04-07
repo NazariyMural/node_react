@@ -53,7 +53,7 @@ export class LoginPageContainer extends Component {
       let availableNow = [];
       if (!isEmpty(waitList.userWaitList)) {
         availableNow = filter(waitList.userWaitList, product => {
-          if (!product.unavailable) return product;
+          if (product.available) return product;
         });
       }
       if (availableNow.length) {

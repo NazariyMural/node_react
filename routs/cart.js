@@ -3,7 +3,7 @@ const router = express.Router();
 const Cart = require("../models/Cart");
 const mongoose = require("mongoose");
 const Products = require("../models/Product");
-const map = require("lodash/map");
+const { map, filter, isEmpty, reduce } = require("lodash");
 const moment = require("moment");
 
 function CartClass(oldCart) {
@@ -117,44 +117,166 @@ router.post("/delete-item", (req, res, next) => {
   Cart.findOne({ userID: userID })
     .then(existingCart => {
       let cart = new CartClass(existingCart.userCart);
-      Products.findById(productId).then(product => {
-        cart.deleteItem(product._id);
-        existingCart.set("userCart", cart);
-        existingCart.save().then(result => res.status(200).send(result));
-      });
+      cart.deleteItem(productId);
+      existingCart.set("userCart", cart);
+      existingCart.save().then(result => res.status(200).send(result));
     })
     .catch(err => {
       res.status(400).send(err);
       console.log("we got an error");
     });
 });
-
-router.post("/add-to-purchase-history", (req, res) => {
+router.post("/add-to-purchase-history", async (req, res) => {
   const products = req.body.products;
   const userID = req.body.userID;
-  const totalPrice = req.body.totalPrice;
   const link = req.body.link;
   const currentTime = moment().format("MMM Do YY, h:mm:ss a");
   const _purchaseId = new mongoose.Types.ObjectId();
 
-  const currentPurchase = {
-    [_purchaseId]: { currentTime, products, totalPrice, link }
-  };
-  Cart.findOne({ userID: userID })
-    .then(cart => {
-      cart.userPurchase.push(currentPurchase);
-      cart.set("userCart", {
+  const keys = Object.keys(products);
+  try {
+    const cart = await Cart.findOne({ userID: userID });
+    const data = await Products.distinct("_id", {
+      $and: [{ _id: { $in: keys } }, { active: true }]
+    });
+    const arrOfIds = data.map(el => el.toString());
+    const newFiltered = filter(products, (product, key) => {
+      if (arrOfIds.includes(key)) {
+        return product;
+      }
+    });
+    if (!isEmpty(newFiltered)) {
+      const totalprice = reduce(
+        newFiltered,
+        (acc, product) => acc + product.price,
+        0
+      );
+      const currentPurchase = {
+        [_purchaseId]: {
+          newFiltered,
+          totalPrice: totalprice,
+          link
+        }
+      };
+      await cart.userPurchase.push(currentPurchase);
+      await cart.set("userCart", {
         items: {},
         totalQty: 0,
         totalPrice: 0
       });
-      cart.save().then(result => res.send(result));
-    })
-    .catch(err => {
-      res.send(err);
-      console.log("we got an error");
+      const result = await cart.save();
+      if (keys.length === arrOfIds.length) {
+        //there wern't any changes
+        return res.send({ result, message: null });
+      } else {
+        //some product wasn't add
+        return res.send({
+          result,
+          message:
+            "Some products weren't add to the Purchase list, because some of them have been deleted from store"
+        });
+      }
+    }
+    //all products were deleted
+    await cart.set("userCart", {
+      items: {},
+      totalQty: 0,
+      totalPrice: 0
     });
+    const result = await cart.save();
+    return res.send({
+      result,
+      message:
+        "Products weren't add to the Purchase list, because they have been deleted from store"
+    });
+  } catch (err) {
+    console.log(err);
+    return res.send([]);
+  }
 });
+
+// router.post("/add-to-purchase-history", async (req, res) => {
+//   const products = req.body.products;
+//   const userID = req.body.userID;
+//   // const totalPrice = req.body.totalPrice;
+//   const link = req.body.link;
+//   const currentTime = moment().format("MMM Do YY, h:mm:ss a");
+//   const _purchaseId = new mongoose.Types.ObjectId();
+
+//   const keys = Object.keys(products);
+//   try {
+//     const cart = await Cart.findOne({ userID: userID });
+//     const data = await Products.distinct("_id", {
+//       $and: [{ _id: { $in: keys } }, { active: true }]
+//     });
+//     const arrOfIds = data.map(el => el.toString());
+//     console.log(arrOfIds, "arrOfIds");
+//     console.log(keys, "keys");
+//     const newFiltered = filter(products, (product, key) => {
+//       if (arrOfIds.includes(key)) {
+//         return product;
+//       }
+//     });
+//     if (!isEmpty(newFiltered)) {
+//       const totalprice = reduce(
+//         newFiltered,
+//         (acc, product) => acc + product.price,
+//         0
+//       );
+
+//       if (keys.length === arrOfIds.length) {
+//         //there wern't any changes
+//         const currentPurchase = {
+//           [_purchaseId]: {
+//             newFiltered,
+//             totalPrice: totalprice,
+//             link,
+//             message: null
+//           }
+//         };
+//         await cart.userPurchase.push(currentPurchase);
+//         await cart.set("userCart", {
+//           items: {},
+//           totalQty: 0,
+//           totalPrice: 0
+//         });
+//         const result = await cart.save();
+//         return res.send(result);
+//       } else {
+//         //some product wasn't add
+//         const currentPurchase = {
+//           [_purchaseId]: {
+//             newFiltered,
+//             totalPrice: totalprice,
+//             link,
+//             massage:
+//               "Some products weren't add to the Purchase list, because they have been deleted from store"
+//           }
+//         };
+//         await cart.userPurchase.push(currentPurchase);
+//         await cart.set("userCart", {
+//           items: {},
+//           totalQty: 0,
+//           totalPrice: 0
+//         });
+//         const result = await cart.save();
+//         return res.send(result);
+//       }
+//       console.log(currentPurchase);
+//     }
+//     //all products were deleted
+//     await cart.set("userCart", {
+//       items: {},
+//       totalQty: 0,
+//       totalPrice: 0
+//     });
+//     const result = await cart.save();
+//     return res.send(result);
+//   } catch (err) {
+//     console.log(err);
+//     return res.send([]);
+//   }
+// });
 
 router.get("/remove-cart/:id", (req, res) => {
   const userID = req.params.id;

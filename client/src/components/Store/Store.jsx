@@ -136,10 +136,11 @@ class Store extends Component {
   render() {
     const pages = [];
     if (this.props.products) {
-      for (let i = 0; i < this.props.products.pages; i++) {
+      for (let i = 1; i <= this.props.products.pages; i++) {
         pages.push(i);
       }
     }
+
     return (
       <section className={styles.StoreWrapper}>
         <div className={styles.SearchContainer}>

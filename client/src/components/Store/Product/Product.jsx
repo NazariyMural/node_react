@@ -14,23 +14,16 @@ export const Product = ({
   const btnClasses = ["waves-effect waves-light btn green accent-4"];
 
   let buy_btn;
-  if (auth && !product.unavailable) {
-    btnClasses.push(styles.BtnBuy);
+  if (auth && !product.active) {
+    btnClasses.push(styles.BtnOver);
+    btnClasses.push("disabled");
     buy_btn = (
-      <a
-        className={btnClasses.join(" ")}
-        onClick={() =>
-          addToCart({
-            productId: product._id,
-            userID: auth.googleId
-          })
-        }
-      >
-        <i className="material-icons left">shopping_cart</i>
-        Add to cart
+      <a className={btnClasses.join(" ")}>
+        <i className="material-icons">remove_shopping_cart</i>
+        <span>Product is over</span>
       </a>
     );
-  } else if (auth && product.unavailable) {
+  } else if (auth && !product.available) {
     btnClasses.push(styles.BtnWait);
     buy_btn = (
       <a
@@ -46,6 +39,22 @@ export const Product = ({
         <span>
           Notify when be<br /> available
         </span>
+      </a>
+    );
+  } else if (auth && product.available) {
+    btnClasses.push(styles.BtnBuy);
+    buy_btn = (
+      <a
+        className={btnClasses.join(" ")}
+        onClick={() =>
+          addToCart({
+            productId: product._id,
+            userID: auth.googleId
+          })
+        }
+      >
+        <i className="material-icons left">shopping_cart</i>
+        Add to cart
       </a>
     );
   } else {
@@ -69,7 +78,11 @@ export const Product = ({
       <span className={styles.Price}>
         {handlePriceRender(product.originalPrice, product.price)}
       </span>
-      <span>{!product.active ? "Product is over" : "Good descriptions"}</span>
+      <div className={styles.Descr}>
+        <div className={styles.Descr_In}>
+          <p>{product.descr}</p>
+        </div>
+      </div>
       {map(product.comments, comment => {
         return (
           <ul key={comment}>

@@ -20,17 +20,19 @@ router.get("/get-tags", (req, response, next) => {
 
 router.get("/get-names", (req, response, next) => {
   Product.distinct("name").then(names => {
-    console.log("get-tags", names);
+    // console.log("get-tags", names);
     response.send(names);
   });
 });
 
 router.get("/:id", async (req, res, next) => {
-  const perPage = 5;
+  const perPage = 4;
   let productData = req.params.id.split(",");
-  let page = 0;
-  if (_.isNumber(+productData[0])) {
-    page = productData[0];
+  let page = 1;
+  if (_.toNumber(productData[0])) {
+    page = _.toNumber(productData[0]);
+  } else {
+    page = 1;
   }
   console.log(productData);
   //
@@ -59,7 +61,10 @@ router.get("/:id", async (req, res, next) => {
   criteria = criteria.length > 0 ? { $and: criteria } : {};
   console.log(JSON.stringify(criteria));
   const currentAmount = await Product.find(criteria).count();
-  let skipFormula = perPage * page - page;
+  // console.log("currentAmount", currentAmount);
+  // console.log("page", page);
+  // let skipFormula = perPage * page - page;
+  let skipFormula = (page - 1) * perPage;
   if (currentAmount < skipFormula) {
     skipFormula = 0;
   }

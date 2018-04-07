@@ -13,7 +13,7 @@ const timer = cron.schedule(
   "*/5 * * * *",
   async () => {
     const lists = await WaitList.find({
-      userWaitList: { $elemMatch: { unavailable: false } }
+      userWaitList: { $elemMatch: { available: true } }
     });
     if (lists.length) {
       const arrayOfIds = [];

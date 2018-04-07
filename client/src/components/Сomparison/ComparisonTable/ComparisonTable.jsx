@@ -20,12 +20,7 @@ export const ComparisonTable = ({
                   {key === "_id" ? "Артикул" : key}
                 </td>
                 {map(product, (item, itemKey) => {
-                  if (!item) {
-                    return <td key={itemKey}>---</td>;
-                  } else if (
-                    typeof item === "string" ||
-                    typeof item === "number"
-                  ) {
+                  if (typeof item === "string" || typeof item === "number") {
                     if (typeof item === "string") {
                       if (item.includes("http")) {
                         return (
@@ -98,6 +93,8 @@ export const ComparisonTable = ({
                         </td>
                       );
                     }
+                  } else if (typeof item === "boolean") {
+                    return <td key={itemKey}>{`${item}`}</td>;
                   }
                 })}
               </tr>

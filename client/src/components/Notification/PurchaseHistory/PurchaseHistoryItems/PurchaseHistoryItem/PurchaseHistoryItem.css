@@ -1,3 +1,9 @@
+.PurchaseHistoryItem h2 {
+  padding: 0 12px;
+  text-align: center;
+  font-size: 32px;
+}
+
 .Tbody tr td img {
   height: 120px;
   width: 80px;
