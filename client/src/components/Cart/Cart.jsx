@@ -21,26 +21,6 @@ class Cart extends Component {
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.cart !== this.props.cart) {
-  //     this.handlePurchaseMessage(nextProps.cart);
-  //   }
-  // }
-
-  // handlePurchaseMessage = cart => {
-  //   _.map(cart.userPurchase, (item, key) => {
-  //     _.map(item, (purchase, purchID) => {
-  //       if (purchase.message === null) {
-  //         console.log("purchase was successful");
-  //       } else if (purchase.message) {
-  //         console.log("some products was not add to the purchase");
-  //       } else {
-  //         console.log("products was not add to the purchase");
-  //       }
-  //     });
-  //   });
-  // };
-
   renderData = () => {
     if (this.props.auth === null) {
       return (

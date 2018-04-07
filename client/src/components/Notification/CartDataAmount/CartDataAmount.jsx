@@ -14,7 +14,7 @@ import modalStyles from "./ModalContentent/PurchaseMessage.css";
 class CartDataAmount extends Component {
   state = {
     showModal: false,
-    message: "some"
+    message: null
   };
   handleOpenModal = () => {
     this.setState({ showModal: true });
@@ -29,11 +29,9 @@ class CartDataAmount extends Component {
       .handleDeliverySubmit({
         products: userCart.items,
         auth: this.props.auth,
-        userID: this.props.cart.userID,
-        totalPrice: userCart.totalPrice
+        userID: this.props.cart.userID
       })
       .then(res => {
-        //
         this.handlePurchaseMessage(res);
       })
       .catch(err => console.log(err));
@@ -43,17 +41,6 @@ class CartDataAmount extends Component {
     console.log(data);
     this.handleOpenModal();
     this.setState({ message: data.message });
-    // map(cart.userPurchase, (item, key) => {
-    //   map(item, (purchase, purchID) => {
-    //     if (purchase.message === null) {
-    //       console.log("purchase was successful");
-    //     } else if (purchase.message) {
-    //       console.log("some products was not add to the purchase");
-    //     } else {
-    //       console.log("products was not add to the purchase");
-    //     }
-    //   });
-    // });
   };
 
   renderCartData = () => {

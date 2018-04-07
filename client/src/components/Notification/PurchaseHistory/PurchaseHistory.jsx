@@ -17,6 +17,12 @@ class PurchaseHistory extends Component {
             cleanPurchaseHistory={this.cleanPurchaseHistory}
           />
         );
+      } else {
+        return (
+          <div>
+            <h3>You are haven't any purchase yet! Buy something...</h3>
+          </div>
+        );
       }
     } else {
       return (

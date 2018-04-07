@@ -126,6 +126,7 @@ router.post("/delete-item", (req, res, next) => {
       console.log("we got an error");
     });
 });
+
 router.post("/add-to-purchase-history", async (req, res) => {
   const products = req.body.products;
   const userID = req.body.userID;
@@ -155,7 +156,8 @@ router.post("/add-to-purchase-history", async (req, res) => {
         [_purchaseId]: {
           newFiltered,
           totalPrice: totalprice,
-          link
+          link,
+          currentTime
         }
       };
       await cart.userPurchase.push(currentPurchase);
@@ -194,89 +196,6 @@ router.post("/add-to-purchase-history", async (req, res) => {
     return res.send([]);
   }
 });
-
-// router.post("/add-to-purchase-history", async (req, res) => {
-//   const products = req.body.products;
-//   const userID = req.body.userID;
-//   // const totalPrice = req.body.totalPrice;
-//   const link = req.body.link;
-//   const currentTime = moment().format("MMM Do YY, h:mm:ss a");
-//   const _purchaseId = new mongoose.Types.ObjectId();
-
-//   const keys = Object.keys(products);
-//   try {
-//     const cart = await Cart.findOne({ userID: userID });
-//     const data = await Products.distinct("_id", {
-//       $and: [{ _id: { $in: keys } }, { active: true }]
-//     });
-//     const arrOfIds = data.map(el => el.toString());
-//     console.log(arrOfIds, "arrOfIds");
-//     console.log(keys, "keys");
-//     const newFiltered = filter(products, (product, key) => {
-//       if (arrOfIds.includes(key)) {
-//         return product;
-//       }
-//     });
-//     if (!isEmpty(newFiltered)) {
-//       const totalprice = reduce(
-//         newFiltered,
-//         (acc, product) => acc + product.price,
-//         0
-//       );
-
-//       if (keys.length === arrOfIds.length) {
-//         //there wern't any changes
-//         const currentPurchase = {
-//           [_purchaseId]: {
-//             newFiltered,
-//             totalPrice: totalprice,
-//             link,
-//             message: null
-//           }
-//         };
-//         await cart.userPurchase.push(currentPurchase);
-//         await cart.set("userCart", {
-//           items: {},
-//           totalQty: 0,
-//           totalPrice: 0
-//         });
-//         const result = await cart.save();
-//         return res.send(result);
-//       } else {
-//         //some product wasn't add
-//         const currentPurchase = {
-//           [_purchaseId]: {
-//             newFiltered,
-//             totalPrice: totalprice,
-//             link,
-//             massage:
-//               "Some products weren't add to the Purchase list, because they have been deleted from store"
-//           }
-//         };
-//         await cart.userPurchase.push(currentPurchase);
-//         await cart.set("userCart", {
-//           items: {},
-//           totalQty: 0,
-//           totalPrice: 0
-//         });
-//         const result = await cart.save();
-//         return res.send(result);
-//       }
-//       console.log(currentPurchase);
-//     }
-//     //all products were deleted
-//     await cart.set("userCart", {
-//       items: {},
-//       totalQty: 0,
-//       totalPrice: 0
-//     });
-//     const result = await cart.save();
-//     return res.send(result);
-//   } catch (err) {
-//     console.log(err);
-//     return res.send([]);
-//   }
-// });
 
 router.get("/remove-cart/:id", (req, res) => {
   const userID = req.params.id;

@@ -33,14 +33,14 @@ class PurchaseHistoryItems extends Component {
               onClick={() =>
                 this.getCurrentPurchaseHandler({
                   key: key,
-                  products: purchase.products,
+                  products: purchase.newFiltered,
                   date: purchase.currentTime,
                   price: purchase.totalPrice,
                   link: purchase.link
                 })
               }
             >
-              <td>{key}</td>
+              <td>{key.slice(-4)}</td>
               <td>{purchase.currentTime}</td>
               <td>${purchase.totalPrice}</td>
             </tr>
