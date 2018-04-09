@@ -38,7 +38,6 @@ class CartDataAmount extends Component {
   };
 
   handlePurchaseMessage = data => {
-    console.log(data);
     this.handleOpenModal();
     this.setState({ message: data.message });
   };

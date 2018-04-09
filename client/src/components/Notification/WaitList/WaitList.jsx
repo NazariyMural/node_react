@@ -10,7 +10,7 @@ class WaitList extends Component {
     const { list, auth } = this.props;
     const ready = _.filter(
       list.userWaitList,
-      (product, key) => product.unavailable === false
+      (product, key) => product.available
     );
     if (ready.length && auth) {
       return (

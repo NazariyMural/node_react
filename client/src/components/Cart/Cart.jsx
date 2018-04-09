@@ -58,7 +58,11 @@ class Cart extends Component {
       return (
         <tr>
           <td colSpan="70%" className="center">
-            <h2>Loading...</h2>
+            <h2>Your cart is empty!</h2>
+            <h4>Follow to store and buy something</h4>
+            <NavLink className="btn blue darken-4" to={"/"}>
+              Store
+            </NavLink>
           </td>
         </tr>
       );
