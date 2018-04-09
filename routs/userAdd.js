@@ -25,39 +25,39 @@ router.post("/user-add-location", (req, res, next) => {
     .catch(err => console.log(err, "router store error"));
 });
 
-router.post("/user-add-image", async (req, res) => {
-  const file = req.files.file;
-  const userID = req.body.userID;
+// router.post("/user-add-image", async (req, res) => {
+//   const file = req.files.file;
+//   const userID = req.body.userID;
 
-  let s3bucket = new AWS.S3({
-    accessKeyId: appConfig.IAM_USER_KEY,
-    secretAccessKey: appConfig.IAM_USER_SECRET,
-    Bucket: appConfig.BUCKET_NAME
-  });
-  s3bucket.createBucket(() => {
-    const params = {
-      Bucket: appConfig.BUCKET_NAME,
-      Key: file.name,
-      Body: file.data,
-      ACL: "public-read"
-    };
-    s3bucket
-      .upload(params, (err, data) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log("success");
-      })
-      .promise()
-      .then(data => {
-        console.log(data);
-        User.findOne({ googleId: userID }).then(user => {
-          user.set("photo", data.Location);
-          user.save().then(userResult => res.send(userResult));
-        });
-      })
-      .catch(err => console.log(err));
-  });
-});
+//   let s3bucket = new AWS.S3({
+//     accessKeyId: appConfig.IAM_USER_KEY,
+//     secretAccessKey: appConfig.IAM_USER_SECRET,
+//     Bucket: appConfig.BUCKET_NAME
+//   });
+//   s3bucket.createBucket(() => {
+//     const params = {
+//       Bucket: appConfig.BUCKET_NAME,
+//       Key: file.name,
+//       Body: file.data,
+//       ACL: "public-read"
+//     };
+//     s3bucket
+//       .upload(params, (err, data) => {
+//         if (err) {
+//           console.log(err);
+//         }
+//         console.log("success");
+//       })
+//       .promise()
+//       .then(data => {
+//         console.log(data);
+//         User.findOne({ googleId: userID }).then(user => {
+//           user.set("photo", data.Location);
+//           user.save().then(userResult => res.send(userResult));
+//         });
+//       })
+//       .catch(err => console.log(err));
+//   });
+// });
 
 module.exports = router;

@@ -1,5 +1,5 @@
 require("babel-register");
-const appConfig = require("./config.js");
+// const appConfig = require("./config.js");
 const bodyParser = require("body-parser");
 const compression = require("compression");
 const cookieParser = require("cookie-parser");
@@ -58,7 +58,7 @@ const sessionValues = {
   name: "sessionId",
   resave: false,
   saveUninitialized: true,
-  secret: appConfig.expressSession.secret,
+  secret: "secret",
   keys: "asknckjbskbvjalergfilue7bsdj7hedfuivbljg"
 };
 if (app.get("env") === "production") {
