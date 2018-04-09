@@ -95,15 +95,15 @@ passport.deserializeUser(User1.deserializeUser());
 require("./models/User");
 require("./services/pasport");
 
-app.use(
-  cookieSession({
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [keys1.cookieKey]
-  })
-);
+// app.use(
+//   cookieSession({
+//     maxAge: 30 * 24 * 60 * 60 * 1000,
+//     keys: [keys1.cookieKey]
+//   })
+// );
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
