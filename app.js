@@ -123,4 +123,9 @@ app.use((err, req, res, next) => {
   res.render("error");
 });
 
+const path = require("path");
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
+
 module.exports = app;
