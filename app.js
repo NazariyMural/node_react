@@ -21,7 +21,6 @@ const cookieSession = require("cookie-session");
 const keys1 = require("./config/keys");
 
 // Route Files
-// const api = require("./routs/api/index");
 const authentication = require("./routs/auth");
 const store = require("./routs/store");
 const cart = require("./routs/cart").router;
