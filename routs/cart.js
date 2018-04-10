@@ -37,19 +37,25 @@ function CartClass(oldCart) {
     this.totalPrice -= this.items[id].item.price * this.items[id].qty;
     delete this.items[id];
   };
-  this.genetayeArray = function() {
+  this.generateArray = function() {
     const arr = [];
     for (const id in this.items) {
       arr.push(this.items[id]);
     }
     return arr;
   };
+
+  this.getData = function() {
+    return oldCart.items;
+  };
 }
 
 router.get("/:id", (req, res, next) => {
   const userID = req.params.id;
   Cart.findOne({ userID: userID })
-    .then(data => res.send(data))
+    .then(data => {
+      res.status(200).send(data);
+    })
     .catch(err => res.send([]));
 });
 
@@ -96,6 +102,7 @@ router.post("/reduce-by-one/", (req, res, next) => {
   const userID = req.body.userID;
   Cart.findOne({ userID: userID })
     .then(existingCart => {
+      console.log(existingCart.userCart);
       let cart = new CartClass(existingCart.userCart);
       Products.findById(productId).then(product => {
         cart.reduceByOne(product._id);
@@ -233,4 +240,4 @@ router.get("/check-price/:id", async (req, res) => {
   );
 });
 
-module.exports = router;
+module.exports = { router, CartClass };

@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const app = require("../app");
 const Cart = require("../models/Cart");
 const User = require("../models/UserSingUp");
+const CartClass = require("../routs/cart").CartClass;
 
 const cart_sample = {
   userID: "5ab90c6765ce0c201c9d5773",
@@ -58,6 +59,63 @@ beforeEach(done => {
     .then(() => done());
 });
 
+describe("CartClass test", () => {
+  it("should increase qty of product in existing cart", done => {
+    const id = "5ab8d6cfd35f0b3904c4758d";
+    let cart = new CartClass(cart_sample.userCart);
+
+    const items = cart.getData();
+    const oldQty = items[id].qty;
+    cart.add(null, id);
+
+    expect(items[id].qty).toBeGreaterThan(oldQty);
+    done();
+  });
+
+  it("should decrease qty of product in existing cart", done => {
+    const id = "5ab8d6cfd35f0b3904c4758d";
+    let cart = new CartClass(cart_sample.userCart);
+
+    const items = cart.getData();
+    const oldQty = items[id].qty;
+    cart.reduceByOne(id);
+    expect(items[id].qty).toBeLessThan(oldQty);
+    done();
+  });
+
+  it("should delete product in existing cart", done => {
+    const id = "5ab8d6cfd35f0b3904c4758d";
+    let cart = new CartClass(cart_sample.userCart);
+
+    const items = cart.getData();
+    const oldQty = items[id].qty;
+    cart.deleteItem(id);
+    expect(items[id]).toBeUndefined;
+    done();
+  });
+});
+
+describe("POST /api/cart/:id", () => {
+  it("should get cart for current user", done => {
+    const cart = Cart.find().then(cart => {
+      const id = cart[0].userID;
+
+      request(app)
+        .get(`/api/cart/${id}`)
+        .expect(200)
+        .expect(res => {
+          expect(res.body.userID).toBe(id);
+        })
+        .end((err, response) => {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
+});
+
 describe("POST /api/cart/add-to-cart", () => {
   it("should add existing product to cart", done => {
     User.findOne().then(user => {
@@ -90,36 +148,3 @@ describe("POST /api/cart/add-to-cart", () => {
     });
   });
 });
-
-// describe("POST /api/cart/reduce-by-one", () => {
-//   it("should reduce product qty", done => {
-//     //add few products
-//     User.findOne().then(user => {
-//       Product.findOne().then(product_golf => {
-//         request(app)
-//           .post("/api/cart/reduce-by-one")
-//           .send({
-//             userID: cart_sample.userID,
-//             productId: product_golf._id
-//           })
-//           .expect(200)
-//           .expect(res => {
-//             console.log(res, "res");
-//           })
-//           .end((err, response) => {
-//             if (err) {
-//               return done(err);
-//             }
-//             done();
-//           });
-//       });
-//     });
-//     // Cart.find()
-//     //   .then(cart => {
-//     //     console.log(cart);
-//     //     //   expect(cart.length).toBe(1);
-//     //     done();
-//     //   })
-//     //   .catch(err => done(err));
-//   });
-// });

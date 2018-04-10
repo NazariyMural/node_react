@@ -63,8 +63,6 @@
     "server": "nodemon server.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test4": "mocha \"./{,!(client)/**/}*.test.js\"",
-    "test": "mocha",
-    "test-watch": "nodemon --exec \"npm test\""
+    "test": "nodemon --exec \"mocha\""
   }
 }

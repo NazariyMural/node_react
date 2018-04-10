@@ -80,25 +80,30 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.post("/store", (req, res, next) => {
-  // const product = new Product({
-  //   _id: new mongoose.Types.ObjectId(),
-  //   name: "Golf 4",
-  //   price: 4400,
-  //   weight: 1650,
-  //   category: "car",
-  //   images: "https://blaaa",
-  //   comments: ["1", "2"],
-  //   props: { some: "props" },
-  //   tags: ["car", "VW"],
-  //   descr: "some"
-  // })
+  const product = new Product({
+    _id: new mongoose.Types.ObjectId(),
+    name: "SHIELD K1",
+    price: 350,
+    weight: 423,
+    category: "tablet",
+    images:
+      "https://shield.nvidia.com/images/tablet-k1/amazing-games-on-tablet-k1-640-update.png",
+    comments: ["New SHIELD tablet K1 for Gamers"],
+    props: { some: "props" },
+    tags: ["tablet", "android"],
+    available: true,
+    active: true,
+    oldPrice: 350,
+    descr:
+      "This amazing tablet is powered by the NVIDIA Tegra® K1 processor, which features a 192-core NVIDIA Kepler™ GPU and 2.2 GHz quad-core CPU Get incredible graphics wherever you go by accessing GeForce NOW™ gaming supercomputers in the cloud."
+  });
+  //   .save()
+  //   .then(result => res.status(200).send(result))
+  //   .catch(err => res.status(400).send(err));
   // console.log("Successfully post");
   // console.log(pr);
-  // const product = new Product(req.body.product)
-  const product = new Product(req.body)
-    .save()
-    .then(result => res.status(200).send(result))
-    .catch(err => res.status(400).send(err));
+  // const product = new Product(req.body.product);
+  // const product = new Product(req.body)
 });
 
 module.exports = router;
