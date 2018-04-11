@@ -62,12 +62,13 @@ export class LoginPageContainer extends Component {
         this.setState({ redirect: true });
       }
     }
-    this.setState({ redirect: true });
+    // console.log(waitList);
+    // this.setState({ redirect: true });
     return null;
   }
 
   render() {
-    console.log(this.state.redirect);
+    // console.log(this.state.redirect);
     const { auth } = this.props;
     if (auth === null) {
       return <section>Loading...</section>;

@@ -28,7 +28,7 @@ export default ({ removeProduct, auth, keys, addToCartHandler, product }) => {
         <h5>{product.name}</h5>
       </li>
       <li>
-        <span>{product.descr}</span>
+        <span>{product.descr.slice(0, 20)}...</span>
       </li>
       <li>
         <h6>Current price: ${product.price}</h6>

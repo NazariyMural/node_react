@@ -6,6 +6,12 @@ import PurchaseHistory from "../Notification/PurchaseHistory/PurchaseHistory";
 import { getCart } from "../../actions/cartActions";
 
 class Account extends Component {
+  componentWillMount() {
+    const { auth, getCart } = this.props;
+    if (auth) {
+      getCart(auth.googleId);
+    }
+  }
   renderUserData = () => {
     if (this.props.auth !== null && this.props.auth !== false) {
       return (

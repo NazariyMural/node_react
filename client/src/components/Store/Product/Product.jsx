@@ -74,7 +74,7 @@ export const Product = ({
         alt="product"
         className={styles.Product_Image}
       />
-      <span>{product.name}</span>
+      <span className={styles.Product_Name}>{product.name}</span>
       <span className={styles.Price}>
         {handlePriceRender(product.originalPrice, product.price)}
       </span>

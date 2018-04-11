@@ -38,11 +38,14 @@
   display: flex;
   justify-content: center;
 }
+.Product_Name {
+  text-align: center;
+}
 
 .Prodoct_Item .Product_Image {
   margin: 0 auto;
-  height: 220px;
-  width: 170px;
+  height: 190px;
+  width: 159px;
 }
 .Prodoct_Item .BtnContainer {
   position: absolute;
@@ -236,4 +239,24 @@
   top: 15%;
   left: 20px;
   width: 150px;
+}
+.Pagination {
+  display: flex;
+  justify-content: center;
+}
+.Pagination div {
+  display: inline-block;
+}
+
+@media screen and (max-width: 519px) {
+  .Tags {
+    display: none;
+  }
+  .Products {
+    margin-left: 0;
+  }
+  .Products ul {
+    display: flex;
+    flex-direction: column;
+  }
 }

@@ -152,13 +152,15 @@ class Store extends Component {
         <section className={styles.Tags}>
           <Tags currentPage={this.state.id} />
         </section>
-        <div className="paginationBox">
-          {pages &&
-            pages.map((val, key) => (
-              <button onClick={this.paginationHandler} key={key} id={val}>
-                {val}
-              </button>
-            ))}
+        <div className={styles.Pagination}>
+          <div>
+            {pages &&
+              pages.map((val, key) => (
+                <button onClick={this.paginationHandler} key={key} id={val}>
+                  {val}
+                </button>
+              ))}
+          </div>
         </div>
 
         <ReactModal
