@@ -97,7 +97,7 @@ router.post("/add-to-cart/", (req, res, next) => {
     });
 });
 
-router.post("/reduce-by-one/", (req, res, next) => {
+router.put("/reduce-by-one/", (req, res, next) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
   Cart.findOne({ userID: userID })
@@ -117,9 +117,10 @@ router.post("/reduce-by-one/", (req, res, next) => {
     });
 });
 
-router.post("/delete-item", (req, res, next) => {
-  const productId = req.body.productId;
-  const userID = req.body.userID;
+router.delete("/delete-item/:data", (req, res, next) => {
+  const productData = req.params.data.split("&");
+  const productId = productData[0];
+  const userID = productData[1];
 
   Cart.findOne({ userID: userID })
     .then(existingCart => {

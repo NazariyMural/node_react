@@ -14,7 +14,7 @@ export default ({
       <td>
         <img src={item.item.images} alt="data" className={styles.CartImage} />
       </td>
-      <td>{item.item.name}</td>
+      <td className={styles.CartName} style={{width: 150}}>{item.item.name}</td>
       <td>
         {handlePriceRender(
           item.price,

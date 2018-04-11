@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { PropagateLoader } from "react-spinners";
 import { checkSession, getComparison } from "./actions";
-
+import styles from "./App.css";
 import WaitList from "./components/WaitList/WaitList";
 
 class App extends Component {
@@ -23,18 +23,26 @@ class App extends Component {
   render() {
     const { auth } = this.props;
     if (auth === null) {
-      return <PropagateLoader color={"#123abc"} loading={true} />;
+      return (
+        <div className={styles.Wrapper}>
+          <div className={styles.SpinnerContainer}>
+            <PropagateLoader color={"#123abc"} loading={true} />
+          </div>
+        </div>
+      );
     } else {
       return (
         <MuiThemeProvider>
           <div>
             <BrowserRouter>
-              <div>
+              <div className={styles.Wrapper}>
                 <Header />
-                <PropagateLoader
-                  color={"#123abc"}
-                  loading={this.props.progress > 0}
-                />
+                <div className={styles.SpinnerContainer}>
+                  <PropagateLoader
+                    color={"#123abc"}
+                    loading={this.props.progress > 0}
+                  />
+                </div>
                 <div>
                   <Switch>
                     <Route path="/login" component={Login} />

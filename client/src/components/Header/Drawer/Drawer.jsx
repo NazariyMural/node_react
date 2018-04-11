@@ -43,6 +43,12 @@ const drawer = ({ open, handleClose, handleToggle }) => {
               Compare
             </NavLink>
           </div>
+
+          <div className={styles.LinkItem}>
+            <NavLink to="/wait-list" onClick={handleClose}>
+              WaitList
+            </NavLink>
+          </div>
         </div>
       </Drawer>
     </div>

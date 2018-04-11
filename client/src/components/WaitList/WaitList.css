@@ -68,3 +68,8 @@
   align-items: center;
   justify-content: center;
 }
+
+.Name {
+  font-size: 17px;
+  text-align: center;
+}

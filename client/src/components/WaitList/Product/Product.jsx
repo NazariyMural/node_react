@@ -25,7 +25,7 @@ export default ({ removeProduct, auth, keys, addToCartHandler, product }) => {
         <img src={product.images} alt={product.images} />
       </li>
       <li>
-        <h5>{product.name}</h5>
+        <h5 className={styles.Name}>{product.name}</h5>
       </li>
       <li>
         <span>{product.descr.slice(0, 20)}...</span>

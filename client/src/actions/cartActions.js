@@ -53,7 +53,7 @@ export const addToCart = addToCartData => {
 export const reduceByOne = reduceByOneData => {
   return dispatch => {
     axios
-      .post("/api/cart/reduce-by-one", {
+      .put("/api/cart/reduce-by-one", {
         productId: reduceByOneData.productId,
         userID: reduceByOneData.userID
       })
@@ -67,10 +67,11 @@ export const reduceByOne = reduceByOneData => {
 export const deleteItem = deleteItemData => {
   return dispatch => {
     axios
-      .post("/api/cart/delete-item", {
-        productId: deleteItemData.productId,
-        userID: deleteItemData.userID
-      })
+      .delete(
+        `/api/cart/delete-item/${deleteItemData.productId}&${
+          deleteItemData.userID
+        }`
+      )
       .then(res => {
         dispatch({ type: DELETE_ITEM, payload: res.data });
       })
