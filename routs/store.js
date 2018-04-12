@@ -4,7 +4,7 @@ const Product = require("../models/Product");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 
-// router.get("/store", (req, res, next) => {
+// router.get("/store", (req, res) => {
 //   Product.find()
 //     .then(data => {
 //       res.status(200).send(data);
@@ -12,74 +12,78 @@ const _ = require("lodash");
 //     .catch(err => res.send(400).send(err));
 // });
 
-router.get("/get-tags", (req, response, next) => {
+router.get("/get-tags", (req, response) => {
   Product.find({}, { tags: 1, _id: 0 }).then(tags => {
     response.send(tags);
   });
 });
 
-router.get("/get-names", (req, response, next) => {
+router.get("/get-names", (req, response) => {
   Product.distinct("name").then(names => {
     // console.log("get-tags", names);
     response.send(names);
   });
 });
 
-router.get("/:id", async (req, res, next) => {
-  const perPage = 4;
-  let productData = req.params.id.split(",");
-  let page = 1;
-  if (_.toNumber(productData[0])) {
-    page = _.toNumber(productData[0]);
-  } else {
-    page = 1;
-  }
-  console.log(productData);
-  //
-  let criteria = [];
-  let tagsArr = productData.slice(2);
-  if (!tagsArr[0]) {
-    criteria.push({
-      tags: {
-        $nin: [""]
-      },
-      name: {
-        $regex: new RegExp(productData[1], "i")
-      }
-    });
-  } else {
-    criteria.push({
-      tags: {
-        $all: tagsArr
-      },
-      name: {
-        $regex: new RegExp(productData[1], "i")
-      }
-    });
-  }
+router.get("/:id", async (req, res) => {
+  try {
+    const perPage = 4;
+    let productData = req.params.id.split(",");
+    let page = 1;
+    if (_.toNumber(productData[0])) {
+      page = _.toNumber(productData[0]);
+    } else {
+      page = 1;
+    }
+    console.log(productData);
+    //
+    let criteria = [];
+    let tagsArr = productData.slice(2);
+    if (!tagsArr[0]) {
+      criteria.push({
+        tags: {
+          $nin: [""]
+        },
+        name: {
+          $regex: new RegExp(productData[1], "i")
+        }
+      });
+    } else {
+      criteria.push({
+        tags: {
+          $all: tagsArr
+        },
+        name: {
+          $regex: new RegExp(productData[1], "i")
+        }
+      });
+    }
 
-  criteria = criteria.length > 0 ? { $and: criteria } : {};
-  console.log(JSON.stringify(criteria));
-  const currentAmount = await Product.find(criteria).count();
-  // console.log("currentAmount", currentAmount);
-  // console.log("page", page);
-  // let skipFormula = perPage * page - page;
-  let skipFormula = (page - 1) * perPage;
-  if (currentAmount < skipFormula) {
-    skipFormula = 0;
+    criteria = criteria.length > 0 ? { $and: criteria } : {};
+    console.log(JSON.stringify(criteria));
+    const currentAmount = await Product.find(criteria).count();
+    // console.log("currentAmount", currentAmount);
+    // console.log("page", page);
+    // let skipFormula = perPage * page - page;
+    let skipFormula = (page - 1) * perPage;
+    if (currentAmount < skipFormula) {
+      skipFormula = 0;
+    }
+    const filtered = await Product.find(criteria)
+      .skip(skipFormula)
+      .limit(perPage);
+    res.send({
+      product: filtered,
+      current: page,
+      pages: Math.ceil(currentAmount / perPage),
+      count: currentAmount
+    });
+  } catch (error) {
+    return res.send(error);
   }
-  const filtered = await Product.find(criteria)
-    .skip(skipFormula)
-    .limit(perPage);
-  res.send({
-    product: filtered,
-    current: page,
-    pages: Math.ceil(currentAmount / perPage),
-    count: currentAmount
-  });
 });
 
-router.post("/store", (req, res, next) => {
+router.post("/store", (req, res) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: "SHIELD K1",

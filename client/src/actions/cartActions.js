@@ -20,7 +20,7 @@ export const getCart = userID => {
       .then(res => {
         dispatch({ type: GET_CART, payload: res.data });
       })
-      .catch(err => err);
+      .catch(err => console.log(err));
   };
 };
 
@@ -32,7 +32,7 @@ export const removeCart = userID => {
         console.log(res.data);
         dispatch({ type: REMOVE_CART, payload: res.data });
       })
-      .catch(err => err);
+      .catch(err => console.log(err));
   };
 };
 

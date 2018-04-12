@@ -19,14 +19,14 @@ function CompareClass(oldCompareData) {
   };
 }
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", (req, res) => {
   const userID = req.params.id;
   Compare.findOne({ userID: userID })
     .then(data => res.send(data))
-    .catch(err => res.send([]));
+    .catch(err => res.send(err));
 });
 
-router.post("/add-to-compare", (req, res, next) => {
+router.post("/add-to-compare", (req, res) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
 
@@ -65,7 +65,7 @@ router.post("/add-to-compare", (req, res, next) => {
     });
 });
 
-router.post("/delete-item", (req, res, next) => {
+router.post("/delete-item", (req, res) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
 

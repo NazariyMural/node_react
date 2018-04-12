@@ -6,7 +6,7 @@ const multer = require("multer");
 const AWS = require("aws-sdk");
 const appConfig = require("../config/keys");
 
-router.post("/user-add-change", (req, res, next) => {
+router.post("/user-add-change", (req, res) => {
   const data = req.body.userData.updateData;
   const query = { googleId: req.body.userData.userID };
   const update = { $set: data };
@@ -14,7 +14,7 @@ router.post("/user-add-change", (req, res, next) => {
   User.findOneAndUpdate(query, update, options, (err, doc) => res.send(doc));
 });
 
-router.post("/user-add-location", (req, res, next) => {
+router.post("/user-add-location", (req, res) => {
   User.findOne({ googleId: req.body.data.userData.userID })
     .then(user => {
       const userData = req.body.data.userData;

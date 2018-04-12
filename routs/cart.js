@@ -37,20 +37,13 @@ function CartClass(oldCart) {
     this.totalPrice -= this.items[id].item.price * this.items[id].qty;
     delete this.items[id];
   };
-  this.generateArray = function() {
-    const arr = [];
-    for (const id in this.items) {
-      arr.push(this.items[id]);
-    }
-    return arr;
-  };
 
   this.getData = function() {
     return oldCart.items;
   };
 }
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", (req, res) => {
   const userID = req.params.id;
   Cart.findOne({ userID: userID })
     .then(data => {
@@ -59,7 +52,7 @@ router.get("/:id", (req, res, next) => {
     .catch(err => res.send([]));
 });
 
-router.post("/add-to-cart/", (req, res, next) => {
+router.post("/add-to-cart/", (req, res) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
 
@@ -97,7 +90,7 @@ router.post("/add-to-cart/", (req, res, next) => {
     });
 });
 
-router.put("/reduce-by-one/", (req, res, next) => {
+router.put("/reduce-by-one/", (req, res) => {
   const productId = req.body.productId;
   const userID = req.body.userID;
   Cart.findOne({ userID: userID })
@@ -117,7 +110,7 @@ router.put("/reduce-by-one/", (req, res, next) => {
     });
 });
 
-router.delete("/delete-item/:data", (req, res, next) => {
+router.delete("/delete-item/:data", (req, res) => {
   const productData = req.params.data.split("&");
   const productId = productData[0];
   const userID = productData[1];
@@ -136,14 +129,15 @@ router.delete("/delete-item/:data", (req, res, next) => {
 });
 
 router.post("/add-to-purchase-history", async (req, res) => {
-  const products = req.body.products;
-  const userID = req.body.userID;
-  const link = req.body.link;
-  const currentTime = moment().format("MMM Do YY, h:mm:ss a");
-  const _purchaseId = new mongoose.Types.ObjectId();
-
-  const keys = Object.keys(products);
   try {
+    const products = req.body.products;
+    const userID = req.body.userID;
+    const link = req.body.link;
+    const currentTime = moment().format("MMM Do YY, h:mm:ss a");
+    const _purchaseId = new mongoose.Types.ObjectId();
+
+    const keys = Object.keys(products);
+
     const cart = await Cart.findOne({ userID: userID });
     const data = await Products.distinct("_id", {
       $and: [{ _id: { $in: keys } }, { active: true }]
